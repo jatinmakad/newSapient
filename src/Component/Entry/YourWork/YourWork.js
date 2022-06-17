@@ -178,26 +178,34 @@ const YourWork = () => {
                     {row.currentJobStatus}
                   </StyledTableCell>
                   <StyledTableCell align="left">
-                    <div className="flex items-center justify-evenly">
-                      <Link to={`/update-entry/${row.uniqueJobId}`}>
-                        <EditIcon className="text-blue-700 cursor-pointer" />
-                      </Link>
-                      <DeleteIcon
-                        className="text-red-700 cursor-pointer"
-                        onClick={() => handleClickDeleteOpen(row.uniqueJobId)}
-                      />
-                      <p
-                        onClick={() => handleClickOpen2(row)}
-                        className="text-blue-600 cursor-pointer"
-                      >
-                        Update Status
-                      </p>
-                      <p
-                        className="text-blue-600 cursor-pointer"
-                        onClick={() => handleClickOpen3(row)}
-                      >
-                        Assign Here
-                      </p>
+                    <div className="flex justify-evenly items-center">
+                      {row.currentJobHoldingTeam !== "ENTRY TEAM" ? (
+                        "DONE BY ENTRY TEAM"
+                      ) : (
+                        <>
+                          <Link to={`/update-entry/${row.uniqueJobId}`}>
+                            <EditIcon className="text-blue-700 cursor-pointer" />
+                          </Link>
+                          <DeleteIcon
+                            className="text-red-700 cursor-pointer"
+                            onClick={() =>
+                              handleClickDeleteOpen(row.uniqueJobId)
+                            }
+                          />
+                          <p
+                            onClick={() => handleClickOpen2(row)}
+                            className="text-blue-600 cursor-pointer"
+                          >
+                            Update Status
+                          </p>
+                          <p
+                            className="text-blue-600 cursor-pointer"
+                            onClick={() => handleClickOpen3(row)}
+                          >
+                            Assign Here
+                          </p>
+                        </>
+                      )}
                     </div>
                   </StyledTableCell>
                 </TableRow>
@@ -248,9 +256,7 @@ const YourWork = () => {
         </TableContainer>
       )}
     </div>
-  ) : (
-    null
-  );
+  ) : null;
 };
 
 export default YourWork;

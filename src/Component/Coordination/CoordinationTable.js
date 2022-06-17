@@ -113,7 +113,10 @@ const CoordinationTable = () => {
         <TableBody>
           {(
             entry.data &&
-            entry.data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            entry.data.slice(
+              page * rowsPerPage,
+              page * rowsPerPage + rowsPerPage
+            )
           ).map((row, index) => (
             <TableRow sx={{ border: "none" }}>
               <StyledTableCell component="th" scope="row">
@@ -131,16 +134,27 @@ const CoordinationTable = () => {
                 {row.insured}
               </StyledTableCell>
               <StyledTableCell align="left">
-                <div className="flex justify-evenly items-center">
-                  <Link to={`/update-coordination/${row.uniqueJobId}`}>
-                    <EditIcon className="text-blue-700 cursor-pointer" />
-                  </Link>
-                  <p
-                    onClick={() => handleClickOpen2(row)}
-                    className="text-blue-600 cursor-pointer"
-                  >
-                    Update Status
-                  </p>
+                {/* <StatusColor status={row.status} /> */}
+                {row.currentJobStatus}
+              </StyledTableCell>
+              <StyledTableCell align="left">
+                <div className="flex justify-start items-left">
+                  {row.currentJobHoldingTeam !== "COORDINATION TEAM" ? (
+                    "DONE BY COORDINATION TEAM"
+                  ) : (
+                    <>
+                      <Link to={`/update-coordination/${row.uniqueJobId}`}>
+                        <EditIcon className="text-blue-700 cursor-pointer" />
+                      </Link>
+                      &nbsp; &nbsp;
+                      <p
+                        onClick={() => handleClickOpen2(row)}
+                        className="text-blue-600 cursor-pointer"
+                      >
+                        Update Status
+                      </p>
+                    </>
+                  )}
                 </div>
               </StyledTableCell>
             </TableRow>
@@ -213,10 +227,10 @@ const headerCell = [
     value: "Insure",
     align: "left",
   },
-  // {
-  //   value: "Status",
-  //   align: "center",
-  // },
+  {
+    value: "Status",
+    align: "center",
+  },
   {
     value: "Action",
     align: "center",

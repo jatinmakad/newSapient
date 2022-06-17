@@ -290,3 +290,24 @@ export const UpdateAssignToSurveyerFunction = (Data) => {
     }
   };
 };
+export const UpdateEntryStatusFunction3 = (row, currentStatus) => {
+  let currentJobHolding;
+  if (currentStatus === "OPEN-FOR-NEXT-TEAM") {
+    currentJobHolding = "ACCOUNT TEAM";
+  } else {
+    currentJobHolding = "REPORT TEAM";
+  }
+  return async (dispatch) => {
+    const config = { headers: { "Content-Type": "application/json" } };
+    dispatch(UpdateEntryStatusBefore());
+    const { data } = await axios.post(
+      `https://sap-data-management-mcs.herokuapp.com/update-task-status?uniqueJobId=${row.uniqueJobId}&previousJobHoldingTeam=${row.currentJobHoldingTeam}&currentJobHoldingTeam=${currentJobHolding}&currentJobStatus=${currentStatus}&previousJobStatus=${row.previousJobStatus}`,
+      config
+    );
+    if (data.success === true) {
+      dispatch(UpdateEntryStatus());
+      ToastComponent("Entry Status Updated SuccessFully", "success");
+    }
+    dispatch(UpdateEntryStatusCleanup());
+  };
+};

@@ -15,8 +15,9 @@ import Coordination from "../Component/Coordination/Coordination";
 
 import AssignTask from "../Component/CoordinationManager/AssignTask/AssignTask";
 import UpdateCoordination from "../Component/Coordination/Update/UpdateCoordination";
+import ReportTeam from "../Component/ReportTeam/reportTeam";
+import AssignTaskReportTeam from "../Component/ReportTeamManager/AssignTaskReportTeam";
 const RoutesPage = () => {
-
   return (
     <Routes>
       <Route path="/" element={<Navigate replace to="/login" />} />
@@ -38,6 +39,17 @@ const RoutesPage = () => {
         element={<UpdateCoordination />}
       />
       <Route path={"/assign-task"} element={<AssignTask />} />
+      /* REPORT */
+      <Route path={"/report-team"} element={<ReportTeam />} />
+      {/* <Route
+          path={"/update-coordination/:id"}
+          element={<UpdateCoordination />}
+        />
+        */}
+      <Route
+        path={"/assign-task-report-team"}
+        element={<AssignTaskReportTeam />}
+      />
     </Routes>
   );
 };
