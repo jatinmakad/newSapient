@@ -92,7 +92,7 @@ const AssignTaskReportTeam = () => {
       setRowsPerPage(parseInt(event.target.value, 10));
       setPage(0);
     };
-  return isAuth ? (
+  return  isAuth && entry.data ? (
     <div className="m-2 md:m-10  mt-4 p-2 md:p-5 rounded-3xl">
       <Header title="Assign Task" />
       <TableHeaderLayout setSearchInput={setSearchInput} />

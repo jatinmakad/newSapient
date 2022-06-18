@@ -84,7 +84,7 @@ const ReportTable = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  return isAuth ? (
+  return isAuth && entry.data ? (
     <TableContainer component={Paper}>
       {isLoading ? (
         <Loader />

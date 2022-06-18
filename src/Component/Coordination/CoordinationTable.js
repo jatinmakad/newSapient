@@ -84,7 +84,7 @@ const CoordinationTable = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  return entry ? (
+  return entry && isAuth ? (
     isLoading ? (
       <Loader />
     ) : entry.data && !entry.data.length ? (
