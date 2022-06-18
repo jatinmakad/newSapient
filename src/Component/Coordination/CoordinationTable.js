@@ -84,111 +84,115 @@ const CoordinationTable = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  return isLoading ? (
-    <Loader />
-  ) : entry.data && !entry.data.length ? (
-    <div className="w-full flex justify-center items-center">
-      <img src={Image} className="w-1/2" />
-    </div>
-  ) : (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            {headerCell.map((r) => {
-              return (
-                <TableCell
-                  align={r.align}
-                  sx={{
-                    color: "gray",
-                    borderBottom: "0.5px solid lightgray",
-                  }}
-                >
-                  {r.value}
-                </TableCell>
-              );
-            })}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {(
-            entry.data &&
-            entry.data.slice(
-              page * rowsPerPage,
-              page * rowsPerPage + rowsPerPage
-            )
-          ).map((row, index) => (
-            <TableRow sx={{ border: "none" }}>
-              <StyledTableCell component="th" scope="row">
-                {index + 1}
-              </StyledTableCell>
-              <StyledTableCell align="left">
-                {row.reportRefrenceNo}
-              </StyledTableCell>
-              <StyledTableCell align="left">{row.city}</StyledTableCell>
-              <StyledTableCell align="left">
-                {moment(row.date).format("L")}
-              </StyledTableCell>
-              <StyledTableCell align="left">
-                {/* <StatusColor status={row.status} /> */}
-                {row.insured}
-              </StyledTableCell>
-              <StyledTableCell align="left">
-                {/* <StatusColor status={row.status} /> */}
-                {row.currentJobStatus}
-              </StyledTableCell>
-              <StyledTableCell align="left">
-                <div className="flex justify-start items-left">
-                  {row.currentJobHoldingTeam !== "COORDINATION TEAM" ? (
-                    "DONE BY COORDINATION TEAM"
-                  ) : (
-                    <>
-                      <Link to={`/update-coordination/${row.uniqueJobId}`}>
-                        <EditIcon className="text-blue-700 cursor-pointer" />
-                      </Link>
-                      &nbsp; &nbsp;
-                      <p
-                        onClick={() => handleClickOpen2(row)}
-                        className="text-blue-600 cursor-pointer"
-                      >
-                        Update Status
-                      </p>
-                    </>
-                  )}
-                </div>
-              </StyledTableCell>
+  return entry ? (
+    isLoading ? (
+      <Loader />
+    ) : entry.data && !entry.data.length ? (
+      <div className="w-full flex justify-center items-center">
+        <img src={Image} className="w-1/2" />
+      </div>
+    ) : (
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              {headerCell.map((r) => {
+                return (
+                  <TableCell
+                    align={r.align}
+                    sx={{
+                      color: "gray",
+                      borderBottom: "0.5px solid lightgray",
+                    }}
+                  >
+                    {r.value}
+                  </TableCell>
+                );
+              })}
             </TableRow>
-          ))}
-        </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TablePagination
-              rowsPerPageOptions={[10, 25, { label: "All", value: -1 }]}
-              // colSpan={3}
-              count={entry.data.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              SelectProps={{
-                inputProps: {
-                  "aria-label": "rows per page",
-                },
-                native: true,
-              }}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-              ActionsComponent={TablePaginationActions}
-            />
-          </TableRow>
-        </TableFooter>
-        <AssignDialogBox
-          open={open2}
-          admin={admin}
-          handleClose={handleClose2}
-          dispatch={dispatch}
-          selectData={selectData}
-        />
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {(
+              entry.data &&
+              entry.data.slice(
+                page * rowsPerPage,
+                page * rowsPerPage + rowsPerPage
+              )
+            ).map((row, index) => (
+              <TableRow sx={{ border: "none" }}>
+                <StyledTableCell component="th" scope="row">
+                  {index + 1}
+                </StyledTableCell>
+                <StyledTableCell align="left">
+                  {row.reportRefrenceNo}
+                </StyledTableCell>
+                <StyledTableCell align="left">{row.city}</StyledTableCell>
+                <StyledTableCell align="left">
+                  {moment(row.date).format("L")}
+                </StyledTableCell>
+                <StyledTableCell align="left">
+                  {/* <StatusColor status={row.status} /> */}
+                  {row.insured}
+                </StyledTableCell>
+                <StyledTableCell align="left">
+                  {/* <StatusColor status={row.status} /> */}
+                  {row.currentJobStatus}
+                </StyledTableCell>
+                <StyledTableCell align="left">
+                  <div className="flex justify-start items-left">
+                    {row.currentJobHoldingTeam !== "COORDINATION TEAM" ? (
+                      "DONE BY COORDINATION TEAM"
+                    ) : (
+                      <>
+                        <Link to={`/update-coordination/${row.uniqueJobId}`}>
+                          <EditIcon className="text-blue-700 cursor-pointer" />
+                        </Link>
+                        &nbsp; &nbsp;
+                        <p
+                          onClick={() => handleClickOpen2(row)}
+                          className="text-blue-600 cursor-pointer"
+                        >
+                          Update Status
+                        </p>
+                      </>
+                    )}
+                  </div>
+                </StyledTableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TablePagination
+                rowsPerPageOptions={[10, 25, { label: "All", value: -1 }]}
+                // colSpan={3}
+                count={entry.data.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                SelectProps={{
+                  inputProps: {
+                    "aria-label": "rows per page",
+                  },
+                  native: true,
+                }}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+                ActionsComponent={TablePaginationActions}
+              />
+            </TableRow>
+          </TableFooter>
+          <AssignDialogBox
+            open={open2}
+            admin={admin}
+            handleClose={handleClose2}
+            dispatch={dispatch}
+            selectData={selectData}
+          />
+        </Table>
+      </TableContainer>
+    )
+  ) : (
+    ""
   );
 };
 

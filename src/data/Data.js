@@ -85,3 +85,28 @@ export const EntryData = [
     //   click: "/login",
     // },
   ];
+
+ export const reportTeamManagerData = [
+    {
+      text: "Dashboard",
+      icon: <IoMdContacts />,
+      click: "/dashboard",
+    },
+    {
+      text: "Assign Task",
+      icon: <IoMdContacts />,
+      click: "/assign-task-report-team",
+    },
+  ];
+ export const reportTeamData = [
+    {
+      text: "Dashboard",
+      icon: <IoMdContacts />,
+      click: "/dashboard",
+    },
+    {
+      text: "Report Team",
+      icon: <IoMdContacts />,
+      click: "/report-team",
+    },
+  ];

@@ -25,6 +25,15 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import moment from "moment";
+import Box from "@mui/material/Box";
+import TableFooter from "@mui/material/TableFooter";
+import TablePagination from "@mui/material/TablePagination";
+import IconButton from "@mui/material/IconButton";
+import FirstPageIcon from "@mui/icons-material/FirstPage";
+import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
+import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
+import LastPageOutlined from "@mui/icons-material/LastPageOutlined";
+import Image from "../Assets/noresult.webp";
 const ReportTable = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -56,14 +65,33 @@ const ReportTable = () => {
     setOpen2(false);
   };
   const [searchInput, setSearchInput] = React.useState("");
+
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
+
+  const handleChangePage = (
+    event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number
+  ) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
   return isAuth ? (
     <TableContainer component={Paper}>
       {isLoading ? (
         <Loader />
       ) : entry.data && !entry.data.length ? (
-        <p className="w-full flex justify-center items-center font-semibold text-3xl pt-3 pb-3">
-          No Record Found
-        </p>
+        <div className="w-full flex justify-center items-center">
+          <img src={Image} className="w-1/2" />
+        </div>
       ) : (
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -84,51 +112,80 @@ const ReportTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {entry.data &&
-              entry.data.length >= 1 &&
-              entry.data.map((row, index) => (
-                <TableRow sx={{ border: "none" }}>
-                  <StyledTableCell component="th" scope="row">
-                    {index + 1}
-                  </StyledTableCell>
-                  <StyledTableCell align="left">
-                    {row.reportRefrenceNo}
-                  </StyledTableCell>
-                  <StyledTableCell align="left">{row.city}</StyledTableCell>
-                  <StyledTableCell align="left">
-                    {moment(row.date).format("L")}
-                  </StyledTableCell>
-                  <StyledTableCell align="left">
-                    {/* <StatusColor status={row.status} /> */}
-                    {row.insured}
-                  </StyledTableCell>
-                  <StyledTableCell align="left">
-                    {/* <StatusColor status={row.status} /> */}
-                    {row.currentJobStatus}
-                  </StyledTableCell>
-                  <StyledTableCell align="left">
-                    <div className="flex justify-start items-left">
-                      {row.currentJobHoldingTeam !== "REPORT TEAM" ? (
-                        "DONE BY REPORT TEAM"
-                      ) : (
-                        <>
-                          <Link to={`/update-coordination/${row.uniqueJobId}`}>
-                            <EditIcon className="text-blue-700 cursor-pointer" />
-                          </Link>
-                          &nbsp; &nbsp;
-                          <p
-                            onClick={() => handleClickOpen2(row)}
-                            className="text-blue-600 cursor-pointer"
-                          >
-                            Update Status
-                          </p>
-                        </>
-                      )}
-                    </div>
-                  </StyledTableCell>
-                </TableRow>
-              ))}
+            {(
+              entry.data &&
+              entry.data.slice(
+                page * rowsPerPage,
+                page * rowsPerPage + rowsPerPage
+              )
+            ).map((row, index) => (
+              <TableRow sx={{ border: "none" }}>
+                <StyledTableCell component="th" scope="row">
+                  {index + 1}
+                </StyledTableCell>
+                <StyledTableCell align="left">
+                  {row.reportRefrenceNo}
+                </StyledTableCell>
+                <StyledTableCell align="left">{row.city}</StyledTableCell>
+                <StyledTableCell align="left">
+                  {moment(row.date).format("L")}
+                </StyledTableCell>
+                <StyledTableCell align="left">
+                  {/* <StatusColor status={row.status} /> */}
+                  {row.insured}
+                </StyledTableCell>
+                <StyledTableCell align="left">
+                  {/* <StatusColor status={row.status} /> */}
+                  {row.currentJobStatus}
+                </StyledTableCell>
+                <StyledTableCell align="left">
+                  <div className="flex justify-start items-left">
+                    {row.currentJobHoldingTeam !== "REPORT TEAM" ? (
+                      "DONE BY REPORT TEAM"
+                    ) : (
+                      <>
+                        <Link to={`/update-coordination/${row.uniqueJobId}`}>
+                          <EditIcon className="text-blue-700 cursor-pointer" />
+                        </Link>
+                        &nbsp; &nbsp;
+                        <p
+                          onClick={() => handleClickOpen2(row)}
+                          className="text-blue-600 cursor-pointer"
+                        >
+                          Update Status
+                        </p>
+                      </>
+                    )}
+                  </div>
+                </StyledTableCell>
+              </TableRow>
+            ))}
+            {emptyRows > 0 && (
+              <TableRow style={{ height: 53 * emptyRows }}>
+                <TableCell colSpan={6} />
+              </TableRow>
+            )}
           </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TablePagination
+                rowsPerPageOptions={[10, 25, { label: "All", value: -1 }]}
+                // colSpan={3}
+                count={entry.data.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                SelectProps={{
+                  inputProps: {
+                    "aria-label": "rows per page",
+                  },
+                  native: true,
+                }}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+                ActionsComponent={TablePaginationActions}
+              />
+            </TableRow>
+          </TableFooter>
           <AssignDialogBox
             open={open2}
             admin={admin}
@@ -242,3 +299,83 @@ const data = [
     value: "IN-PROGRESS",
   },
 ];
+
+interface TablePaginationActionsProps {
+  count: number;
+  page: number;
+  rowsPerPage: number;
+  onPageChange: (
+    event: React.MouseEvent<HTMLButtonElement>,
+    newPage: number
+  ) => void;
+}
+
+function TablePaginationActions(props: TablePaginationActionsProps) {
+  const theme = useTheme();
+  const { count, page, rowsPerPage, onPageChange } = props;
+
+  const handleFirstPageButtonClick = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    onPageChange(event, 0);
+  };
+
+  const handleBackButtonClick = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    onPageChange(event, page - 1);
+  };
+
+  const handleNextButtonClick = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    onPageChange(event, page + 1);
+  };
+
+  const handleLastPageButtonClick = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+  };
+
+  return (
+    <Box sx={{ flexShrink: 0, ml: 2.5 }}>
+      <IconButton
+        onClick={handleFirstPageButtonClick}
+        disabled={page === 0}
+        aria-label="first page"
+      >
+        {theme.direction === "rtl" ? <LastPageOutlined /> : <FirstPageIcon />}
+      </IconButton>
+      <IconButton
+        onClick={handleBackButtonClick}
+        disabled={page === 0}
+        aria-label="previous page"
+      >
+        {theme.direction === "rtl" ? (
+          <KeyboardArrowRight />
+        ) : (
+          <KeyboardArrowLeft />
+        )}
+      </IconButton>
+      <IconButton
+        onClick={handleNextButtonClick}
+        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        aria-label="next page"
+      >
+        {theme.direction === "rtl" ? (
+          <KeyboardArrowLeft />
+        ) : (
+          <KeyboardArrowRight />
+        )}
+      </IconButton>
+      <IconButton
+        onClick={handleLastPageButtonClick}
+        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        aria-label="last page"
+      >
+        {theme.direction === "rtl" ? <FirstPageIcon /> : <LastPageOutlined />}
+      </IconButton>
+    </Box>
+  );
+}

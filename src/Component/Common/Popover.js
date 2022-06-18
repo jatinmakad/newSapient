@@ -21,13 +21,13 @@ export default function Popover() {
   return (
     <div>
       <div
-        className="flex items-center justify-center p-4"
+        className="flex items-center justify-center p-4 cursor-pointer"
         onClick={handleClick}
       >
-        <img src={Avatar} className="w-12 rounded-full mr-2 cursor-pointer" />
-        <div className="mr-3">
-          <p className="capitalize text-md">{admin.user && admin.user.name}</p>
-          <p className="capitalize text-sm">{role}</p>
+        <img src={Avatar} className="w-12 rounded-full mr-2 " />
+        <div className="mr-3 cursor-pointer">
+          <p className="capitalize text-md cursor-pointer">{admin.user && admin.user.name}</p>
+          <p className="capitalize text-sm cursor-pointer">{role}</p>
         </div>
         <KeyboardArrowDownIcon />
       </div>

@@ -4,12 +4,14 @@ import { SiShopware } from "react-icons/si";
 import { MdOutlineCancel } from "react-icons/md";
 import { useStateContext } from "../../contexts/ContextProvider";
 import { useSelector } from "react-redux";
-import Logo from "../Assets/LogoLeft.png"
+import Logo from "../Assets/LogoLeft.png";
 import {
   adminData,
   EntryData,
   CoordinationData,
   CoordinationManagerData,
+  reportTeamData,
+  reportTeamManagerData,
 } from "../../data/Data";
 const Sidebar = () => {
   const { currentColor, activeMenu, setActiveMenu, screenSize } =
@@ -36,6 +38,10 @@ const Sidebar = () => {
       ? CoordinationData
       : admin?.user?.role === "COORDINATION TEAM MANAGER"
       ? CoordinationManagerData
+      : admin?.user?.role === "REPORT TEAM MANAGER"
+      ? reportTeamManagerData
+      : admin?.user?.role === "REPORT TEAM EMPLOYEE"
+      ? reportTeamData
       : "";
   const activeLink =
     "flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg  text-white  text-md m-2";
@@ -51,7 +57,7 @@ const Sidebar = () => {
               onClick={handleCloseSideBar}
               className="items-center gap-3 ml-3 mt-4 flex text-xl font-extrabold tracking-tight dark:text-white text-slate-900"
             >
-              <img src={Logo} className="w-1/2"/>
+              <img src={Logo} className="w-1/2" />
             </Link>
             <button
               type="button"

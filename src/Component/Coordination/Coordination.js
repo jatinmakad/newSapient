@@ -21,7 +21,7 @@ const Coordination = () => {
     <Header title="Coordination Team" />
      <TableHeaderLayout setSearchInput={setSearchInput}/>
       <CoordinationTable searchInput={searchInput}/>
-    </div> : null
+    </div> : ""
   );
 };
 
