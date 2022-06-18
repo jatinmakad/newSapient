@@ -1,4 +1,11 @@
-import { Grid, Button, Select, MenuItem } from "@mui/material";
+import {
+  Grid,
+  Button,
+  Select,
+  MenuItem,
+  Autocomplete,
+  TextField,
+} from "@mui/material";
 import React, { useRef, useEffect } from "react";
 import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
@@ -9,6 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import FormikDropdown from "../../Common/FormikComponent/FormikDropdown";
 import { RegisterFunction } from "../../../Slice/RegisterSlice";
 import Header from "../../Common/Header";
+import { Cities } from "../../Common/Constant/Constant";
 const CreateUser = () => {
   const formikRef = useRef();
   const dispatch = useDispatch();
@@ -30,38 +38,42 @@ const CreateUser = () => {
     password: Yup.string().required("Required"),
     contactNumber: Yup.number().min(10).required("Required"),
     role: Yup.string().required("Required"),
+    city: Yup.string().required("Required"),
   });
   const initialValues = {
     name: "",
     email: "",
     password: "",
     contactNumber: "",
-    role: "BROKER",
+    role: "",
+    city: "",
   };
   const onSubmit = (values) => {
     let data;
-   if( values.role === "ENTRY TEAM EMPLOYEE"){
-    data = "ENTRY TEAM"
-   } else if(values.role === "REPORT TEAM EMPLOYEE"){
-    data = "REPORT TEAM"
-   } else if (values.role === "COORDINATION TEAM EMPLOYEE") {
-    data = "COORDINATION TEAM"
-   } else if(values.role === "ACCOUNT TEAM EMPLOYEE") {
-    data = "ACCOUNT TEAM"
-   } else if (values.role === "ENTRY TEAM MANAGER"){
-    data = "ENTRY TEAM"
-   } else if(values.role === "REPORT TEAM MANAGER"){
-    data = "REPORT TEAM"
-   } else if( values.role === "COORDINATION TEAM MANAGER"){
-    data = "COORDINATION TEAM"
-   } else if(values.role === "ACCOUNT TEAM MANAGER"){
-    data = "ACCOUNT TEAM"
-   }
+    if (values.role === "ENTRY TEAM EMPLOYEE") {
+      data = "ENTRY TEAM";
+    } else if (values.role === "REPORT TEAM EMPLOYEE") {
+      data = "REPORT TEAM";
+    } else if (values.role === "COORDINATION TEAM EMPLOYEE") {
+      data = "COORDINATION TEAM";
+    } else if (values.role === "ACCOUNT TEAM EMPLOYEE") {
+      data = "ACCOUNT TEAM";
+    } else if (values.role === "ENTRY TEAM MANAGER") {
+      data = "ENTRY TEAM";
+    } else if (values.role === "REPORT TEAM MANAGER") {
+      data = "REPORT TEAM";
+    } else if (values.role === "COORDINATION TEAM MANAGER") {
+      data = "COORDINATION TEAM";
+    } else if (values.role === "ACCOUNT TEAM MANAGER") {
+      data = "ACCOUNT TEAM";
+    } else if (values.role === "SURVEYOUR") {
+      data = "SURVEYOUR TEAM";
+    }
     dispatch(RegisterFunction({ ...values, team: data }));
   };
   return (
     <div className="m-2 md:m-10 mt-4 p-2 md:p-5 rounded-3xl">
-    <Header title="Create User" />
+      <Header title="Create User" />
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -123,6 +135,30 @@ const CreateUser = () => {
                   data={roleData}
                 />
               </Grid>
+              <Grid lg={4} md={6} sm={12} xs={12} item>
+                <div className="flex flex-col justify-start">
+                  <p className="text-sm mb-2">City</p>
+                  <Autocomplete
+                    value={values.city}
+                    fullWidth
+                    onChange={(event, newValue) => {
+                      setFieldValue("city", newValue);
+                    }}
+                    size="small"
+                    options={Cities}
+                    renderInput={(params) => (
+                      <TextField
+                        size="small"
+                        fullWidth
+                        {...params}
+                        error={touched.city && Boolean(errors.city)}
+                        placeholder="City"
+                        helperText={touched.city ? errors.city : ""}
+                      />
+                    )}
+                  />
+                </div>
+              </Grid>
               <Grid
                 lg={12}
                 xs={12}
@@ -161,6 +197,7 @@ export default CreateUser;
 
 const roleData = [
   { value: "ADMIN", label: "Admin" },
+  { value: "SURVEYOUR", label: "Surveyour" },
   { value: "INSUER", label: "Insuer" },
   { value: "INSURENCE COMPANY", label: "Insurence Company" },
   { value: "BROKER", label: "Broker" },
