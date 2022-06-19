@@ -131,6 +131,7 @@ const UpdateEntry = () => {
     executingBranchLocation: "",
     insurer: "",
   };
+  console.log(formikRef.current.values)
   const onSubmit = (values) => {
     dispatch(UpdateEntryFunction(id, values));
   };
@@ -535,6 +536,7 @@ const UpdateEntry = () => {
                       handleChange={handleChange}
                       name="insurer"
                       type="text"
+                      value={values.insurer}
                       error={touched.insurer && Boolean(errors.insurer)}
                       helperText={touched.insurer ? errors.insurer : ""}
                     />

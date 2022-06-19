@@ -49,7 +49,7 @@ export default function EntryTable({ searchInput }) {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - entry.data.length) : 0;
-
+console.log(entry.data)
   return isLoading ? (
     <Loader />
   ) : entry.data && entry.data.length === 0 ? (
@@ -74,7 +74,7 @@ export default function EntryTable({ searchInput }) {
             <StyledTableCell component="th" scope="row">
               {index + 1}
             </StyledTableCell>
-            <StyledTableCell align="left"></StyledTableCell>
+            <StyledTableCell align="left">{row.reportRefrenceNo}</StyledTableCell>
             <StyledTableCell align="left">{row.city}</StyledTableCell>
             <StyledTableCell align="left">
               {moment(row.date).format("L")}

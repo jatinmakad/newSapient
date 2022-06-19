@@ -6,9 +6,18 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { TextField } from "@mui/material";
 import ToastComponent from "./TaostComponent";
-import { UpdateCommentFunction } from "../../Slice/CoordinationSlice";
+import {
+  UpdateAssignFunction,
+  UpdateCommentFunction,
+} from "../../Slice/CoordinationSlice";
 
-export default function CommentDialog({ open, handleClose, data, dispatch }) {
+export default function CommentDialog({
+  open,
+  handleClose,
+  id,
+  data,
+  dispatch,
+}) {
   const [input, setInput] = React.useState("");
   const Submit = () => {
     if (input === "") {
@@ -16,9 +25,16 @@ export default function CommentDialog({ open, handleClose, data, dispatch }) {
     } else {
       const obj = {
         comment: input,
-        _id: data._id,
+        userId: id,
+        uniqueJobId: data.uniqueJobId,
       };
       dispatch(UpdateCommentFunction(obj));
+      const taskData = {
+        userId: id,
+        uniqueJobId: data.uniqueJobId,
+        // currentJobHolder: survier,
+      };
+      dispatch(UpdateAssignFunction(taskData));
     }
   };
   return (

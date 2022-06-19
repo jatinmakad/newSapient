@@ -128,7 +128,7 @@ export default function TableLayout({
           <TableRow>
             <TablePagination
               rowsPerPageOptions={[10, 25, { label: "All", value: -1 }]}
-              colSpan={6}
+              colSpan={9}
               count={data.length}
               rowsPerPage={rowsPerPage}
               page={page}

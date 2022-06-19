@@ -71,6 +71,7 @@ const CoordinationTable = () => {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
 
+    console.log(entry.data)
   return entry && isAuth ? (
     isLoading ? (
       <Loader />
@@ -120,7 +121,7 @@ const CoordinationTable = () => {
                     {row.currentJobHoldingTeam !== "COORDINATION TEAM" ? (
                       "DONE BY COORDINATION TEAM"
                     ) : (
-                      <>
+                      <div className="flex justify-around items-center w-full">
                         <Link to={`/update-coordination/${row.uniqueJobId}`}>
                           <EditIcon className="text-blue-700 cursor-pointer" />
                         </Link>
@@ -129,7 +130,7 @@ const CoordinationTable = () => {
                           onClick={() => handleClickOpen2(row)}
                           className="text-blue-600 cursor-pointer"
                         >
-                          Update Status
+                          Status
                         </p>
                         <p
                           className="text-blue-600 cursor-pointer"
@@ -137,7 +138,7 @@ const CoordinationTable = () => {
                         >
                           Comment
                         </p>
-                      </>
+                      </div>
                     )}
                   </div>
                 </StyledTableCell>
@@ -156,6 +157,7 @@ const CoordinationTable = () => {
           open={open4}
           handleClose={handleClose4}
           data={selectData4}
+          id={admin.user._id}
           dispatch={dispatch}
           handleClickOpen={handleClickOpen4}
         />

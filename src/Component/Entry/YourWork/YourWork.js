@@ -27,9 +27,10 @@ import { useTheme } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import Header from "../../Common/Header";
 import TableLayout from "../../Common/TableLayout/TableLayout";
-import CommentDialog from "../../Common/CommentDialog";
 import { GetUserFunctionCity } from "../../../Slice/RegisterSlice";
 import { Cities } from "../../Common/Constant/Constant";
+import { UpdateAssignFunction } from "../../../Slice/CoordinationSlice";
+import ToastComponent from "../../Common/TaostComponent";
 const YourWork = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -38,6 +39,9 @@ const YourWork = () => {
   const { deleteSuccess } = useSelector((state) => state.Entry.delete);
   const { updateStatusSuccess } = useSelector(
     (state) => state.Entry.updateStatus
+  );
+  const { updateAssignTaskSuccess } = useSelector(
+    (state) => state.Coordination.assignTask
   );
   const [open, setOpen] = React.useState(false);
   const [open2, setOpen2] = React.useState(false);
@@ -58,7 +62,10 @@ const YourWork = () => {
       dispatch(GetEntryFunctionId(admin.user._id));
       setOpen2(false);
     }
-  }, [isAuth, deleteSuccess, updateStatusSuccess]);
+    if (updateAssignTaskSuccess) {
+      setOpen3(false);
+    }
+  }, [isAuth, deleteSuccess, updateStatusSuccess, updateAssignTaskSuccess]);
 
   const [id, setId] = React.useState("");
   const [selectData, setSelectData] = React.useState("");
@@ -108,7 +115,6 @@ const YourWork = () => {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - entry.data.length) : 0;
-
   return isAuth && entry.data ? (
     <div className="m-2 md:m-10 mt-4 p-2 md:p-5 rounded-3xl">
       <Header title="Your Work" />
@@ -193,19 +199,19 @@ const YourWork = () => {
             ))}
             {/* {emptyRows > 0 && (
               <TableRow style={{ height: 53 * emptyRows }}>
-                <TableCell colSpan={6} />
+                <TableCell colSpan={9} />
               </TableRow>
             )} */}
           </TableBody>
         </TableLayout>
       )}
-      <CommentDialog
+      {/* <CommentDialog
         open={open4}
         handleClose={handleClose4}
         data={selectData4}
         dispatch={dispatch}
         handleClickOpen={handleClickOpen4}
-      />
+      /> */}
       <DeleteDialog
         open={open}
         handleClose={handleClose}
@@ -215,6 +221,7 @@ const YourWork = () => {
       />
       <AssignToSurveyDialogBox
         open={open3}
+        selectData={selectData2}
         admin={admin}
         setOpen={setOpen3}
         handleClose={handleClose3}
@@ -240,8 +247,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
-    color: "black",
-    fontWeight: "500",
+    color: "black"
   },
 }));
 
@@ -321,25 +327,39 @@ const AssignDialogBox = ({ open, handleClose, selectData, dispatch }) => {
 const AssignToSurveyDialogBox = ({
   open,
   dispatch,
-  setOpen
+  setOpen,
+  selectData,
+  admin,
 }) => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
-  const onSubmit = () => {
-    // dispatch(UpdateEntryStatusFunction(selectData, demo));
-  };
-  const handleClose = () => {
-    setOpen(false)
-    setCity("")
-  }
-  const { data } = useSelector((state) => state.Register.get.users);
   const [city, setCity] = useState("");
   const [survier, setSurvier] = useState("");
+  const onSubmit = () => {
+    const taskData = {
+      userId: admin.user._id,
+      uniqueJobId: selectData.uniqueJobId,
+      currentJobHolder: survier,
+      // isTaskAssigned: true,
+    };
+    if (survier) {
+      dispatch(UpdateAssignFunction(taskData));
+    } else {
+      ToastComponent("Please Select Member", "error");
+    }
+  };
+  const handleClose = () => {
+    setOpen(false);
+    setCity("");
+  };
+  const { data } = useSelector((state) => state.Register.get.users);
+
   useEffect(() => {
     if (city) {
       dispatch(GetUserFunctionCity(city));
     }
   }, [city]);
+
   return (
     <Dialog
       fullScreen={fullScreen}
@@ -384,7 +404,7 @@ const AssignToSurveyDialogBox = ({
               {data &&
                 data.map((r) => {
                   return (
-                    <MenuItem key={r.name} value={r.name}>
+                    <MenuItem key={r.name} value={r._id}>
                       {r.name}
                     </MenuItem>
                   );
