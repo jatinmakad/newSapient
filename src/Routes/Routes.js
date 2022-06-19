@@ -1,5 +1,11 @@
 import React, { useEffect } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  Redirect,
+} from "react-router-dom";
 import Dashboard from "../Component/Dashboard/Dashboard";
 import Entry from "../Component/Entry/Entry";
 import Login from "../Component/Login/Login";
@@ -17,6 +23,9 @@ import AssignTask from "../Component/CoordinationManager/AssignTask/AssignTask";
 import UpdateCoordination from "../Component/Coordination/Update/UpdateCoordination";
 import ReportTeam from "../Component/ReportTeam/reportTeam";
 import AssignTaskReportTeam from "../Component/ReportTeamManager/AssignTaskReportTeam";
+import Survery from "../Component/Survery/Survery";
+import NotFound from "../Component/Common/NotFound";
+import SurveryUpdate from "../Component/Survery/SurveryUpdate";
 const RoutesPage = () => {
   return (
     <Routes>
@@ -50,6 +59,10 @@ const RoutesPage = () => {
         path={"/assign-task-report-team"}
         element={<AssignTaskReportTeam />}
       />
+      <Route path={"/survery"} element={<Survery />} />
+      <Route path={"/survery-update/:id"} element={<SurveryUpdate />} />
+      <Route path="/not-found" element={<NotFound />} />
+      <Route path="*" element={<Navigate replace to="/not-found" />} />
     </Routes>
   );
 };

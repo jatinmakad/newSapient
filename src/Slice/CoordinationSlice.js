@@ -21,6 +21,9 @@ const initialState = {
   assignTask: {
     updateAssignTaskSuccess: false,
   },
+  updateComment: {
+    updateCommentSuccess: false,
+  },
 };
 const CoordinationSlice = createSlice({
   name: "Coordination",
@@ -82,6 +85,12 @@ const CoordinationSlice = createSlice({
     UpdateAssignTaskCleanup: (state) => {
       state.assignTask.updateAssignTaskSuccess = false;
     },
+    UpdateCommentBefore: (state) => {
+      state.updateComment.updateCommentSuccess = true;
+    },
+    UpdateCommentCleanup: (state) => {
+      state.updateComment.updateCommentSuccess = false;
+    },
   },
 });
 
@@ -102,6 +111,8 @@ export const {
   UpdateAssignTaskBefore,
   UpdateAssignTaskStatus,
   UpdateAssignTaskCleanup,
+  UpdateCommentBefore,
+  UpdateCommentCleanup,
 } = actions;
 export default CoordinationSlice.reducer;
 
@@ -201,6 +212,26 @@ export const UpdateAssignFunction = (Data) => {
         ToastComponent("Task Assigned SuccessFully", "success");
       }
       dispatch(UpdateAssignTaskCleanup());
+    } catch (error) {
+      ToastComponent(error.response.data.message, "error");
+    }
+  };
+};
+
+export const UpdateCommentFunction = (Data) => {
+  return async (dispatch) => {
+    try {
+      const config = { headers: { "Content-Type": "application/json" } };
+      const { data } = await axios.post(
+        `https://sap-data-management-mcs.herokuapp.com/assign-tasks`,
+        Data,
+        config
+      );
+      if (data.success === true) {
+        dispatch(UpdateCommentBefore());
+        ToastComponent("Comment Added SuccessFully", "success");
+      }
+      dispatch(UpdateCommentCleanup());
     } catch (error) {
       ToastComponent(error.response.data.message, "error");
     }

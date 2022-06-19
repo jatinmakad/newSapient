@@ -178,15 +178,20 @@ export const CreateEntryFunction = (Data) => {
 };
 
 export const DeletEntryFunction = (id) => {
+  console.log(id,"=========id     ")
   return async (dispatch) => {
-    const { data } = await axios.delete(
-      `https://sap-data-management-mcs.herokuapp.com/delete-job/${id}`
-    );
-    if (data.success === true) {
-      dispatch(DeleteEntry(data.success));
-      ToastComponent("Entry Deleted SuccessFully", "success");
+    try {
+      const { data } = await axios.delete(
+        `https://sap-data-management-mcs.herokuapp.com/delete-job/${id}`
+      );
+      if (data.success === true) {
+        dispatch(DeleteEntry(data.success));
+        ToastComponent("Entry Deleted SuccessFully", "success");
+      }
+      dispatch(DeleteEntryCleanup());
+    } catch (error) {
+      ToastComponent("Something went wrong!","error");
     }
-    dispatch(DeleteEntryCleanup());
   };
 };
 
@@ -243,7 +248,7 @@ export const uploadDocuments = (Data) => {
       }
       dispatch(UpdateDocumentAfter());
     } catch (err) {
-      ToastComponent("Something went wrong!");
+      ToastComponent("Something went wrong!","error");
     }
   };
 };

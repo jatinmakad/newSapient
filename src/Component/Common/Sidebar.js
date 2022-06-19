@@ -12,6 +12,7 @@ import {
   CoordinationManagerData,
   reportTeamData,
   reportTeamManagerData,
+  SurveryData,
 } from "../../data/Data";
 const Sidebar = () => {
   const { currentColor, activeMenu, setActiveMenu, screenSize } =
@@ -42,6 +43,8 @@ const Sidebar = () => {
       ? reportTeamManagerData
       : admin?.user?.role === "REPORT TEAM EMPLOYEE"
       ? reportTeamData
+      : admin?.user?.role === "SURVEYOUR"
+      ? SurveryData
       : "";
   const activeLink =
     "flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg  text-white  text-md m-2";

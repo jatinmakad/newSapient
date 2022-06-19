@@ -34,6 +34,8 @@ import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import LastPageOutlined from "@mui/icons-material/LastPageOutlined";
 import Image from "../Assets/noresult.webp";
+import TableLayout from "../Common/TableLayout/TableLayout";
+import CommentDialog from "../Common/CommentDialog";
 const ReportTable = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -57,6 +59,15 @@ const ReportTable = () => {
     }
   }, [isAuth, updateStatusSuccess]);
 
+  const [open4, setOpen4] = React.useState(false);
+  const [selectData4, setSelectData4] = React.useState("");
+  const handleClickOpen4 = (row) => {
+    setOpen4(true);
+    setSelectData4(row);
+  };
+  const handleClose4 = () => {
+    setOpen4(false);
+  };
   const handleClickOpen2 = (row) => {
     setOpen2(true);
     setSelectData(row);
@@ -66,51 +77,28 @@ const ReportTable = () => {
   };
   const [searchInput, setSearchInput] = React.useState("");
 
+  // Table Function
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
-
-  const handleChangePage = (
-    event: React.MouseEvent<HTMLButtonElement> | null,
-    newPage: number
-  ) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - entry.data.length) : 0;
   return isAuth && entry.data ? (
-    <TableContainer component={Paper}>
-      {isLoading ? (
-        <Loader />
-      ) : entry.data && !entry.data.length ? (
-        <div className="w-full flex justify-center items-center">
-          <img src={Image} className="w-1/2" />
-        </div>
-      ) : (
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              {headerCell.map((r) => {
-                return (
-                  <TableCell
-                    align={r.align}
-                    sx={{
-                      color: "gray",
-                      borderBottom: "0.5px solid lightgray",
-                    }}
-                  >
-                    {r.value}
-                  </TableCell>
-                );
-              })}
-            </TableRow>
-          </TableHead>
+    isLoading ? (
+      <Loader />
+    ) : entry.data && !entry.data.length ? (
+      <div className="w-full flex justify-center items-center">
+        <img src={Image} className="w-1/2" />
+      </div>
+    ) : (
+      <>
+        <TableLayout
+          headerCell={headerCell}
+          data={entry.data}
+          page={page}
+          setPage={setPage}
+          rowsPerPage={rowsPerPage}
+          setRowsPerPage={setRowsPerPage}
+        >
           <TableBody>
             {(
               entry.data &&
@@ -154,48 +142,36 @@ const ReportTable = () => {
                         >
                           Update Status
                         </p>
+                        <p
+                          className="text-blue-600 cursor-pointer"
+                          onClick={() => handleClickOpen4(row)}
+                        >
+                          Comment
+                        </p> 
                       </>
                     )}
                   </div>
                 </StyledTableCell>
               </TableRow>
             ))}
-            {emptyRows > 0 && (
-              <TableRow style={{ height: 53 * emptyRows }}>
-                <TableCell colSpan={6} />
-              </TableRow>
-            )}
           </TableBody>
-          <TableFooter>
-            <TableRow>
-              <TablePagination
-                rowsPerPageOptions={[10, 25, { label: "All", value: -1 }]}
-                // colSpan={3}
-                count={entry.data.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                SelectProps={{
-                  inputProps: {
-                    "aria-label": "rows per page",
-                  },
-                  native: true,
-                }}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-                ActionsComponent={TablePaginationActions}
-              />
-            </TableRow>
-          </TableFooter>
-          <AssignDialogBox
-            open={open2}
-            admin={admin}
-            handleClose={handleClose2}
-            dispatch={dispatch}
-            selectData={selectData}
-          />
-        </Table>
-      )}
-    </TableContainer>
+        </TableLayout>
+        <AssignDialogBox
+          open={open2}
+          admin={admin}
+          handleClose={handleClose2}
+          dispatch={dispatch}
+          selectData={selectData}
+        />
+          <CommentDialog
+        open={open4}
+        handleClose={handleClose4}
+        data={selectData4}
+        dispatch={dispatch}
+        handleClickOpen={handleClickOpen4}
+      />
+      </>
+    )
   ) : (
     ""
   );
@@ -299,83 +275,3 @@ const data = [
     value: "IN-PROGRESS",
   },
 ];
-
-interface TablePaginationActionsProps {
-  count: number;
-  page: number;
-  rowsPerPage: number;
-  onPageChange: (
-    event: React.MouseEvent<HTMLButtonElement>,
-    newPage: number
-  ) => void;
-}
-
-function TablePaginationActions(props: TablePaginationActionsProps) {
-  const theme = useTheme();
-  const { count, page, rowsPerPage, onPageChange } = props;
-
-  const handleFirstPageButtonClick = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    onPageChange(event, 0);
-  };
-
-  const handleBackButtonClick = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    onPageChange(event, page - 1);
-  };
-
-  const handleNextButtonClick = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    onPageChange(event, page + 1);
-  };
-
-  const handleLastPageButtonClick = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
-  };
-
-  return (
-    <Box sx={{ flexShrink: 0, ml: 2.5 }}>
-      <IconButton
-        onClick={handleFirstPageButtonClick}
-        disabled={page === 0}
-        aria-label="first page"
-      >
-        {theme.direction === "rtl" ? <LastPageOutlined /> : <FirstPageIcon />}
-      </IconButton>
-      <IconButton
-        onClick={handleBackButtonClick}
-        disabled={page === 0}
-        aria-label="previous page"
-      >
-        {theme.direction === "rtl" ? (
-          <KeyboardArrowRight />
-        ) : (
-          <KeyboardArrowLeft />
-        )}
-      </IconButton>
-      <IconButton
-        onClick={handleNextButtonClick}
-        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-        aria-label="next page"
-      >
-        {theme.direction === "rtl" ? (
-          <KeyboardArrowLeft />
-        ) : (
-          <KeyboardArrowRight />
-        )}
-      </IconButton>
-      <IconButton
-        onClick={handleLastPageButtonClick}
-        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-        aria-label="last page"
-      >
-        {theme.direction === "rtl" ? <FirstPageIcon /> : <LastPageOutlined />}
-      </IconButton>
-    </Box>
-  );
-}

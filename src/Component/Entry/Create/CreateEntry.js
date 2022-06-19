@@ -2,7 +2,6 @@ import { Grid, Button, TextField, Autocomplete } from "@mui/material";
 import React, { useRef, useEffect } from "react";
 import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
-import BasicLayout from "../../BasicLayout/BasicLayout";
 import FomikTextField from "../../Common/FormikComponent/FomikTextField";
 import { Form, Formik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
@@ -50,6 +49,8 @@ const CreateEntry = () => {
     consignor: Yup.string().required("Required"),
     state: Yup.string().required("Required"),
     invoiceValue: Yup.string().required("Required"),
+    executingBranchLocation: Yup.string().required("Required"),
+    insurer: Yup.string().required("Required"),
   });
   const initialValues = {
     reportRefrenceNo: "",
@@ -73,6 +74,8 @@ const CreateEntry = () => {
     consignor: "",
     state: "",
     invoiceValue: "",
+    executingBranchLocation: "",
+    insurer: "",
   };
   const onSubmit = (values) => {
     dispatch(
@@ -140,6 +143,7 @@ const CreateEntry = () => {
                             {...params}
                             fullWidth
                             size="small"
+                            sx={{background:"#fff"}}
                             error={
                               touched.finanicalYear &&
                               Boolean(errors.finanicalYear)
@@ -246,6 +250,7 @@ const CreateEntry = () => {
                         <TextField
                           size="small"
                           fullWidth
+                          sx={{background:"#fff"}}
                           placeholder="Insured City"
                           {...params}
                           error={
@@ -276,6 +281,7 @@ const CreateEntry = () => {
                           size="small"
                           placeholder="Loss City"
                           fullWidth
+                          sx={{background:"#fff"}}
                           {...params}
                           error={touched.lossCity && Boolean(errors.lossCity)}
                           helperText={touched.lossCity ? errors.lossCity : ""}
@@ -295,6 +301,7 @@ const CreateEntry = () => {
                           <TextField
                             {...params}
                             fullWidth
+                            sx={{background:"#fff"}}
                             size="small"
                             error={touched.date && Boolean(errors.date)}
                             helperText={touched.date ? errors.date : ""}
@@ -356,6 +363,7 @@ const CreateEntry = () => {
                           <TextField
                             {...params}
                             fullWidth
+                            sx={{background:"#fff"}}
                             size="small"
                             error={touched.month && Boolean(errors.month)}
                             helperText={touched.month ? errors.month : ""}
@@ -381,6 +389,7 @@ const CreateEntry = () => {
                         <TextField
                           size="small"
                           fullWidth
+                          sx={{background:"#fff"}}
                           {...params}
                           error={touched.city && Boolean(errors.city)}
                           placeholder="City"
@@ -406,6 +415,7 @@ const CreateEntry = () => {
                           size="small"
                           placeholder="State"
                           fullWidth
+                          sx={{background:"#fff"}}
                           {...params}
                           error={touched.state && Boolean(errors.state)}
                           helperText={touched.state ? errors.state : ""}
@@ -422,6 +432,41 @@ const CreateEntry = () => {
                     type="number"
                     error={touched.age && Boolean(errors.age)}
                     helperText={touched.age ? errors.age : ""}
+                  />
+                </Grid>
+                <Grid lg={4} md={6} sm={12} xs={12} item>
+                  <div className="flex flex-col justify-start">
+                    <p className="text-sm mb-2">Executing Branch Location</p>
+                    <Autocomplete
+                      value={values.executingBranchLocation}
+                      fullWidth
+                      onChange={(event, newValue) => {
+                        setFieldValue("executingBranchLocation", newValue);
+                      }}
+                      size="small"
+                      options={Cities}
+                      renderInput={(params) => (
+                        <TextField
+                          size="small"
+                          sx={{background:"#fff"}}
+                          fullWidth
+                          {...params}
+                          error={touched.executingBranchLocation && Boolean(errors.executingBranchLocation)}
+                          placeholder="Executing Branch Location"
+                          helperText={touched.executingBranchLocation ? errors.executingBranchLocation : ""}
+                        />
+                      )}
+                    />
+                  </div>
+                </Grid>
+                <Grid lg={4} md={6} sm={12} xs={12} item>
+                  <FomikTextField
+                    heading="Insurer"
+                    handleChange={handleChange}
+                    name="insurer"
+                    type="text"
+                    error={touched.insurer && Boolean(errors.insurer)}
+                    helperText={touched.insurer ? errors.insurer : ""}
                   />
                 </Grid>
 

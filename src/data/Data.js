@@ -14,7 +14,7 @@ export const EntryData = [
       text: "Your Work",
       icon: <IoMdContacts />,
       click: "/your-work",
-    },
+    }
   ];
   
   export const CoordinationData = [
@@ -27,6 +27,18 @@ export const EntryData = [
       text: "Cordination Team",
       icon:<IoMdContacts />,
       click: "/coordination",
+    },
+  ];
+  export const SurveryData = [
+    {
+      text: "Dashboard",
+      icon: <IoMdContacts />,
+      click: "/dashboard",
+    },
+    {
+      text: "Survery",
+      icon:<IoMdContacts />,
+      click: "/survery",
     },
   ];
   

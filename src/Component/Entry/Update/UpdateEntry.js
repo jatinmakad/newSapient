@@ -73,6 +73,11 @@ const UpdateEntry = () => {
           "invoiceValue",
           updated[0].invoiceValue
         );
+        formikRef.current.setFieldValue(
+          "executingBranchLocation",
+          updated[0].executingBranchLocation
+        );
+        formikRef.current.setFieldValue("insurer", updated[0].insurer);
       }
     }
   }, [isAuth, id, updateSuccess]);
@@ -98,6 +103,8 @@ const UpdateEntry = () => {
     consignor: Yup.string().required("Required"),
     state: Yup.string().required("Required"),
     invoiceValue: Yup.string().required("Required"),
+    executingBranchLocation: Yup.string().required("Required"),
+    insurer: Yup.string().required("Required"),
   });
   const initialValues = {
     reportRefrenceNo: "",
@@ -121,6 +128,8 @@ const UpdateEntry = () => {
     consignor: "",
     state: "",
     invoiceValue: "",
+    executingBranchLocation: "",
+    insurer: "",
   };
   const onSubmit = (values) => {
     dispatch(UpdateEntryFunction(id, values));
@@ -135,7 +144,7 @@ const UpdateEntry = () => {
           onSubmit={onSubmit}
           innerRef={formikRef}
         >
-          {({ errors, handleChange, values, touched, setFieldValue }) => (
+          {({ errors, handleChange, values, touched, setFieldValue }) =>
             isLoading ? (
               <Loader />
             ) : (
@@ -181,6 +190,7 @@ const UpdateEntry = () => {
                               {...params}
                               fullWidth
                               size="small"
+                              sx={{ background: "#fff" }}
                               error={
                                 touched.finanicalYear &&
                                 Boolean(errors.finanicalYear)
@@ -295,6 +305,7 @@ const UpdateEntry = () => {
                             size="small"
                             fullWidth
                             placeholder="Insured City"
+                            sx={{ background: "#fff" }}
                             {...params}
                             error={
                               touched.insuredCity && Boolean(errors.insuredCity)
@@ -323,6 +334,7 @@ const UpdateEntry = () => {
                           <TextField
                             size="small"
                             placeholder="Loss City"
+                            sx={{ background: "#fff" }}
                             fullWidth
                             {...params}
                             error={touched.lossCity && Boolean(errors.lossCity)}
@@ -342,6 +354,7 @@ const UpdateEntry = () => {
                           renderInput={(params) => (
                             <TextField
                               {...params}
+                              sx={{ background: "#fff" }}
                               fullWidth
                               size="small"
                               error={touched.date && Boolean(errors.date)}
@@ -411,6 +424,7 @@ const UpdateEntry = () => {
                           renderInput={(params) => (
                             <TextField
                               {...params}
+                              sx={{ background: "#fff" }}
                               fullWidth
                               size="small"
                               error={touched.month && Boolean(errors.month)}
@@ -436,6 +450,7 @@ const UpdateEntry = () => {
                         renderInput={(params) => (
                           <TextField
                             size="small"
+                            sx={{ background: "#fff" }}
                             fullWidth
                             {...params}
                             error={touched.city && Boolean(errors.city)}
@@ -461,6 +476,7 @@ const UpdateEntry = () => {
                           <TextField
                             size="small"
                             placeholder="State"
+                            sx={{ background: "#fff" }}
                             fullWidth
                             {...params}
                             error={touched.state && Boolean(errors.state)}
@@ -479,6 +495,48 @@ const UpdateEntry = () => {
                       value={values.age}
                       error={touched.age && Boolean(errors.age)}
                       helperText={touched.age ? errors.age : ""}
+                    />
+                  </Grid>
+                  <Grid lg={4} md={6} sm={12} xs={12} item>
+                    <div className="flex flex-col justify-start">
+                      <p className="text-sm mb-2">Executing Branch Location</p>
+                      <Autocomplete
+                        value={values.executingBranchLocation}
+                        fullWidth
+                        onChange={(event, newValue) => {
+                          setFieldValue("executingBranchLocation", newValue);
+                        }}
+                        size="small"
+                        options={Cities}
+                        renderInput={(params) => (
+                          <TextField
+                            size="small"
+                            sx={{ background: "#fff" }}
+                            fullWidth
+                            {...params}
+                            error={
+                              touched.executingBranchLocation &&
+                              Boolean(errors.executingBranchLocation)
+                            }
+                            placeholder="Executing Branch Location"
+                            helperText={
+                              touched.executingBranchLocation
+                                ? errors.executingBranchLocation
+                                : ""
+                            }
+                          />
+                        )}
+                      />
+                    </div>
+                  </Grid>
+                  <Grid lg={4} md={6} sm={12} xs={12} item>
+                    <FomikTextField
+                      heading="Insurer"
+                      handleChange={handleChange}
+                      name="insurer"
+                      type="text"
+                      error={touched.insurer && Boolean(errors.insurer)}
+                      helperText={touched.insurer ? errors.insurer : ""}
                     />
                   </Grid>
 
@@ -508,7 +566,7 @@ const UpdateEntry = () => {
                 </Grid>
               </Form>
             )
-          )}
+          }
         </Formik>
       ) : (
         <Loader />

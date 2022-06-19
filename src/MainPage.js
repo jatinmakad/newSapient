@@ -51,9 +51,7 @@ const MainPage = () => {
       </div>
     </div>
   ) : (
-  
      <RoutesPage/>
-  
   );
 };
 
