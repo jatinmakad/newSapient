@@ -65,7 +65,7 @@ export default function CommentDialog({
             Add
           </Button>
           <Button onClick={handleClose} variant="contained" color="error">
-            Cancle
+            Cancel
           </Button>
         </DialogActions>
       </Dialog>

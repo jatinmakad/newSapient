@@ -26,10 +26,12 @@ import AssignTaskReportTeam from "../Component/ReportTeamManager/AssignTaskRepor
 import Survery from "../Component/Survery/Survery";
 import NotFound from "../Component/Common/NotFound";
 import SurveryUpdate from "../Component/Survery/SurveryUpdate";
+import UploadDocs from "../Component/Common/uploadDocs";
 const RoutesPage = () => {
   return (
     <Routes>
       <Route path="/" element={<Navigate replace to="/login" />} />
+      <Route path="/upload-karo" element={<UploadDocs />} />
       <Route path={"/login"} element={<Login />} />
       <Route path={"/dashboard"} element={<Dashboard />} />
       /* Entry */

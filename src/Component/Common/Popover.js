@@ -15,7 +15,7 @@ export default function Popover() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const { admin } = useSelector((state) => state.Login);
   let role = admin.user && admin.user.role.toLowerCase();
   return (
@@ -26,7 +26,9 @@ export default function Popover() {
       >
         <img src={Avatar} className="w-12 rounded-full mr-2 " />
         <div className="mr-3 cursor-pointer">
-          <p className="capitalize text-md cursor-pointer">{admin.user && admin.user.name}</p>
+          <p className="capitalize text-md cursor-pointer">
+            {admin.user && admin.user.name}
+          </p>
           <p className="capitalize text-sm cursor-pointer">{role}</p>
         </div>
         <KeyboardArrowDownIcon />

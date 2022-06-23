@@ -143,11 +143,11 @@ const ReportTable = () => {
                           Update Status
                         </p>
                         <p
-                          className="text-blue-600 cursor-pointer"
+                          className="text-red-600 ml-5 cursor-pointer"
                           onClick={() => handleClickOpen4(row)}
                         >
-                          Comment
-                        </p> 
+                          Discrepancy
+                        </p>
                       </>
                     )}
                   </div>
@@ -163,13 +163,13 @@ const ReportTable = () => {
           dispatch={dispatch}
           selectData={selectData}
         />
-          <CommentDialog
-        open={open4}
-        handleClose={handleClose4}
-        data={selectData4}
-        dispatch={dispatch}
-        handleClickOpen={handleClickOpen4}
-      />
+        <CommentDialog
+          open={open4}
+          handleClose={handleClose4}
+          data={selectData4}
+          dispatch={dispatch}
+          handleClickOpen={handleClickOpen4}
+        />
       </>
     )
   ) : (

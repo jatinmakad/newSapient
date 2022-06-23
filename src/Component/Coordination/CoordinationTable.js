@@ -71,7 +71,7 @@ const CoordinationTable = () => {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
 
-    console.log(entry.data)
+  console.log(entry.data);
   return entry && isAuth ? (
     isLoading ? (
       <Loader />
@@ -133,10 +133,10 @@ const CoordinationTable = () => {
                           Status
                         </p>
                         <p
-                          className="text-blue-600 cursor-pointer"
+                          className="text-red-600 cursor-pointer"
                           onClick={() => handleClickOpen4(row)}
                         >
-                          Comment
+                          Discrepancy
                         </p>
                       </div>
                     )}
@@ -205,7 +205,7 @@ const headerCell = [
   },
   {
     value: "Status",
-    align: "center",
+    align: "left",
   },
   {
     value: "Action",

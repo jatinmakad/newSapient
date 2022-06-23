@@ -24,7 +24,7 @@ const SurveryUpdate = () => {
   const innerP = "w-2/5 text-blue-700 font-medium";
   const innerText = "w-3/5";
   const outerDiv = "flex justify-between items-center text-lg";
-  return isAuth && data ? (
+  return isAuth ? (
     <div className="m-2 md:m-10 mt-4 p-2 md:p-5 rounded-3xl">
       <Header title="Entry Details" />
       <div className="bg-white lg:p-5 md:p-5 p-3 rounded-md">
@@ -125,10 +125,7 @@ const SurveryUpdate = () => {
             </div>
           </div>
         </div>
-        
 
-        
-  
         <div className="w-full flex justify-end">
           <div className="flex">
             <Button
