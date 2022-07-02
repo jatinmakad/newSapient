@@ -51,7 +51,7 @@ const MainPage = () => {
       </div>
     </div>
   ) : (
-     <RoutesPage/>
+    <RoutesPage />
   );
 };
 

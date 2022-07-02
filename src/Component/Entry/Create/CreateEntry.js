@@ -143,7 +143,7 @@ const CreateEntry = () => {
                             {...params}
                             fullWidth
                             size="small"
-                            sx={{background:"#fff"}}
+                            sx={{ background: "#fff" }}
                             error={
                               touched.finanicalYear &&
                               Boolean(errors.finanicalYear)
@@ -250,7 +250,7 @@ const CreateEntry = () => {
                         <TextField
                           size="small"
                           fullWidth
-                          sx={{background:"#fff"}}
+                          sx={{ background: "#fff" }}
                           placeholder="Insured City"
                           {...params}
                           error={
@@ -281,7 +281,7 @@ const CreateEntry = () => {
                           size="small"
                           placeholder="Loss City"
                           fullWidth
-                          sx={{background:"#fff"}}
+                          sx={{ background: "#fff" }}
                           {...params}
                           error={touched.lossCity && Boolean(errors.lossCity)}
                           helperText={touched.lossCity ? errors.lossCity : ""}
@@ -301,7 +301,7 @@ const CreateEntry = () => {
                           <TextField
                             {...params}
                             fullWidth
-                            sx={{background:"#fff"}}
+                            sx={{ background: "#fff" }}
                             size="small"
                             error={touched.date && Boolean(errors.date)}
                             helperText={touched.date ? errors.date : ""}
@@ -363,7 +363,7 @@ const CreateEntry = () => {
                           <TextField
                             {...params}
                             fullWidth
-                            sx={{background:"#fff"}}
+                            sx={{ background: "#fff" }}
                             size="small"
                             error={touched.month && Boolean(errors.month)}
                             helperText={touched.month ? errors.month : ""}
@@ -389,7 +389,7 @@ const CreateEntry = () => {
                         <TextField
                           size="small"
                           fullWidth
-                          sx={{background:"#fff"}}
+                          sx={{ background: "#fff" }}
                           {...params}
                           error={touched.city && Boolean(errors.city)}
                           placeholder="City"
@@ -415,7 +415,7 @@ const CreateEntry = () => {
                           size="small"
                           placeholder="State"
                           fullWidth
-                          sx={{background:"#fff"}}
+                          sx={{ background: "#fff" }}
                           {...params}
                           error={touched.state && Boolean(errors.state)}
                           helperText={touched.state ? errors.state : ""}
@@ -448,12 +448,19 @@ const CreateEntry = () => {
                       renderInput={(params) => (
                         <TextField
                           size="small"
-                          sx={{background:"#fff"}}
+                          sx={{ background: "#fff" }}
                           fullWidth
                           {...params}
-                          error={touched.executingBranchLocation && Boolean(errors.executingBranchLocation)}
+                          error={
+                            touched.executingBranchLocation &&
+                            Boolean(errors.executingBranchLocation)
+                          }
                           placeholder="Executing Branch Location"
-                          helperText={touched.executingBranchLocation ? errors.executingBranchLocation : ""}
+                          helperText={
+                            touched.executingBranchLocation
+                              ? errors.executingBranchLocation
+                              : ""
+                          }
                         />
                       )}
                     />
@@ -507,4 +514,11 @@ const CreateEntry = () => {
 
 export default CreateEntry;
 
-const claimTypeData = [{ value: "Marine" }, { value: "Non-Marine" }];
+const claimTypeData = [
+  {
+    value: "Engineering",
+  },
+  { value: "Fire" },
+  { value: "Marine" },
+  { value: "Theft" },
+];

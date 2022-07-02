@@ -49,6 +49,7 @@ export default function EntryTable({ searchInput }) {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - entry.data.length) : 0;
+    
 console.log(entry.data)
   return isLoading ? (
     <Loader />

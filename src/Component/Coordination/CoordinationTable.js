@@ -23,6 +23,7 @@ import moment from "moment";
 import Image from "../Assets/noresult.webp";
 import TableLayout from "../Common/TableLayout/TableLayout";
 import CommentDialog from "../Common/CommentDialog";
+import { UpdateCommentFunction } from "../../Slice/CoordinationSlice";
 
 const CoordinationTable = () => {
   const dispatch = useDispatch();
@@ -38,6 +39,7 @@ const CoordinationTable = () => {
     if (isAuth) {
       dispatch(GetEntryFunctionId(admin.user._id));
     }
+
     if (isAuth === false) {
       navigate("/login");
     }
@@ -76,9 +78,17 @@ const CoordinationTable = () => {
     isLoading ? (
       <Loader />
     ) : entry.data && !entry.data.length ? (
+      <>
       <div className="w-full flex justify-center items-center">
         <img src={Image} className="w-1/2" />
       </div>
+       <p
+       className="text-red-600 cursor-pointer"
+       onClick={() => handleClickOpen4()}
+     >
+       Discrepancy
+     </p>
+     </>
     ) : (
       <>
         <TableLayout

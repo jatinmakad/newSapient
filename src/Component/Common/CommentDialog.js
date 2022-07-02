@@ -19,6 +19,7 @@ export default function CommentDialog({
   dispatch,
 }) {
   const [input, setInput] = React.useState("");
+  console.log(data, "data");
   const Submit = () => {
     if (input === "") {
       ToastComponent("Please Enter Comment", "error");
@@ -32,7 +33,7 @@ export default function CommentDialog({
       const taskData = {
         userId: id,
         uniqueJobId: data.uniqueJobId,
-        // currentJobHolder: survier,
+        currentJobHolder: data.entryHandledBy,
       };
       dispatch(UpdateAssignFunction(taskData));
     }

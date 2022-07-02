@@ -93,9 +93,19 @@ const Survery = () => {
                 <StyledTableCell align="left">
                   {row.currentJobStatus}
                 </StyledTableCell>
-                <StyledTableCell align="left">
-                  <Link to={`/survery-update/${row._id}`}>
-                    <EditIcon className="text-blue-700 cursor-pointer" />
+                <StyledTableCell
+                  align="left"
+                  style={{ display: "flex", alignItems: "center" }}
+                >
+                  {/* <Link to={`/survery-update/${row._id}`}>
+                    <EditIcon className="text-blue-700 cursor-pointer mr-3" />
+                  </Link> */}
+                  <Link
+                    to={`/upload-document/${row.uniqueJobId}/${row.claimType}`}
+                  >
+                    <p className="text-blue-700 cursor-pointer">
+                      Upload Document
+                    </p>
                   </Link>
                 </StyledTableCell>
               </TableRow>

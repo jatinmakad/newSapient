@@ -67,3 +67,25 @@ export const UpdateAssignFunction = (Data) => {
     }
   };
 };
+
+// export const UpdateAssignFunction = (Data) => {
+//   return async (dispatch) => {
+//     try {
+//       const config = { headers: { "Content-Type": "application/json" } };
+//       dispatch(UpdateAssignTaskBefore());
+//       const { data } = await axios.post(
+//         `https://sap-data-management-mcs.herokuapp.com/assign-tasks`,
+//         Data,
+//         config
+//       );
+//       if (data.success === true) {
+//         dispatch(UpdateAssignTaskStatus());
+//         ToastComponent("Task Assigned SuccessFully", "success");
+//       }
+//       dispatch(UpdateAssignTaskCleanup());
+//     } catch (error) {
+//       ToastComponent(error.response.data.message, "error");
+//     }
+//   };
+// };
+

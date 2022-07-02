@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import store from "../Redux/store";
 import ToastComponent from "../Component/Common/TaostComponent";
 const initialState = {
   //   get: {
@@ -18,11 +19,21 @@ const initialState = {
   //   update: {
   //     updateSuccess: false,
   //   },
+  updatedArray: {
+    array: "",
+  },
+  getDocument: {
+    document: "",
+  },
   assignTask: {
     updateAssignTaskSuccess: false,
   },
   updateComment: {
     updateCommentSuccess: false,
+  },
+  uploadDocument: {
+    isLoading: false,
+    uploadDocumentSuccess: false,
   },
 };
 const CoordinationSlice = createSlice({
@@ -74,7 +85,12 @@ const CoordinationSlice = createSlice({
     // UpdateEntryCleanup: (state) => {
     //   state.update.updateSuccess = false;
     // },
-
+    getDocument: (state, { payload }) => {
+      state.getDocument.document = payload;
+    },
+    documnetUpdateArray: (state, { payload }) => {
+      state.updatedArray.array = payload;
+    },
     UpdateAssignTaskBefore: (state) => {
       state.assignTask.isLoading = true;
     },
@@ -90,6 +106,16 @@ const CoordinationSlice = createSlice({
     },
     UpdateCommentCleanup: (state) => {
       state.updateComment.updateCommentSuccess = false;
+    },
+    UpdateDocumentLoading: (state) => {
+      state.uploadDocument.isLoading = true;
+    },
+    UpdateDocumentBefore: (state) => {
+      state.uploadDocument.uploadDocumentSuccess = true;
+    },
+    UpdateDocumentCleanup: (state) => {
+      state.uploadDocument.isLoading = false;
+      state.uploadDocument.uploadDocumentSuccess = false;
     },
   },
 });
@@ -108,6 +134,11 @@ export const {
   //   UpdateEntry,
   //   UpdateEntryCleanup,
   //   UpdateEntryBefore,
+  UpdateDocumentLoading,
+  documnetUpdateArray,
+  getDocument,
+  UpdateDocumentBefore,
+  UpdateDocumentCleanup,
   UpdateAssignTaskBefore,
   UpdateAssignTaskStatus,
   UpdateAssignTaskCleanup,
@@ -197,7 +228,7 @@ export default CoordinationSlice.reducer;
 //   };
 // };
 
-export const UpdateAssignFunction = (Data) => {
+export const UpdateAssignFunction = (Data, id) => {
   return async (dispatch) => {
     try {
       const config = { headers: { "Content-Type": "application/json" } };
@@ -223,7 +254,7 @@ export const UpdateCommentFunction = (Data) => {
     try {
       const config = { headers: { "Content-Type": "application/json" } };
       const { data } = await axios.post(
-        `https://sap-data-management-mcs.herokuapp.com/assign-tasks`,
+        `https://sap-data-management-mcs.herokuapp.com/add-job-discrepancy`,
         Data,
         config
       );
@@ -232,6 +263,42 @@ export const UpdateCommentFunction = (Data) => {
         ToastComponent("Comment Added SuccessFully", "success");
       }
       dispatch(UpdateCommentCleanup());
+    } catch (error) {
+      ToastComponent(error.response.data.message, "error");
+    }
+  };
+};
+
+export const UpdloadDocumentFunction = (Data, id) => {
+  return async (dispatch) => {
+    try {
+      dispatch(UpdateDocumentLoading());
+      const config = { headers: { "Content-Type": "application/json" } };
+      const { data } = await axios.put(
+        "https://sap-data-management-mcs.herokuapp.com/upload-documents",
+        Data,
+        config
+      );
+      if (data.success === true) {
+        dispatch(UpdateDocumentBefore());
+        ToastComponent("Document Uploaded SuccessFully", "success");
+      }
+      dispatch(UpdateDocumentCleanup());
+    } catch (error) {
+      ToastComponent(error.response.data.message, "error");
+    }
+  };
+};
+
+export const GetDocumentFunction = (id) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.get(
+        `https://sap-data-management-mcs.herokuapp.com/get-jobs-by-id?uniqueJobId=${id}`
+      );
+      if (data.success === true) {
+        dispatch(getDocument(data.data[0].documents));
+      }
     } catch (error) {
       ToastComponent(error.response.data.message, "error");
     }
