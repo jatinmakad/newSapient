@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import moment from "moment";
-import { Button} from "@mui/material";
+import { Button } from "@mui/material";
 import Header from "../Common/Header";
 const EntryDetails = () => {
   const dispatch = useDispatch();
@@ -20,6 +20,7 @@ const EntryDetails = () => {
       setData(updated);
     }
   }, [isAuth, id]);
+  console.log(data, "data");
 
   const innerP = "w-2/5 text-blue-700 font-medium";
   const innerText = "w-3/5";
@@ -88,40 +89,73 @@ const EntryDetails = () => {
           <div className="lg:w-1/2 md:w-1/2 flex flex-col w-full ">
             <div className={outerDiv}>
               <p className={innerP}>Policy No.</p>
-              <p className={innerText}>{data[0].policyNo}</p>
+              <p className={innerText}>
+                {data[0].policyNo ? data[0].policyNo : "-"}
+              </p>
             </div>
             <div className={outerDiv}>
               <p className={innerP}>Broker</p>
-              <p className={innerText}>{data[0].broker}</p>
+              <p className={innerText}>
+                {data[0].broker ? data[0].broker : "-"}
+              </p>
             </div>
             <div className={outerDiv}>
               <p className={innerP}>Broker Location</p>
-              <p className={innerText}>{data[0].brokerLocation}</p>
+              <p className={innerText}>
+                {data[0].brokerLocation ? data[0].brokerLocation : "-"}
+              </p>
             </div>
             <div className={outerDiv}>
               <p className={innerP}>Age</p>
-              <p className={innerText}>{data[0].age}</p>
+              <p className={innerText}>{data[0].age ? data[0].age : "-"}</p>
             </div>
 
             <div className={outerDiv}>
               <p className={innerP}>City</p>
-              <p className={innerText}>{data[0].city}</p>
+              <p className={innerText}>{data[0].city ? data[0].city : "-"}</p>
             </div>
             <div className={outerDiv}>
               <p className={innerP}>State</p>
-              <p className={innerText}>{data[0].state}</p>
+              <p className={innerText}>{data[0].state ? data[0].state : "-"}</p>
             </div>
             <div className={outerDiv}>
               <p className={innerP}>Intimation</p>
-              <p className={innerText}>{data[0].intimation}</p>
+              <p className={innerText}>
+                {data[0].intimation ? data[0].intimation : "-"}
+              </p>
             </div>
             <div className={outerDiv}>
               <p className={innerP}>Loss City</p>
-              <p className={innerText}>{data[0].lossCity}</p>
+              <p className={innerText}>
+                {data[0].lossCity ? data[0].lossCity : "-"}
+              </p>
             </div>
             <div className={outerDiv}>
               <p className={innerP}>Month</p>
-              <p className={innerText}> {moment(data[0].month).format("MM")}</p>
+              <p className={innerText}>
+                {" "}
+                {data[0].month ? moment(data[0].month).format("MM") : "-"}
+              </p>
+            </div>
+            <div className={outerDiv}>
+              <p className={innerP}>Current Job Status</p>
+              <p className={innerText}>
+                {data[0].currentJobStatus ? data[0].currentJobStatus : "-"}
+              </p>
+            </div>
+            <div className={outerDiv}>
+              <p className={innerP}>Current Job Holding Team</p>
+              <p className={innerText}>
+                {data[0].currentJobHoldingTeam
+                  ? data[0].currentJobHoldingTeam
+                  : "-"}
+              </p>
+            </div>
+            <div className={outerDiv}>
+              <p className={innerP}>Vehicle Number</p>
+              <p className={innerText}>
+                {data[0].vehicleNumber ? data[0].vehicleNumber : "-"}
+              </p>
             </div>
           </div>
         </div>
@@ -136,9 +170,7 @@ const EntryDetails = () => {
         </div>
       </div>
     </div>
-  ) : (
-    null
-  );
+  ) : null;
 };
 
 export default EntryDetails;

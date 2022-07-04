@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   DeletEntryFunction,
@@ -24,11 +24,19 @@ import { useTheme } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import Header from "../Common/Header";
 import TableLayout from "../Common/TableLayout/TableLayout";
+import { UpdateAssignFunction } from "../../Slice/ReportSlice";
+import axios from "axios";
+import { Engineering, Fire, Marine } from "../Common/Constant/Constant";
+import ToastComponent from "../Common/TaostComponent";
 const Survery = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [open, setOpen] = React.useState(false);
   const { isAuth, admin } = useSelector((state) => state.Login);
   const { entry, isLoading } = useSelector((state) => state.Entry.get);
+  const { updateAssignTaskSuccess } = useSelector(
+    (state) => state.Report.assignTask
+  );
   useEffect(() => {
     if (isAuth) {
       dispatch(GetEntryFunctionId(admin.user._id));
@@ -36,12 +44,36 @@ const Survery = () => {
     if (!isAuth) {
       navigate("/login");
     }
-  }, [isAuth]);
-  // const changeValue = (row, e) => {
-  //   dispatch(UpdateEntryStatusFunction(row, e.target.value));
-  // };
+    if (updateAssignTaskSuccess) {
+      setOpen(false);
+      dispatch(GetEntryFunctionId(admin.user._id));
+    }
+  }, [isAuth, updateAssignTaskSuccess]);
+  const [updatedData, setData] = useState("");
   const [searchInput, setSearchInput] = React.useState("");
-
+  const [selectData, setSelectData] = React.useState("");
+  const handleClickOpen = async (row) => {
+    setSelectData(row);
+    const { data } = await axios.get(
+      `https://sap-data-management-mcs.herokuapp.com/get-jobs-by-id?uniqueJobId=${selectData.uniqueJobId}`
+    );
+    if (data.success === true) {
+      let rowUploaded =
+        row.claimType === "Engineering"
+          ? Engineering
+          : row.claimType === "Fire"
+          ? Fire
+          : row.claimType === "Non-Marine"
+          ? Marine
+          : "";
+      let updatedArray = rowUploaded.map((x) => {
+        const item = data.data[0].documents.find((r) => r.name === x.name);
+        return item ? { ...x, ...item, uploaded: true } : x;
+      });
+      setOpen(true);
+      setData(updatedArray);
+    }
+  };
   // Table Functions
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -86,20 +118,19 @@ const Survery = () => {
                 <StyledTableCell align="left">
                   {moment(row.date).format("L")}
                 </StyledTableCell>
+                <StyledTableCell align="left">{row.insured}</StyledTableCell>
                 <StyledTableCell align="left">
-                  {/* <StatusColor status={row.status} /> */}
-                  {row.insured}
-                </StyledTableCell>
-                <StyledTableCell align="left">
-                  {row.currentJobStatus}
+                  <p
+                    className="text-blue-700 cursor-pointer"
+                    onClick={() => handleClickOpen(row)}
+                  >
+                    Mark Done
+                  </p>
                 </StyledTableCell>
                 <StyledTableCell
                   align="left"
                   style={{ display: "flex", alignItems: "center" }}
                 >
-                  {/* <Link to={`/survery-update/${row._id}`}>
-                    <EditIcon className="text-blue-700 cursor-pointer mr-3" />
-                  </Link> */}
                   <Link
                     to={`/upload-document/${row.uniqueJobId}/${row.claimType}`}
                   >
@@ -116,6 +147,14 @@ const Survery = () => {
               </TableRow>
             )} */}
           </TableBody>
+          <AssignToSurveyDialogBox
+            open={open}
+            setOpen={setOpen}
+            selectData={selectData}
+            admin={admin}
+            dispatch={dispatch}
+            updatedData={updatedData}
+          />
         </TableLayout>
       )}
     </div>
@@ -124,6 +163,55 @@ const Survery = () => {
 
 export default Survery;
 
+const AssignToSurveyDialogBox = ({
+  open,
+  dispatch,
+  setOpen,
+  selectData,
+  admin,
+  updatedData,
+}) => {
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const onSubmit = () => {
+    const taskData = {
+      userId: admin.user._id,
+      uniqueJobId: selectData.uniqueJobId,
+      currentJobHolder: selectData.entryHandledBy,
+    };
+    let condition = updatedData.every((r) => r.uploaded === true);
+    if (condition) {
+      dispatch(UpdateAssignFunction(taskData));
+    } else {
+      ToastComponent("Please Upload All Documents", "error");
+    }
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  return (
+    <Dialog
+      fullScreen={fullScreen}
+      open={open}
+      fullWidth
+      size={"lg"}
+      onClose={handleClose}
+      aria-labelledby="responsive-dialog-title"
+    >
+      <DialogTitle id="responsive-dialog-title">Mark Done</DialogTitle>
+      <DialogContent></DialogContent>
+      <DialogActions>
+        <Button variant="contained" onClick={onSubmit} color="info">
+          Submit
+        </Button>
+        <Button variant="contained" onClick={handleClose} color="error">
+          Cancel
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+};
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,

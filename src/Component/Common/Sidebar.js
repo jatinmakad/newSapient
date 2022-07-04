@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { Suspense, useEffect } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { SiShopware } from "react-icons/si";
 import { MdOutlineCancel } from "react-icons/md";
@@ -14,6 +14,7 @@ import {
   reportTeamManagerData,
   SurveryData,
 } from "../../data/Data";
+import Loader from "../Common/Loader";
 const Sidebar = () => {
   const { currentColor, activeMenu, setActiveMenu, screenSize } =
     useStateContext();
@@ -73,20 +74,22 @@ const Sidebar = () => {
           </div>
           <div className="mt-8">
             {condition.map((item) => (
-              <NavLink
-                to={`${item.click}`}
-                key={item.text}
-                onClick={handleCloseSideBar}
-                style={({ isActive }) => ({
-                  backgroundColor: isActive ? currentColor : "",
-                })}
-                className={({ isActive }) =>
-                  isActive ? activeLink : normalLink
-                }
-              >
-                {item.icon}
-                <span className="capitalize ">{item.text}</span>
-              </NavLink>
+              <Suspense fallback={<Loader />}>
+                <NavLink
+                  to={`${item.click}`}
+                  key={item.text}
+                  onClick={handleCloseSideBar}
+                  style={({ isActive }) => ({
+                    backgroundColor: isActive ? currentColor : "",
+                  })}
+                  className={({ isActive }) =>
+                    isActive ? activeLink : normalLink
+                  }
+                >
+                  {item.icon}
+                  <span className="capitalize ">{item.text}</span>
+                </NavLink>
+              </Suspense>
             ))}
           </div>
         </>

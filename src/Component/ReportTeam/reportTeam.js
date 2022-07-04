@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import ReportTable from "./reportTable";
 import Header from "../Common/Header";
+import Loader from "../Common/Loader";
 const ReportTeam = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ const ReportTeam = () => {
       <ReportTable searchInput={searchInput} />
     </div>
   ) : (
-    ""
+    <Loader/>
   );
 };
 

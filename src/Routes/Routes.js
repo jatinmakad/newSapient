@@ -67,7 +67,7 @@ const SurveryUpdate = lazy(() => import("../Component/Survery/SurveryUpdate"));
 
 const RoutesPage = () => {
   return (
-    <Suspense fallback={<Loader />}>
+    <Suspense fallback={<Loader/>}>
       <Routes>
         <Route path="/" element={<Navigate replace to="/login" />} />
         <Route path={"/login"} element={<Login />} />
@@ -101,7 +101,10 @@ const RoutesPage = () => {
         />
         <Route path={"/survery"} element={<Survery />} />
         <Route path={"/survery-update/:id"} element={<SurveryUpdate />} />
-        <Route path={"/upload-document/:id/:type"} element={<UploadDocumentMain />} />
+        <Route
+          path={"/upload-document/:id/:type"}
+          element={<UploadDocumentMain />}
+        />
         <Route path="/not-found" element={<NotFound />} />
         <Route path="*" element={<Navigate replace to="/not-found" />} />
       </Routes>

@@ -78,17 +78,9 @@ const CoordinationTable = () => {
     isLoading ? (
       <Loader />
     ) : entry.data && !entry.data.length ? (
-      <>
-      <div className="w-full flex justify-center items-center">
-        <img src={Image} className="w-1/2" />
-      </div>
-       <p
-       className="text-red-600 cursor-pointer"
-       onClick={() => handleClickOpen4()}
-     >
-       Discrepancy
-     </p>
-     </>
+        <div className="w-full flex justify-center items-center">
+          <img src={Image} className="w-1/2" />
+        </div>
     ) : (
       <>
         <TableLayout
@@ -126,32 +118,36 @@ const CoordinationTable = () => {
                   {/* <StatusColor status={row.status} /> */}
                   {row.currentJobStatus}
                 </StyledTableCell>
-                <StyledTableCell align="left">
-                  <div className="flex justify-start items-left">
-                    {row.currentJobHoldingTeam !== "COORDINATION TEAM" ? (
-                      "DONE BY COORDINATION TEAM"
-                    ) : (
-                      <div className="flex justify-around items-center w-full">
-                        <Link to={`/update-coordination/${row.uniqueJobId}`}>
-                          <EditIcon className="text-blue-700 cursor-pointer" />
-                        </Link>
-                        &nbsp; &nbsp;
-                        <p
-                          onClick={() => handleClickOpen2(row)}
-                          className="text-blue-600 cursor-pointer"
-                        >
-                          Status
-                        </p>
-                        <p
-                          className="text-red-600 cursor-pointer"
-                          onClick={() => handleClickOpen4(row)}
-                        >
-                          Discrepancy
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                </StyledTableCell>
+                {admin.user.role === "admin" ? (
+                  ""
+                ) : (
+                  <StyledTableCell align="left">
+                    <div className="flex justify-start items-left">
+                      {row.currentJobHoldingTeam !== "COORDINATION TEAM" ? (
+                        "DONE BY COORDINATION TEAM"
+                      ) : (
+                        <div className="flex justify-around items-center w-full">
+                          <Link to={`/update-coordination/${row.uniqueJobId}`}>
+                            <EditIcon className="text-blue-700 cursor-pointer" />
+                          </Link>
+                          &nbsp; &nbsp;
+                          <p
+                            onClick={() => handleClickOpen2(row)}
+                            className="text-blue-600 cursor-pointer"
+                          >
+                            Status
+                          </p>
+                          <p
+                            className="text-red-600 cursor-pointer"
+                            onClick={() => handleClickOpen4(row)}
+                          >
+                            Discrepancy
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </StyledTableCell>
+                )}
               </TableRow>
             ))}
           </TableBody>
@@ -217,6 +213,7 @@ const headerCell = [
     value: "Status",
     align: "left",
   },
+
   {
     value: "Action",
     align: "center",
