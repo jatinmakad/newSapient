@@ -36,7 +36,11 @@ import LastPageOutlined from "@mui/icons-material/LastPageOutlined";
 import Image from "../Assets/noresult.webp";
 import TableLayout from "../Common/TableLayout/TableLayout";
 import CommentDialog from "../Common/CommentDialog";
-const ReportTable = () => {
+const ReportTable = ({ searchInput,
+  page,
+  setPage,
+  rowsPerPage,
+  setRowsPerPage}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isAuth, admin } = useSelector((state) => state.Login);
@@ -46,18 +50,20 @@ const ReportTable = () => {
   );
   const [open2, setOpen2] = React.useState(false);
   const [selectData, setSelectData] = React.useState("");
+
   useEffect(() => {
-    if (isAuth) {
-      dispatch(GetEntryFunctionId(admin.user._id));
-    }
+  
+    // if (isAuth) {
+    //   dispatch(GetEntryFunctionId(admin.user._id));
+    // }
     if (isAuth === false) {
       navigate("/login");
     }
     if (updateStatusSuccess) {
-      dispatch(GetEntryFunctionId(admin.user._id));
+      // dispatch(GetEntryFunctionId(admin.user._id));
       setOpen2(false);
     }
-  }, [isAuth, updateStatusSuccess]);
+  }, [isAuth,updateStatusSuccess]);
 
   const [open4, setOpen4] = React.useState(false);
   const [selectData4, setSelectData4] = React.useState("");
@@ -75,13 +81,7 @@ const ReportTable = () => {
   const handleClose2 = () => {
     setOpen2(false);
   };
-  const [searchInput, setSearchInput] = React.useState("");
 
-  // Table Function
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - entry.data.length) : 0;
   return isAuth && entry.data ? (
     isLoading ? (
       <Loader />
@@ -93,7 +93,7 @@ const ReportTable = () => {
       <>
         <TableLayout
           headerCell={headerCell}
-          data={entry.data}
+          data={entry.total}
           page={page}
           setPage={setPage}
           rowsPerPage={rowsPerPage}
@@ -102,10 +102,7 @@ const ReportTable = () => {
           <TableBody>
             {(
               entry.data &&
-              entry.data.slice(
-                page * rowsPerPage,
-                page * rowsPerPage + rowsPerPage
-              )
+              entry.data
             ).map((row, index) => (
               <TableRow sx={{ border: "none" }}>
                 <StyledTableCell component="th" scope="row">

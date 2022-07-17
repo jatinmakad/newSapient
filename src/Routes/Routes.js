@@ -1,5 +1,6 @@
 import React, { lazy, Suspense } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
+import AccountTeamAdmin from "../Component/Account/AccountTeamAdmin";
 // import Dashboard from "../Component/Dashboard/Dashboard";
 // import Entry from "../Component/Entry/Entry";
 // import Login from "../Component/Login/Login";
@@ -35,6 +36,12 @@ import { Routes, Route, Navigate } from "react-router-dom";
 // import AssignTaskReportTeam from "../Component/ReportTeamManager/AssignTaskReportTeam";
 import Loader from "../Component/Common/Loader";
 import NotFound from "../Component/Common/NotFound";
+// import AdminCoordinationTeam from "../Component/Coordination/AdminCoordinationTeam";
+// import AdminEntryTeam from "../Component/Entry/AdminEntryTeam";
+// import AdminReportTeam from "../Component/ReportTeam/AdminReportTeam";
+const AdminCoordinationTeam = lazy(() => import("../Component/Coordination/AdminCoordinationTeam"));
+const AdminEntryTeam = lazy(() => import("../Component/Entry/AdminEntryTeam"));
+const AdminReportTeam = lazy(() => import("../Component/ReportTeam/AdminReportTeam"));
 const Dashboard = lazy(() => import("../Component/Dashboard/Dashboard"));
 const Entry = lazy(() => import("../Component/Entry/Entry"));
 const Login = lazy(() => import("../Component/Login/Login"));
@@ -74,6 +81,7 @@ const RoutesPage = () => {
         <Route path={"/dashboard"} element={<Dashboard />} />
         /* Entry */
         <Route path={"/entry"} element={<Entry />} />
+        <Route path={"/entry-admin"} element={<AdminEntryTeam/>} />
         <Route path={"/create-entry"} element={<CreateEntry />} />
         <Route path={"/update-entry/:id"} element={<UpdateEntry />} />
         <Route path={"/entry-details/:id"} element={<EntryDetails />} />
@@ -83,13 +91,16 @@ const RoutesPage = () => {
         <Route path={"/create-user"} element={<CreateUser />} />
         /* Coordination */
         <Route path={"/coordination"} element={<Coordination />} />
+        <Route path={"/coordination-admin"} element={<AdminCoordinationTeam/>} />
         <Route
           path={"/update-coordination/:id"}
           element={<UpdateCoordination />}
         />
         <Route path={"/assign-task"} element={<AssignTask />} />
+        <Route path={"/account-admin"} element={<AccountTeamAdmin />} />
         /* REPORT */
         <Route path={"/report-team"} element={<ReportTeam />} />
+        <Route path={"/report-team-admin"} element={<AdminReportTeam />} />
         {/* <Route
           path={"/update-coordination/:id"}
           element={<UpdateCoordination />}

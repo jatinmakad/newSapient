@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   DeletEntryFunction,
+  GetEntryFunction,
   GetEntryFunctionId,
   UpdateEntryStatusFunction,
 } from "../../Slice/EntrySlice";
@@ -37,20 +38,26 @@ const Survery = () => {
   const { updateAssignTaskSuccess } = useSelector(
     (state) => state.Report.assignTask
   );
+  const [searchInput, setSearchInput] = React.useState("");
+  // Table Functions
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
   useEffect(() => {
-    if (isAuth) {
-      dispatch(GetEntryFunctionId(admin.user._id));
+    if (isAuth || page || searchInput || updateAssignTaskSuccess) {
+      let count = Number(`${page}0`);
+      dispatch(GetEntryFunction(count, "", searchInput, admin.user._id));
     }
     if (!isAuth) {
       navigate("/login");
     }
     if (updateAssignTaskSuccess) {
       setOpen(false);
-      dispatch(GetEntryFunctionId(admin.user._id));
+      // dispatch(GetEntryFunctionId(admin.user._id));
     }
-  }, [isAuth, updateAssignTaskSuccess]);
+  }, [isAuth, updateAssignTaskSuccess, page, searchInput]);
   const [updatedData, setData] = useState("");
-  const [searchInput, setSearchInput] = React.useState("");
+
   const [selectData, setSelectData] = React.useState("");
   const handleClickOpen = async (row) => {
     setSelectData(row);
@@ -74,16 +81,14 @@ const Survery = () => {
       setData(updatedArray);
     }
   };
-  // Table Functions
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - entry.data.length) : 0;
 
   return isAuth && entry.data ? (
     <div className="m-2 md:m-10 mt-4 p-2 md:p-5 rounded-3xl">
       <Header title="Survey" />
-      <TableHeaderLayout setSearchInput={setSearchInput} />
+      <TableHeaderLayout
+        searchInput={searchInput}
+        setSearchInput={setSearchInput}
+      />
       {isLoading ? (
         <Loader />
       ) : entry.data && !entry.data.length ? (
@@ -93,20 +98,14 @@ const Survery = () => {
       ) : (
         <TableLayout
           headerCell={headerCell}
-          data={entry.data}
+          data={entry.total}
           page={page}
           setPage={setPage}
           rowsPerPage={rowsPerPage}
           setRowsPerPage={setRowsPerPage}
         >
           <TableBody>
-            {(
-              entry.data &&
-              entry.data.slice(
-                page * rowsPerPage,
-                page * rowsPerPage + rowsPerPage
-              )
-            ).map((row, index) => (
+            {(entry.data && entry.data).map((row, index) => (
               <TableRow sx={{ border: "none" }}>
                 <StyledTableCell component="th" scope="row">
                   {index + 1}

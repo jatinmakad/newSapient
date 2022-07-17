@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { GetEntryDoneFunction } from "../../../Slice/EntrySlice";
+import {
+  GetEntryDoneFunction,
+  GetEntryFunction,
+} from "../../../Slice/EntrySlice";
 import { useNavigate } from "react-router-dom";
 import TableHeaderLayout from "../../Common/TableLayout/TableHeaderLayout";
 import TableBody from "@mui/material/TableBody";
@@ -34,10 +37,20 @@ const AssignTask = () => {
   );
   const [open, setOpen] = React.useState(false);
   const [selectData, setSelectData] = useState("");
+
+  // Table Function
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
   useEffect(() => {
     if (isAuth) {
-      dispatch(GetEntryDoneFunction(admin.user.team));
+      let count = Number(`${page}0`);
+      dispatch(GetEntryFunction(count, admin.user.team));
       dispatch(GetUserFunction());
+    }
+    if (page) {
+      let count = Number(`${page}0`);
+      dispatch(GetEntryFunction(count, admin.user.team));
     }
     if (isAuth === false) {
       navigate("/login");
@@ -45,7 +58,7 @@ const AssignTask = () => {
     if (updateAssignTaskSuccess) {
       setOpen(false);
     }
-  }, [isAuth, updateAssignTaskSuccess]);
+  }, [isAuth, updateAssignTaskSuccess, page]);
   const handleClickOpen = (row) => {
     setOpen(true);
     setSelectData(row);
@@ -61,12 +74,7 @@ const AssignTask = () => {
       return r.role === "COORDINATION TEAM EMPLOYEE";
     });
 
-  // Table Function
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - entry.data.length) : 0;
-
+  console.log(entry, "entry");
   return isAuth && entry.data ? (
     <div className="m-2 md:m-10  mt-4 p-2 md:p-5 rounded-3xl">
       <Header title="Assign Task" />
@@ -80,20 +88,14 @@ const AssignTask = () => {
       ) : (
         <TableLayout
           headerCell={headerCell}
-          data={entry.data}
+          data={entry.total}
           page={page}
           setPage={setPage}
           rowsPerPage={rowsPerPage}
           setRowsPerPage={setRowsPerPage}
         >
           <TableBody>
-            {(
-              entry.data &&
-              entry.data.slice(
-                page * rowsPerPage,
-                page * rowsPerPage + rowsPerPage
-              )
-            ).map((row, index) => (
+            {(entry.data && entry.data).map((row, index) => (
               <TableRow sx={{ border: "none" }}>
                 <StyledTableCell component="th" scope="row">
                   {index + 1}
@@ -120,11 +122,11 @@ const AssignTask = () => {
                 )}
               </TableRow>
             ))}
-            {emptyRows > 0 && (
+            {/* {emptyRows > 0 && (
               <TableRow style={{ height: 53 * emptyRows }}>
                 <TableCell colSpan={6} />
               </TableRow>
-            )}
+            )} */}
           </TableBody>
           <AssignDialogBox
             open={open}

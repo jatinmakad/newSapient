@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   DeletEntryFunction,
+  GetEntryFunction,
   GetEntryFunctionId,
   UpdateEntryStatusFunction,
 } from "../../../Slice/EntrySlice";
@@ -47,25 +48,32 @@ const YourWork = () => {
   const [open2, setOpen2] = React.useState(false);
   const [open3, setOpen3] = React.useState(false);
   const [open4, setOpen4] = React.useState(false);
+  const [searchInput, setSearchInput] = React.useState("");
+  // Table Functions
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
   useEffect(() => {
-    if (isAuth) {
-      dispatch(GetEntryFunctionId(admin.user._id));
+    if (isAuth || page || searchInput) {
+      let count = Number(`${page}0`);
+      dispatch(GetEntryFunction(count, "", searchInput, admin.user._id));
     }
     if (!isAuth) {
       navigate("/login");
     }
     if (deleteSuccess) {
-      dispatch(GetEntryFunctionId(admin.user._id));
+      let count = Number(`${page}0`);
+      dispatch(GetEntryFunction(count, "", searchInput, admin.user._id));
       setOpen(false);
     }
     if (updateStatusSuccess) {
-      dispatch(GetEntryFunctionId(admin.user._id));
+      let count = Number(`${page}0`);
+      dispatch(GetEntryFunction(count, "", searchInput, admin.user._id));
       setOpen2(false);
     }
     if (updateAssignTaskSuccess) {
       setOpen3(false);
     }
-  }, [isAuth, deleteSuccess, updateStatusSuccess, updateAssignTaskSuccess]);
+  }, [isAuth, deleteSuccess, updateStatusSuccess, updateAssignTaskSuccess,page,searchInput]);
 
   const [id, setId] = React.useState("");
   const [selectData, setSelectData] = React.useState("");
@@ -108,18 +116,11 @@ const YourWork = () => {
   // const changeValue = (row, e) => {
   //   dispatch(UpdateEntryStatusFunction(row, e.target.value));
   // };
-  const [searchInput, setSearchInput] = React.useState("");
 
-  // Table Functions
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - entry.data.length) : 0;
-    console.log(entry.data,"datata")
   return isAuth && entry.data ? (
     <div className="m-2 md:m-10 mt-4 p-2 md:p-5 rounded-3xl">
       <Header title="Your Work" />
-      <TableHeaderLayout setSearchInput={setSearchInput} />
+      <TableHeaderLayout searchInput={searchInput} setSearchInput={setSearchInput} />
       {isLoading ? (
         <Loader />
       ) : entry.data && !entry.data.length ? (
@@ -129,20 +130,14 @@ const YourWork = () => {
       ) : (
         <TableLayout
           headerCell={headerCell}
-          data={entry.data}
+          data={entry.total}
           page={page}
           setPage={setPage}
           rowsPerPage={rowsPerPage}
           setRowsPerPage={setRowsPerPage}
         >
           <TableBody>
-            {(
-              entry.data &&
-              entry.data.slice(
-                page * rowsPerPage,
-                page * rowsPerPage + rowsPerPage
-              )
-            ).map((row, index) => (
+            {(entry.data && entry.data).map((row, index) => (
               <TableRow sx={{ border: "none" }}>
                 <StyledTableCell component="th" scope="row">
                   {index + 1}
@@ -164,7 +159,17 @@ const YourWork = () => {
                 <StyledTableCell align="left">
                   <div className="flex justify-evenly items-center">
                     {row.currentJobHoldingTeam !== "ENTRY TEAM" ? (
-                      "DONE BY ENTRY TEAM"
+                      <>
+                        <p>DONE BY ENTRY TEAM</p>
+                        <Link
+                          to={`/entry-details/${row._id}`}
+                          state={"yourWork"}
+                        >
+                          <p className="text-blue-600 flex justify-center w-full cursor-pointer">
+                            View More
+                          </p>
+                        </Link>
+                      </>
                     ) : (
                       <>
                         <Link to={`/update-entry/${row.uniqueJobId}`}>
@@ -248,7 +253,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
-    color: "black"
+    color: "black",
   },
 }));
 

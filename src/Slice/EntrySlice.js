@@ -114,11 +114,14 @@ export const {
 } = actions;
 export default EntrySlice.reducer;
 const config = { headers: { "Content-Type": "application/json" } };
-export const GetEntryFunction = () => {
+export const GetEntryFunction = (skip, current, refrenceNo, currentjobId) => {
+  let updated = current ? current : "";
+  let updaedQuery = refrenceNo ? refrenceNo : "";
+  let updatedId = currentjobId ? currentjobId : "";
   return async (dispatch) => {
     try {
       dispatch(GetEntryPending());
-      let link = `https://sap-data-management-mcs.herokuapp.com/get-job-lists`;
+      let link = `http://localhost:4000/get-job-lists?currentJobHoldingTeam=${updated}&skip=${skip}&limit=10&searchQuery=${updaedQuery}&currentJobHolder=${updatedId}`;
       const { data } = await axios.get(link);
       dispatch(GetEntrySuccess(data));
     } catch (error) {
@@ -127,33 +130,33 @@ export const GetEntryFunction = () => {
     }
   };
 };
-export const GetEntryDoneFunction = (current) => {
-  return async (dispatch) => {
-    try {
-      dispatch(GetEntryPending());
-      let link = `https://sap-data-management-mcs.herokuapp.com/get-job-lists?currentJobHoldingTeam=${current}`;
-      const { data } = await axios.get(link);
-      dispatch(GetEntrySuccess(data));
-    } catch (error) {
-      ToastComponent("Somthing went wrong", "error");
-      dispatch(GetEntryFail(error));
-    }
-  };
-};
+// export const GetEntryDoneFunction = (current) => {
+//   return async (dispatch) => {
+//     try {
+//       dispatch(GetEntryPending());
+//       let link = `https://sap-data-management-mcs.herokuapp.com/get-job-lists?currentJobHoldingTeam=${current}`;
+//       const { data } = await axios.get(link);
+//       dispatch(GetEntrySuccess(data));
+//     } catch (error) {
+//       ToastComponent("Somthing went wrong", "error");
+//       dispatch(GetEntryFail(error));
+//     }
+//   };
+// };
 
-export const GetEntryFunctionId = (id) => {
-  return async (dispatch) => {
-    try {
-      dispatch(GetEntryPending());
-      let link = `https://sap-data-management-mcs.herokuapp.com/view-my-jobs?currentJobHolder=${id}`;
-      const { data } = await axios.get(link);
-      dispatch(GetEntrySuccess(data));
-    } catch (error) {
-      ToastComponent("Somthing went wrong", "error");
-      dispatch(GetEntryFail(error));
-    }
-  };
-};
+// export const GetEntryFunctionId = (id) => {
+//   return async (dispatch) => {
+//     try {
+//       dispatch(GetEntryPending());
+//       let link = `https://sap-data-management-mcs.herokuapp.com/view-my-jobs?currentJobHolder=${id}`;
+//       const { data } = await axios.get(link);
+//       dispatch(GetEntrySuccess(data));
+//     } catch (error) {
+//       ToastComponent("Somthing went wrong", "error");
+//       dispatch(GetEntryFail(error));
+//     }
+//   };
+// };
 
 export const CreateEntryFunction = (Data) => {
   return async (dispatch) => {
@@ -178,7 +181,7 @@ export const CreateEntryFunction = (Data) => {
 };
 
 export const DeletEntryFunction = (id) => {
-  console.log(id,"=========id     ")
+  console.log(id, "=========id     ");
   return async (dispatch) => {
     try {
       const { data } = await axios.delete(
@@ -190,7 +193,7 @@ export const DeletEntryFunction = (id) => {
       }
       dispatch(DeleteEntryCleanup());
     } catch (error) {
-      ToastComponent("Something went wrong!","error");
+      ToastComponent("Something went wrong!", "error");
     }
   };
 };
@@ -248,7 +251,7 @@ export const uploadDocuments = (Data) => {
       }
       dispatch(UpdateDocumentAfter());
     } catch (err) {
-      ToastComponent("Something went wrong!","error");
+      ToastComponent("Something went wrong!", "error");
     }
   };
 };
@@ -316,3 +319,25 @@ export const UpdateEntryStatusFunction3 = (row, currentStatus) => {
     dispatch(UpdateEntryStatusCleanup());
   };
 };
+
+// export const UpdateEntryStatusFunction5 = (row, currentStatus) => {
+//   // let currentJobHolding = "Open";
+//   // if (currentStatus === "OPEN-FOR-NEXT-TEAM") {
+//   //   currentJobHolding = "REPORT TEAM";
+//   // } else {
+//   //   currentJobHolding = "COORDINATION TEAM";
+//   // }
+//   return async (dispatch) => {
+//     const config = { headers: { "Content-Type": "application/json" } };
+//     dispatch(UpdateEntryStatusBefore());
+//     const { data } = await axios.post(
+//       `https://sap-data-management-mcs.herokuapp.com/update-task-status?uniqueJobId=${row.uniqueJobId}&previousJobHoldingTeam=${row.currentJobHoldingTeam}&currentJobHoldingTeam=${currentJobHolding}&currentJobStatus=OPEN&previousJobStatus=IN-PROGRESS`,
+//       config
+//     );
+//     if (data.success === true) {
+//       dispatch(UpdateEntryStatus());
+//       ToastComponent("Entry Status Updated SuccessFully", "success");
+//     }
+//     dispatch(UpdateEntryStatusCleanup());
+//   };
+// };

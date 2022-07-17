@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  GetEntryFunction,
   GetEntryFunctionId,
   UpdateEntryStatusFunction2,
 } from "../../Slice/EntrySlice";
@@ -23,7 +24,6 @@ import moment from "moment";
 import Image from "../Assets/noresult.webp";
 import TableLayout from "../Common/TableLayout/TableLayout";
 import CommentDialog from "../Common/CommentDialog";
-import { UpdateCommentFunction } from "../../Slice/CoordinationSlice";
 
 const CoordinationTable = () => {
   const dispatch = useDispatch();
@@ -35,19 +35,24 @@ const CoordinationTable = () => {
   );
   const [open2, setOpen2] = React.useState(false);
   const [selectData, setSelectData] = React.useState("");
+  const [searchInput, setSearchInput] = React.useState("");
+  // Table Function
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
   useEffect(() => {
-    if (isAuth) {
-      dispatch(GetEntryFunctionId(admin.user._id));
+    if (isAuth || page || searchInput || updateStatusSuccess) {
+      let count = Number(`${page}0`);
+      dispatch(GetEntryFunction(count, "", searchInput, admin.user._id));
     }
 
     if (isAuth === false) {
       navigate("/login");
     }
     if (updateStatusSuccess) {
-      dispatch(GetEntryFunctionId(admin.user._id));
       setOpen2(false);
     }
-  }, [isAuth, updateStatusSuccess]);
+  }, [isAuth, updateStatusSuccess, page, searchInput]);
 
   const [open4, setOpen4] = React.useState(false);
   const [selectData4, setSelectData4] = React.useState("");
@@ -65,27 +70,19 @@ const CoordinationTable = () => {
   const handleClose4 = () => {
     setOpen4(false);
   };
-  const [searchInput, setSearchInput] = React.useState("");
 
-  // Table Function
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
-
-  console.log(entry.data);
   return entry && isAuth ? (
     isLoading ? (
       <Loader />
     ) : entry.data && !entry.data.length ? (
-        <div className="w-full flex justify-center items-center">
-          <img src={Image} className="w-1/2" />
-        </div>
+      <div className="w-full flex justify-center items-center">
+        <img src={Image} className="w-1/2" />
+      </div>
     ) : (
       <>
         <TableLayout
           headerCell={headerCell}
-          data={entry.data}
+          data={entry.total}
           page={page}
           setPage={setPage}
           rowsPerPage={rowsPerPage}
@@ -94,10 +91,7 @@ const CoordinationTable = () => {
           <TableBody>
             {(
               entry.data &&
-              entry.data.slice(
-                page * rowsPerPage,
-                page * rowsPerPage + rowsPerPage
-              )
+              entry.data
             ).map((row, index) => (
               <TableRow sx={{ border: "none" }}>
                 <StyledTableCell component="th" scope="row">

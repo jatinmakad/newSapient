@@ -11,6 +11,9 @@ const initialState = {
     isLoading: false,
     error: "",
   },
+  deleteuser: {
+    success: false,
+  },
 };
 const RegisterSlice = createSlice({
   name: "Register",
@@ -41,6 +44,12 @@ const RegisterSlice = createSlice({
     RegisterFail: (state, { payload }) => {
       state.register.error = payload;
     },
+    DeleteUserBefore: (state, { payload }) => {
+      state.deleteuser.success = true;
+    },
+    DeleteUserAfter: (state, { payload }) => {
+      state.deleteuser.success = false;
+    },
   },
 });
 
@@ -53,6 +62,8 @@ export const {
   RegisterPending,
   RegisterSuccess,
   RegisterSuccessAfter,
+  DeleteUserAfter,
+  DeleteUserBefore,
 } = actions;
 export default RegisterSlice.reducer;
 
@@ -78,26 +89,14 @@ export const RegisterFunction = (Data) => {
   };
 };
 
-export const GetUserFunction = () => {
+export const GetUserFunction = (user, count, team) => {
+  let search = user ? user : "";
+  let countText = count ? count : "";
+  let updatedTeam = team ? team : "";
   return async (dispatch) => {
     try {
       dispatch(GetUserPending());
-
-      let link = "https://sap-user-microservice.herokuapp.com/getUsers";
-      const { data } = await axios.get(link);
-      dispatch(GetUserSuccess(data));
-    } catch (error) {
-      ToastComponent(error.response.data.message, "error");
-      dispatch(GetUserFail(error));
-    }
-  };
-};
-
-export const GetUserFunctionSearch = (search) => {
-  return async (dispatch) => {
-    try {
-      dispatch(GetUserPending());
-      let link = `https://sap-user-microservice.herokuapp.com/getUsers?name=${search}`;
+      let link = `http://localhost:5000/getUsers?searchKey=${search}&skip=${countText}&limit=10&team=${updatedTeam}`;
       const { data } = await axios.get(link);
       dispatch(GetUserSuccess(data));
     } catch (error) {
@@ -116,6 +115,25 @@ export const GetUserFunctionCity = (search) => {
       dispatch(GetUserSuccess(data));
     } catch (error) {
       ToastComponent(error.response.data.message, "error");
+      dispatch(GetUserFail(error));
+    }
+  };
+};
+
+export const DeleteUserFunction = (id) => {
+  const config = { headers: { "Content-Type": "application/json" } };
+  return async (dispatch) => {
+    try {
+      let link = `http://localhost:5000/delete-user?id=${id}`;
+      const { data } = await axios.put(link, config);
+      console.log(data, "Data");
+      if (data.success === true) {
+        dispatch(DeleteUserBefore());
+        ToastComponent("User Deleted Succesfully", "success");
+      }
+      dispatch(DeleteUserAfter());
+    } catch (error) {
+      ToastComponent("Something went wrong", "error");
       dispatch(GetUserFail(error));
     }
   };

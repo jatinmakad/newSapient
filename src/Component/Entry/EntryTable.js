@@ -13,12 +13,19 @@ import { DeletEntryFunction, GetEntryFunction } from "../../Slice/EntrySlice";
 import Image from "../Assets/noresult.webp";
 import TableLayout from "../Common/TableLayout/TableLayout";
 
-export default function EntryTable({ searchInput }) {
+export default function EntryTable({
+  searchInput,
+  page,
+  setPage,
+  rowsPerPage,
+  setRowsPerPage,
+}) {
   const { entry, isLoading } = useSelector((state) => state.Entry.get);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { isAuth, admin } = useSelector((state) => state.Login);
   const { deleteSuccess } = useSelector((state) => state.Entry.delete);
+
   useEffect(() => {
     if (isAuth === false) {
       navigate("/login");
@@ -43,14 +50,7 @@ export default function EntryTable({ searchInput }) {
   const deleteAction = (id) => {
     dispatch(DeletEntryFunction(id));
   };
-
-  // Table Layout Function
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - entry.data.length) : 0;
-    
-console.log(entry.data)
+  //  console.log(entry,"entry")
   return isLoading ? (
     <Loader />
   ) : entry.data && entry.data.length === 0 ? (
@@ -60,22 +60,21 @@ console.log(entry.data)
   ) : (
     <TableLayout
       headerCell={headerCell}
-      data={entry.data}
+      data={entry.total}
       page={page}
       setPage={setPage}
       rowsPerPage={rowsPerPage}
       setRowsPerPage={setRowsPerPage}
     >
       <TableBody>
-        {(
-          entry.data &&
-          entry.data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-        ).map((row, index) => (
+        {(entry.data && entry.data).map((row, index) => (
           <TableRow sx={{ border: "none" }}>
             <StyledTableCell component="th" scope="row">
               {index + 1}
             </StyledTableCell>
-            <StyledTableCell align="left">{row.reportRefrenceNo}</StyledTableCell>
+            <StyledTableCell align="left">
+              {row.reportRefrenceNo}
+            </StyledTableCell>
             <StyledTableCell align="left">{row.city}</StyledTableCell>
             <StyledTableCell align="left">
               {moment(row.date).format("L")}
@@ -107,11 +106,12 @@ console.log(entry.data)
             )}
           </TableRow>
         ))}
-        {emptyRows > 0 && (
+        {/* {emptyRows > 0 && (
           <TableRow style={{ height: 53 * emptyRows }}>
             <TableCell colSpan={6} />
           </TableRow>
-        )}
+        )} */}
+
       </TableBody>
     </TableLayout>
   );

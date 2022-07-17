@@ -1,8 +1,8 @@
 import { IoMdContacts } from "react-icons/io";
-import {MdDashboard} from "react-icons/md"
-import {BsFillFileBreakFill} from "react-icons/bs"
-import {RiTeamFill} from "react-icons/ri"
-import {HiDocumentDuplicate} from "react-icons/hi"
+import { MdDashboard } from "react-icons/md";
+import { BsFillFileBreakFill } from "react-icons/bs";
+import { RiTeamFill } from "react-icons/ri";
+import { HiDocumentDuplicate } from "react-icons/hi";
 export const EntryData = [
   {
     text: "Dashboard",
@@ -18,7 +18,7 @@ export const EntryData = [
     text: "Your Work",
     icon: <IoMdContacts />,
     click: "/your-work",
-  }
+  },
 ];
 
 export const CoordinationData = [
@@ -68,17 +68,17 @@ export const adminData = [
   {
     text: "Entry Team",
     icon: <HiDocumentDuplicate />,
-    click: "/entry",
+    click: "/entry-admin",
   },
   {
     text: "Report Team",
     icon: <BsFillFileBreakFill />,
-    click: "/report-team",
+    click: "/report-team-admin",
   },
   {
     text: "Cordination Team",
     icon: <RiTeamFill />,
-    click: "/coordination",
+    click: "/coordination-admin",
   },
   // {
   //   text: "Checking Team",
@@ -94,6 +94,16 @@ export const adminData = [
     text: "User Management",
     icon: <IoMdContacts />,
     click: "/user",
+  },
+  {
+    text: "Jobs",
+    icon: <IoMdContacts />,
+    click: "/entry",
+  },
+  {
+    text: "Account Team",
+    icon: <IoMdContacts />,
+    click: "/account-admin",
   },
   // {
   //   text: "Log out",

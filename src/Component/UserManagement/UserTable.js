@@ -8,72 +8,89 @@ import Loader from "../Common/Loader";
 import { useNavigate } from "react-router-dom";
 import Image from "../Assets/noresult.webp";
 import TableLayout from "../Common/TableLayout/TableLayout";
-
-export default function UserTable({ searchInput }) {
-  const { data } = useSelector((state) => state.Register.get.users);
+import DeleteDialog from "../Common/DeleteDialog";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { DeleteUserFunction } from "../../Slice/RegisterSlice";
+export default function UserTable({
+  page,
+  setPage,
+  rowsPerPage,
+  setRowsPerPage,
+}) {
+  const { users } = useSelector((state) => state.Register.get);
   const { isLoading } = useSelector((state) => state.Register.get);
+  const { success } = useSelector((state) => state.Register.deleteuser);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { isAuth } = useSelector((state) => state.Login);
+  const [open, setOpen] = React.useState(false);
+  const [id, setId] = React.useState("");
   useEffect(() => {
     if (isAuth === false) {
       navigate("/login");
     }
-  }, [isAuth]);
+    if (success) {
+      setOpen(false);
+    }
+  }, [isAuth, success]);
 
-  // Table Layout Functions
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
-
+  const handleClickDeleteOpen = (id) => {
+    setOpen(true);
+    setId(id);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const deleteAction = (p) => {
+    dispatch(DeleteUserFunction(p));
+  };
   return isAuth ? (
     isLoading ? (
       <Loader />
-    ) : data && data.length === 0 ? (
+    ) : users.data && users.data.length === 0 ? (
       <div className="w-full flex justify-center items-center">
         <img src={Image} className="w-1/2" />
       </div>
     ) : (
-      <TableLayout
-        headerCell={headerCell}
-        data={data}
-        page={page}
-        setPage={setPage}
-        rowsPerPage={rowsPerPage}
-        setRowsPerPage={setRowsPerPage}
-      >
-        <TableBody>
-          {(
-            data &&
-            data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-          ).map((row, index) => (
-            <TableRow sx={{ border: "none" }}>
-              <StyledTableCell component="th" scope="row">
-                {index + 1}
-              </StyledTableCell>
-              <StyledTableCell align="left">{row.name}</StyledTableCell>
-              <StyledTableCell align="left">{row.email}</StyledTableCell>
-              <StyledTableCell align="left">{row.role}</StyledTableCell>
-              <StyledTableCell align="left">
-                {/* <StatusColor status={row.status} /> */}
-                {row.contactNumber}
-              </StyledTableCell>
-              {/* <StyledTableCell align="left">
-                <div className="flex justify-evenly items-center">
-                  <EditIcon className="text-blue-700 cursor-pointer" />
-                  <DeleteIcon className="text-red-700 cursor-pointer" />
-                </div>
-              </StyledTableCell> */}
-            </TableRow>
-          ))}
-          {emptyRows > 0 && (
-            <TableRow style={{ height: 53 * emptyRows }}>
-              <TableCell colSpan={6} />
-            </TableRow>
-          )}
-        </TableBody>
-      </TableLayout>
+      <>
+        <TableLayout
+          headerCell={headerCell}
+          data={users.total}
+          page={page}
+          setPage={setPage}
+          rowsPerPage={rowsPerPage}
+          setRowsPerPage={setRowsPerPage}
+        >
+          <TableBody>
+            {(users.data && users.data).map((row, index) => (
+              <TableRow sx={{ border: "none" }}>
+                <StyledTableCell component="th" scope="row">
+                  {index + 1}
+                </StyledTableCell>
+                <StyledTableCell align="left">{row.name}</StyledTableCell>
+                <StyledTableCell align="left">{row.email}</StyledTableCell>
+                <StyledTableCell align="left">{row.role}</StyledTableCell>
+                <StyledTableCell align="left">
+                  {/* <StatusColor status={row.status} /> */}
+                  {row.contactNumber}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  <DeleteIcon
+                    className="text-red-700 cursor-pointer"
+                    onClick={() => handleClickDeleteOpen(row._id)}
+                  />
+                </StyledTableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </TableLayout>
+        <DeleteDialog
+          open={open}
+          id={id}
+          handleClose={handleClose}
+          deleteAction={deleteAction}
+        />
+      </>
     )
   ) : null;
 }
@@ -109,8 +126,8 @@ const headerCell = [
     value: "Contact Number",
     align: "left",
   },
-  // {
-  //   value: "Action",
-  //   align: "center",
-  // },
+  {
+    value: "Action",
+    align: "center",
+  },
 ];

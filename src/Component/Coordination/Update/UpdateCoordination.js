@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import BasicLayout from "../../BasicLayout/BasicLayout";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import moment from "moment";
 import { Button, Grid, MenuItem, Select } from "@mui/material";
 import { Add, Cancel } from "@mui/icons-material";
 import ToastComponent from "../../Common/TaostComponent";
-import { uploadDocuments, GetEntryFunctionId } from "../../../Slice/EntrySlice";
+import { uploadDocuments, GetEntryFunctionId, GetEntryFunction } from "../../../Slice/EntrySlice";
 import Header from "../../Common/Header";
 const UpdateCoordination = () => {
   const dispatch = useDispatch();
@@ -21,7 +20,7 @@ const UpdateCoordination = () => {
       navigate("/login");
     }
     if (isAuth) {
-      dispatch(GetEntryFunctionId(admin.user._id));
+      dispatch(GetEntryFunction("", "", "", admin.user._id));
     }
     if (id) {
       let updated =

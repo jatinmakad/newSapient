@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { GetEntryDoneFunction } from "../../Slice/EntrySlice";
+import { GetEntryDoneFunction, GetEntryFunction } from "../../Slice/EntrySlice";
 import { useNavigate } from "react-router-dom";
 import TableHeaderLayout from "../Common/TableLayout/TableHeaderLayout";
 import TableBody from "@mui/material/TableBody";
@@ -34,9 +34,17 @@ const AssignTaskReportTeam = () => {
   );
   const [open, setOpen] = React.useState(false);
   const [selectData, setSelectData] = useState("");
+  const [searchInput, setSearchInput] = React.useState("");
+  // Table Function
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
   useEffect(() => {
+    if (isAuth || page || searchInput) {
+      let count = Number(`${page}0`);
+      dispatch(GetEntryFunction(count, "", searchInput, admin.user._id));
+    }
     if (isAuth) {
-      dispatch(GetEntryDoneFunction(admin.user.team));
       dispatch(GetUserFunction());
     }
     if (isAuth === false) {
@@ -45,7 +53,7 @@ const AssignTaskReportTeam = () => {
     if (updateAssignTaskSuccess) {
       setOpen(false);
     }
-  }, [isAuth, updateAssignTaskSuccess]);
+  }, [isAuth, updateAssignTaskSuccess, page, searchInput]);
   const handleClickOpen = (row) => {
     setOpen(true);
     setSelectData(row);
@@ -54,22 +62,17 @@ const AssignTaskReportTeam = () => {
     setOpen(false);
     setSelectData("");
   };
-  const [searchInput, setSearchInput] = React.useState("");
+
   let updated =
     data &&
     data.filter((r) => {
       return r.role === "REPORT TEAM EMPLOYEE";
     });
 
-  // Table Function
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - entry.data.length) : 0;
   return isAuth && entry.data ? (
     <div className="m-2 md:m-10  mt-4 p-2 md:p-5 rounded-3xl">
       <Header title="Assign Task" />
-      <TableHeaderLayout setSearchInput={setSearchInput} />
+      <TableHeaderLayout setSearchInput={setSearchInput} searchInput={searchInput}/>
       {isLoading ? (
         <Loader />
       ) : entry.data && !entry.data.length ? (
@@ -80,7 +83,7 @@ const AssignTaskReportTeam = () => {
         <>
           <TableLayout
             headerCell={headerCell}
-            data={entry.data}
+            data={entry.total}
             page={page}
             setPage={setPage}
             rowsPerPage={rowsPerPage}
@@ -120,11 +123,11 @@ const AssignTaskReportTeam = () => {
                   )}
                 </TableRow>
               ))}
-              {emptyRows > 0 && (
+              {/* {emptyRows > 0 && (
                 <TableRow style={{ height: 53 * emptyRows }}>
                   <TableCell colSpan={6} />
                 </TableRow>
-              )}
+              )} */}
             </TableBody>
           </TableLayout>
           <AssignDialogBox

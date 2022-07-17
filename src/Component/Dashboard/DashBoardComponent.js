@@ -2,13 +2,14 @@ import { Grid } from "@mui/material";
 import React from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Link } from "react-router-dom";
-
+import moment from "moment";
+import { styled } from "@mui/material/styles";
 const DashBoardComponent = ({ heading, array, url }) => {
   return (
     <Grid item lg={6} md={6} sm={12} xs={12}>
@@ -22,19 +23,32 @@ const DashBoardComponent = ({ heading, array, url }) => {
           >
             <TableHead>
               <TableRow>
-                <TableCell align="left">Name</TableCell>
-                <TableCell align="left">Email</TableCell>
+                <TableCell
+                  align={"left"}
+                  sx={{
+                    color: "gray",
+                    borderBottom: "0.5px solid lightgray",
+                  }}
+                >
+                  Name
+                </TableCell>
+                <TableCell
+                  align={"left"}
+                  sx={{
+                    color: "gray",
+                    borderBottom: "0.5px solid lightgray",
+                  }}
+                >
+                  Email
+                </TableCell>
                 {/* <TableCell align="left">Protein&nbsp;(g)</TableCell> */}
               </TableRow>
             </TableHead>
             <TableBody>
               {array.slice(0, 5).map((row) => (
-                <TableRow
-                  key={row.name}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell align="left">{row.name}</TableCell>
-                  <TableCell align="left">{row.email}</TableCell>
+                <TableRow sx={{ border: "none" }}>
+                  <StyledTableCell align="left">{row.name}</StyledTableCell>
+                  <StyledTableCell align="left">{row.email}</StyledTableCell>
                   {/* <TableCell align="left">{row.protein}</TableCell> */}
                 </TableRow>
               ))}
@@ -52,5 +66,15 @@ const DashBoardComponent = ({ heading, array, url }) => {
     </Grid>
   );
 };
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+    color: "black",
+  },
+}));
 
 export default DashBoardComponent;

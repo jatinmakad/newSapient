@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import moment from "moment";
 import { Button } from "@mui/material";
 import Header from "../Common/Header";
-const EntryDetails = () => {
+const EntryDetails = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const { isAuth, admin } = useSelector((state) => state.Login);
   const { entry } = useSelector((state) => state.Entry.get);
   const { id } = useParams();
@@ -20,8 +21,6 @@ const EntryDetails = () => {
       setData(updated);
     }
   }, [isAuth, id]);
-  console.log(data, "data");
-
   const innerP = "w-2/5 text-blue-700 font-medium";
   const innerText = "w-3/5";
   const outerDiv = "flex justify-between items-center text-lg";
@@ -29,7 +28,7 @@ const EntryDetails = () => {
     <div className="m-2 md:m-10 mt-4 p-2 md:p-5 rounded-3xl">
       <Header title="Entry Details" />
       <div className="bg-white lg:p-5 md:p-5 p-3 rounded-md">
-        <div className=" flex lg:flex-row md:flex-row flex-col mb-4">
+        <div className=" flex lg:flex-row md:flex-row flex-col mb-5">
           <div className="lg:w-1/2 md:w-1/2 flex flex-col w-full">
             <div className={outerDiv}>
               <p className={innerP}>Refrence</p>
@@ -159,13 +158,28 @@ const EntryDetails = () => {
             </div>
           </div>
         </div>
+        {location.state === "yourWork" ? (
+          <>
+            <p className="text-xl font-medium mb-4">Discrepancy</p>
+            {data[0].discrepancy.map((r) => (
+              <p>
+                <span className={innerP}>Comment :</span>{" "}
+                <span className={innerText}>{r.comment}</span>
+              </p>
+            ))}
+          </>
+        ) : (
+          ""
+        )}
         <div className="w-full flex justify-end">
           <div className="flex">
-            <Link to={"/entry"}>
-              <Button variant="contained" color="error">
-                Close
-              </Button>
-            </Link>
+            <Button
+              variant="contained"
+              onClick={() => navigate(-1)}
+              color="error"
+            >
+              Close
+            </Button>
           </div>
         </div>
       </div>

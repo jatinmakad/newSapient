@@ -19,7 +19,6 @@ export default function CommentDialog({
   dispatch,
 }) {
   const [input, setInput] = React.useState("");
-  console.log(data, "data");
   const Submit = () => {
     if (input === "") {
       ToastComponent("Please Enter Comment", "error");
