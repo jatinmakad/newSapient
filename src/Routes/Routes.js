@@ -71,6 +71,7 @@ const UploadDocumentMain = lazy(() =>
   import("../Component/Survery/UploadDocumentMain")
 );
 const SurveryUpdate = lazy(() => import("../Component/Survery/SurveryUpdate"));
+const InvoiceComponent= lazy(() => import("../Component/Invoices/index"));
 
 const RoutesPage = () => {
   return (
@@ -112,6 +113,7 @@ const RoutesPage = () => {
         />
         <Route path={"/survery"} element={<Survery />} />
         <Route path={"/survery-update/:id"} element={<SurveryUpdate />} />
+        <Route path={"/invoice"} element={<InvoiceComponent />} />
         <Route
           path={"/upload-document/:id/:type"}
           element={<UploadDocumentMain />}
