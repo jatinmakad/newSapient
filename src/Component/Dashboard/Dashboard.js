@@ -121,7 +121,8 @@ const Dashboard = () => {
             heading2={"Entry's"}
           />
         ) : ""
-      )}
+      ) 
+      }
     </div>
   ) : null;
 };

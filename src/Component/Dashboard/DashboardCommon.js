@@ -61,64 +61,7 @@ const DashBoardCommon = ({ heading, array, heading2, url, array2 }) => {
           </TableContainer>
         </div>
       </Grid>
-      {heading === "Coordination Team Employee" ? "" :
-        <Grid item lg={6} md={6} sm={12} xs={12}>
-          <div className="flex flex-col justify-center shadow-md bg-white rounded-lg">
-            <p className="border-b-2 p-3 text-lg font-medium">{heading2}</p>
-            <TableContainer component={Paper} style={{ padding: "3px" }}>
-              <Table
-                size="small"
-                aria-label="a dense table"
-                sx={{ border: "none" }}
-              >
-                <TableHead>
-                  <TableRow>
-                    {headerCell.map((r) => {
-                      return (
-                        <TableCell
-                          align={r.align}
-                          sx={{
-                            color: "gray",
-                            borderBottom: "0.5px solid lightgray",
-                          }}
-                        >
-                          {r.value}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {array2.slice(0, 5).map((row, index) => (
-                    <TableRow sx={{ border: "none" }}>
-                      <StyledTableCell component="th" scope="row">
-                        {index + 1}
-                      </StyledTableCell>
-                      <StyledTableCell align="left">
-                        {row.reportRefrenceNo}
-                      </StyledTableCell>
-                      <StyledTableCell align="left">{row.city}</StyledTableCell>
-                      <StyledTableCell align="left">
-                        {moment(row.date).format("L")}
-                      </StyledTableCell>
-                      <StyledTableCell align="left">
-                        {/* <StatusColor status={row.status} /> */}
-                        {row.insured}
-                      </StyledTableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-            <div className="w-full flex justify-center items-center p-2">
-              <Link to={url}>
-                <span className="text-blue-800 cursor-pointer font-medium">
-                  View all
-                </span>
-              </Link>
-            </div>
-          </div>
-        </Grid>}
+     
     </Grid>
   );
 };

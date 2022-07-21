@@ -96,7 +96,7 @@ export const GetUserFunction = (user, count, team) => {
   return async (dispatch) => {
     try {
       dispatch(GetUserPending());
-      let link = `http://localhost:5000/getUsers?searchKey=${search}&skip=${countText}&limit=10&team=${updatedTeam}`;
+      let link = `https://sap-user-microservice.herokuapp.com/getUsers?searchKey=${search}&skip=${countText}&limit=10&team=${updatedTeam}`;
       const { data } = await axios.get(link);
       dispatch(GetUserSuccess(data));
     } catch (error) {
@@ -124,7 +124,7 @@ export const DeleteUserFunction = (id) => {
   const config = { headers: { "Content-Type": "application/json" } };
   return async (dispatch) => {
     try {
-      let link = `http://localhost:5000/delete-user?id=${id}`;
+      let link = `https://sap-user-microservice.herokuapp.com/delete-user?id=${id}`;
       const { data } = await axios.put(link, config);
       console.log(data, "Data");
       if (data.success === true) {

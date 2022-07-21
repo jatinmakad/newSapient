@@ -121,7 +121,7 @@ export const GetEntryFunction = (skip, current, refrenceNo, currentjobId) => {
   return async (dispatch) => {
     try {
       dispatch(GetEntryPending());
-      let link = `http://localhost:4000/get-job-lists?currentJobHoldingTeam=${updated}&skip=${skip}&limit=10&searchQuery=${updaedQuery}&currentJobHolder=${updatedId}`;
+      let link = `https://sap-data-management-mcs.herokuapp.com/get-job-lists?currentJobHoldingTeam=${updated}&skip=${skip}&limit=10&searchQuery=${updaedQuery}&currentJobHolder=${updatedId}`;
       const { data } = await axios.get(link);
       dispatch(GetEntrySuccess(data));
     } catch (error) {
