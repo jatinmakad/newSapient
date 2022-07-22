@@ -42,7 +42,6 @@ const DashBoardCommon = ({ heading, array, heading2, url, array2 }) => {
                   >
                     Email
                   </TableCell>
-                  {/* <TableCell align="left">Protein&nbsp;(g)</TableCell> */}
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -53,7 +52,6 @@ const DashBoardCommon = ({ heading, array, heading2, url, array2 }) => {
                   >
                     <StyledTableCell align="left">{row.name}</StyledTableCell>
                     <StyledTableCell align="left">{row.email}</StyledTableCell>
-                    {/* <TableCell align="left">{row.protein}</TableCell> */}
                   </TableRow>
                 ))}
               </TableBody>
@@ -61,7 +59,88 @@ const DashBoardCommon = ({ heading, array, heading2, url, array2 }) => {
           </TableContainer>
         </div>
       </Grid>
-     
+      {array2 ? (
+        <Grid item lg={6} md={6} sm={12} xs={12}>
+          <div className="flex flex-col justify-center shadow-md bg-white rounded-lg">
+            <p className="border-b-2 p-3 text-lg font-medium">{heading2}</p>
+            <TableContainer component={Paper} style={{ padding: "3px" }}>
+              <Table
+                size="small"
+                aria-label="a dense table"
+                sx={{ border: "none" }}
+              >
+                <TableHead>
+                  <TableRow>
+                    {headerCell.map((r) => {
+                      return (
+                        <TableCell
+                          align={"left"}
+                          sx={{
+                            color: "gray",
+                            borderBottom: "0.5px solid lightgray",
+                          }}
+                        >
+                          {r.value}
+                        </TableCell>
+                      );
+                    })}
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {array2.length > 0 ? (
+                    array2.slice(0, 6).map((row, index) => (
+                      <TableRow
+                        key={row.name}
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
+                      >
+                        <StyledTableCell align="left">
+                          {index + 1}
+                        </StyledTableCell>
+                        <StyledTableCell align="left">
+                          {row.reportRefrenceNo}
+                        </StyledTableCell>
+                        <StyledTableCell align="left">
+                          {row.city}
+                        </StyledTableCell>
+                        <StyledTableCell align="left">
+                          {row.date ? moment(row.date).format("LL") : "--"}
+                        </StyledTableCell>
+                      </TableRow>
+                    ))
+                  ) : (
+                    <TableRow
+                      sx={{
+                        "&:last-child td, &:last-child th": { border: 0 },
+                      }}
+                    >
+                      <TableCell
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        No Record Found
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <div className="w-full flex justify-center items-center p-2">
+              <Link to={url}>
+                <span className="text-blue-800 cursor-pointer font-medium">
+                  View all
+                </span>
+              </Link>
+            </div>
+          </div>
+        </Grid>
+      ) : (
+        ""
+      )}
     </Grid>
   );
 };
@@ -94,8 +173,8 @@ const headerCell = [
     value: "Date",
     align: "left",
   },
-  {
-    value: "Insure",
-    align: "left",
-  },
+  // {
+  //   value: "Insure",
+  //   align: "left",
+  // },
 ];
