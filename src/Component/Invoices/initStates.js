@@ -8,10 +8,7 @@ export default initialStates = {
   toAddress2: "",
   invoiceDate: "",
   invoiceName: "",
-  atmId: "",
-  address: "",
-  lossDate: "",
-  burgalaryInsuranceNumber: "",
+  crmWithDescription:"",
   claimUnderInsurance: "",
   account1: "",
   claimNumber1: "",
@@ -96,4 +93,5 @@ export default initialStates = {
   annexure6: "",
   annexure7: "",
   annexure8: "",
+  files:[{image:''}],
 };

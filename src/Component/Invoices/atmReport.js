@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import "../../Component/Assets/custom.css";
 import initStates from "./initStates";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const MainDiv = styled.div`
   display: flex;
@@ -62,6 +63,30 @@ export default function AtmDocReport() {
     });
   };
 
+  // const [newItems, setNewItems] = useState(initStates?.files);
+
+  const handleItemsChange = (event, index, name) => {
+    let files = event.target.files;
+    let reader = new FileReader();
+    reader.readAsDataURL(files[0]);
+
+    reader.onload = (e) => {
+      let newFormValues = [...newData?.files];
+      newFormValues[index][name] = e.target.result;
+      setNewData({ ...newData, files: newFormValues });
+    };
+  };
+
+  const handleAdd = () => {
+    setNewData({ ...newData, files: [...newData?.files, { image: "" }] });
+  };
+
+  const removeImage = (i) => {
+    let newFormValues = [...newData?.files];
+    newFormValues.splice(i, 1);
+    setNewData({ ...newData, files: newFormValues });
+  };
+
   return (
     <MainDiv>
       <div className="inner-div">
@@ -118,9 +143,7 @@ export default function AtmDocReport() {
             <b>To, </b>
             <div>
               {show === false ? (
-                newData?.toAddress1 || (
-                  <i className="link-color">(Address)</i>
-                )
+                newData?.toAddress1 || <i className="link-color">(Address)</i>
               ) : (
                 <textarea
                   name="toAddress1"
@@ -221,69 +244,27 @@ export default function AtmDocReport() {
                 onChange={(e) => handleChange(e)}
               />
             )}{" "}
-            &nbsp; on account to loss/ damage to their CRM having CRM ID:
+            on account to loss/ damage to their CRM having CRM ID:&nbsp;
             {show === false ? (
-              newData?.atmId || <i className="link-color">(Atm Id)</i>
-            ) : (
-              <input
-                id="subject-init"
-                name="atmId"
-                placeholder="e.g. ATM ID(ABCD123)"
-                type="text"
-                value={newData.atmId}
-                onChange={(e) => handleChange(e)}
-              />
-            )}{" "}
-            which is installed at &nbsp;
-            {show === false ? (
-              newData?.address || <i className="link-color">(Address)</i>
-            ) : (
-              <input
-                id="subject-init"
-                name="address"
-                placeholder="Address"
-                type="text"
-                value={newData.address}
-                onChange={(e) => handleChange(e)}
-              />
-            )}
-            &nbsp; site due to robbery attempted on &nbsp;
-            {show === false ? (
-              newData?.lossDate || <i className="link-color">(LossDate)</i>
-            ) : (
-              <input
-                name="lossDate"
-                id="subject-init"
-                placeholder="lossDate"
-                type="date"
-                value={newData.lossDate}
-                onChange={(e) => handleChange(e)}
-              />
-            )}
-            &nbsp; for which the Insured has filed an insurance claim under
-            Burglary Insurance Policy No.- &nbsp;
-            {show === false ? (
-              newData?.burgalaryInsuranceNumber || (
-                <i className="link-color">
-                  (Burgalary Insurance Policy Number)
-                </i>
+              newData?.crmWithDescription || (
+                <i className="link-color">(Atm Id & Statement)</i>
               )
             ) : (
               <input
-                name="burgalaryInsuranceNumber"
                 id="subject-init"
-                placeholder="Enter Burgalary ..."
+                name="crmWithDescription"
+                placeholder="e.g. ATM ID(ABCD123)"
                 type="text"
-                value={newData.burgalaryInsuranceNumber}
+                value={newData.crmWithDescription}
                 onChange={(e) => handleChange(e)}
               />
-            )}
-            ;&nbsp; we fixed up an appointment with Insured’s representative,
-            fixed-up appointment over phone and accordingly visited the affected
-            site/ premises as mention above on the next day. we visited the
-            location of loss on is situated at . The Survey/ verification were
-            carried out, pertinent details of loss were noted, discussions held
-            with Insured’s representative and photographs were also taken. The
+            )}{" "}
+            ; we fixed up an appointment with Insured’s representative, fixed-up
+            appointment over phone and accordingly visited the affected site/
+            premises as mention above on the next day. we visited the location
+            of loss on is situated at . The Survey/ verification were carried
+            out, pertinent details of loss were noted, discussions held with
+            Insured’s representative and photographs were also taken. The
             Photographs and Intimation mail are enclosed as [Annexure-1 & 2].
             Thereafter, we have raised a Letter of Requirement to the Insured’s
             officials and regularly followed up with them in order to obtain the
@@ -595,9 +576,7 @@ export default function AtmDocReport() {
         <br />
         <div>
           {show === false ? (
-            newData?.salvageDetails || (
-              <i className="link-color">(Salvage)</i>
-            )
+            newData?.salvageDetails || <i className="link-color">(Salvage)</i>
           ) : (
             <textarea
               id="subject"
@@ -713,6 +692,44 @@ export default function AtmDocReport() {
           newData={newData}
           handleChange={handleChange}
         />
+        <br /> <br />
+        {show === false ? (
+          <div className="display-flex flex-col justify-content-center row-gap-20">
+            {newData?.files.map((item) => {
+              return <img src={item?.image} />;
+            })}
+          </div>
+        ) : (
+          <>
+            &nbsp;
+            <ButtonComponent onClick={handleAdd}>Add Images</ButtonComponent>
+            {newData?.files?.map((item, idx) => {
+              return (
+                <React.Fragment key={idx}>
+                  &nbsp;&nbsp;&nbsp;
+                  <br />
+                  <br />
+                  <br />
+                  <input
+                    id="image"
+                    type="file"
+                    accept=".png, .jpg, .jpeg"
+                    name="image"
+                    onChange={(e) => handleItemsChange(e, idx, "image")}
+                  />
+                  &nbsp;&nbsp;&nbsp;
+                  <div className="display-flex flex-row col-gap-20">
+                    <img src={item?.image} />
+                    <DeleteIcon
+                      className="text-red-700 cursor-pointer"
+                      onClick={() => removeImage(idx)}
+                    />
+                  </div>
+                </React.Fragment>
+              );
+            })}
+          </>
+        )}
         <br />
         <br />
         <div className="p-t-50-per">
@@ -761,9 +778,7 @@ export default function AtmDocReport() {
           <b>
             State Code:{" "}
             {show === false ? (
-              newData?.stateCode || (
-                <i className="link-color">(State Code)</i>
-              )
+              newData?.stateCode || <i className="link-color">(State Code)</i>
             ) : (
               <input
                 name="stateCode"
@@ -862,7 +877,7 @@ export default function AtmDocReport() {
   );
 }
 
-// Table Functions: 
+// Table Functions:
 
 function FirstTable({ handleChange, show, newData }) {
   return (
@@ -878,9 +893,7 @@ function FirstTable({ handleChange, show, newData }) {
           <td>.</td>
           <td>
             {show === false ? (
-              newData?.insurer || (
-                <i className="link-color">(Insurer Adress)</i>
-              )
+              newData?.insurer || <i className="link-color">(Insurer Adress)</i>
             ) : (
               <input
                 id="subject"
@@ -994,9 +1007,7 @@ function CommonPolicyTable({ handleChange, show, newData }) {
           <td>.</td>
           <td>
             {show === false ? (
-              newData?.sumInsured || (
-                <i className="link-color">(Sum Insured)</i>
-              )
+              newData?.sumInsured || <i className="link-color">(Sum Insured)</i>
             ) : (
               <input
                 id="subject"
@@ -1185,9 +1196,7 @@ function CommonSurveyTable({ handleChange, show, newData }) {
           <td>.</td>
           <td>
             {show === false ? (
-              newData?.surveyDate || (
-                <i className="link-color">(Survey Date)</i>
-              )
+              newData?.surveyDate || <i className="link-color">(Survey Date)</i>
             ) : (
               <input
                 id="subject"
@@ -1612,9 +1621,7 @@ function MergeAssesmentTable({ show, newData, handleChange }) {
         </td>
         <td>
           {show === false ? (
-            newData?.lessDepreciation || (
-              <i className="link-color">(in Rs.)</i>
-            )
+            newData?.lessDepreciation || <i className="link-color">(in Rs.)</i>
           ) : (
             <input
               id="subject"
@@ -1724,9 +1731,7 @@ function MergeAssesmentTable({ show, newData, handleChange }) {
         </td>
         <td>
           {show === false ? (
-            newData?.netLossAssessed || (
-              <i className="link-color">(in Rs.)</i>
-            )
+            newData?.netLossAssessed || <i className="link-color">(in Rs.)</i>
           ) : (
             <input
               id="subject"
@@ -1762,9 +1767,7 @@ function CommonSignatoryTable({ show, newData, handleChange }) {
           <td>
             {" "}
             {show === false ? (
-              newData?.annexure1 || (
-                <i className="link-color">(Annexure 1)</i>
-              )
+              newData?.annexure1 || <i className="link-color">(Annexure 1)</i>
             ) : (
               <input
                 id="subject"
@@ -1783,9 +1786,7 @@ function CommonSignatoryTable({ show, newData, handleChange }) {
           </td>
           <td>
             {show === false ? (
-              newData?.annexure2 || (
-                <i className="link-color">(Annexure 2)</i>
-              )
+              newData?.annexure2 || <i className="link-color">(Annexure 2)</i>
             ) : (
               <input
                 id="subject"
@@ -1804,9 +1805,7 @@ function CommonSignatoryTable({ show, newData, handleChange }) {
           </td>
           <td>
             {show === false ? (
-              newData?.annexure3 || (
-                <i className="link-color">(Annexure 3)</i>
-              )
+              newData?.annexure3 || <i className="link-color">(Annexure 3)</i>
             ) : (
               <input
                 id="subject"
@@ -1825,9 +1824,7 @@ function CommonSignatoryTable({ show, newData, handleChange }) {
           </td>
           <td>
             {show === false ? (
-              newData?.annexure4 || (
-                <i className="link-color">(Annexure 4)</i>
-              )
+              newData?.annexure4 || <i className="link-color">(Annexure 4)</i>
             ) : (
               <input
                 id="subject"
@@ -1846,9 +1843,7 @@ function CommonSignatoryTable({ show, newData, handleChange }) {
           </td>
           <td>
             {show === false ? (
-              newData?.annexure5 || (
-                <i className="link-color">(Annexure 5)</i>
-              )
+              newData?.annexure5 || <i className="link-color">(Annexure 5)</i>
             ) : (
               <input
                 id="subject"
@@ -1867,9 +1862,7 @@ function CommonSignatoryTable({ show, newData, handleChange }) {
           </td>
           <td>
             {show === false ? (
-              newData?.annexure6 || (
-                <i className="link-color">(Annexure 6)</i>
-              )
+              newData?.annexure6 || <i className="link-color">(Annexure 6)</i>
             ) : (
               <input
                 id="subject"
@@ -1888,9 +1881,7 @@ function CommonSignatoryTable({ show, newData, handleChange }) {
           </td>
           <td>
             {show === false ? (
-              newData?.annexure7 || (
-                <i className="link-color">(Annexure 7)</i>
-              )
+              newData?.annexure7 || <i className="link-color">(Annexure 7)</i>
             ) : (
               <input
                 id="subject"
@@ -1909,9 +1900,7 @@ function CommonSignatoryTable({ show, newData, handleChange }) {
           </td>
           <td>
             {show === false ? (
-              newData?.annexure8 || (
-                <i className="link-color">(Annexure 8)</i>
-              )
+              newData?.annexure8 || <i className="link-color">(Annexure 8)</i>
             ) : (
               <input
                 id="subject"
@@ -1947,9 +1936,7 @@ function CommonGstDetailsTable({ handleChange, show, newData }) {
             <b>
               {" "}
               {show === false ? (
-                newData?.billNum || (
-                  <i className="link-color">(Bill Number)</i>
-                )
+                newData?.billNum || <i className="link-color">(Bill Number)</i>
               ) : (
                 <input
                   id="subject"
@@ -2039,9 +2026,7 @@ function CommonGstDetailsTable({ handleChange, show, newData }) {
             <b>
               {" "}
               {show === false ? (
-                newData?.billDate || (
-                  <i className="link-color">(Bill Date)</i>
-                )
+                newData?.billDate || <i className="link-color">(Bill Date)</i>
               ) : (
                 <input
                   id="subject"
@@ -2190,9 +2175,7 @@ function CommonDesciptionTable({ show, newData, handleChange }) {
         <td>
           {" "}
           {show === false ? (
-            newData?.professionalFee || (
-              <i className="link-color">(in Rs.)</i>
-            )
+            newData?.professionalFee || <i className="link-color">(in Rs.)</i>
           ) : (
             <input
               id="subject"
@@ -2211,9 +2194,7 @@ function CommonDesciptionTable({ show, newData, handleChange }) {
         <td>
           {" "}
           {show === false ? (
-            newData?.conveyanceCharges || (
-              <i className="link-color">(in Rs.)</i>
-            )
+            newData?.conveyanceCharges || <i className="link-color">(in Rs.)</i>
           ) : (
             <input
               id="subject"
