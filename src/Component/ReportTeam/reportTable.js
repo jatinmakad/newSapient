@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  GetEntryFunction,
   GetEntryFunctionId,
   UpdateEntryStatusFunction2,
   UpdateEntryStatusFunction3,
@@ -36,6 +37,8 @@ import LastPageOutlined from "@mui/icons-material/LastPageOutlined";
 import Image from "../Assets/noresult.webp";
 import TableLayout from "../Common/TableLayout/TableLayout";
 import CommentDialog from "../Common/CommentDialog";
+import ToastComponent from "../Common/TaostComponent";
+import axios from "axios";
 const ReportTable = ({
   searchInput,
   page,
@@ -52,7 +55,7 @@ const ReportTable = ({
   );
   const [open2, setOpen2] = React.useState(false);
   const [selectData, setSelectData] = React.useState("");
-
+  const [document, setDocument] = React.useState("");
   useEffect(() => {
     // if (isAuth) {
     //   dispatch(GetEntryFunctionId(admin.user._id));
@@ -83,6 +86,30 @@ const ReportTable = ({
     setOpen2(false);
   };
 
+  const handleSubmitFile = (row) => {
+    if (!document) return;
+    const reader = new FileReader();
+    reader.readAsDataURL(document);
+    reader.onloadend = () => {
+      uploadImage(reader.result, row.uniqueJobId);
+    };
+  };
+  const uploadImage = async (base64EncodedImage, id) => {
+    let body = JSON.stringify({
+      data: base64EncodedImage,
+      uniqueJobId: id,
+    });
+    const config = { headers: { "Content-Type": "application/json" } };
+    const { data } = await axios.post(
+      "http://localhost:5000/upload-final-documents",
+      body,
+      config
+    );
+    if (data.success === true) {
+      dispatch(GetEntryFunction(page, "", searchInput, admin.user._id));
+      ToastComponent("Document Uploaded SuccessFully", "success");
+    }
+  };
   return isAuth && entry.data ? (
     isLoading ? (
       <Loader />
@@ -109,16 +136,25 @@ const ReportTable = ({
                 <StyledTableCell align="left">
                   {row.reportRefrenceNo}
                 </StyledTableCell>
-                <StyledTableCell align="left">{row.city}</StyledTableCell>
                 <StyledTableCell align="left">
-                  {moment(row.date).format("L")}
+                  {row.finalScannedReport == "" ? (
+                    <>
+                      <input
+                        name="userfile"
+                        accept=".pdf"
+                        type="file"
+                        // accept="application/pdf"
+                        onChange={(e) => setDocument(e.target.files[0])}
+                      />
+                      <Button onClick={() => handleSubmitFile(row)}>
+                        upload
+                      </Button>
+                    </>
+                  ) : (
+                    "Uploaded"
+                  )}
                 </StyledTableCell>
                 <StyledTableCell align="left">
-                  {/* <StatusColor status={row.status} /> */}
-                  {row.insured}
-                </StyledTableCell>
-                <StyledTableCell align="left">
-                  {/* <StatusColor status={row.status} /> */}
                   {row.currentJobStatus}
                 </StyledTableCell>
                 <StyledTableCell align="left">
@@ -127,10 +163,6 @@ const ReportTable = ({
                       "DONE BY REPORT TEAM"
                     ) : (
                       <>
-                        {/* <Link to={`/update-coordination/${row.uniqueJobId}`}>
-                          <EditIcon className="text-blue-700 cursor-pointer" />
-                        </Link>
-                        &nbsp; &nbsp; */}
                         <p
                           onClick={() => handleClickOpen2(row)}
                           className="text-blue-600 cursor-pointer"
@@ -140,16 +172,22 @@ const ReportTable = ({
                         <Link
                           to={"/invoice"}
                           state={row}
-                          className="text-blue-600 ml-5 cursor-pointer"
+                          className="text-blue-600 ml-5 cursor-pointer mr-3"
                         >
                           Report
                         </Link>
-                        <p
+                        <Link to={`/entry-details/${row._id}`}>
+                          <p className="text-blue-600 flex justify-center w-full cursor-pointer">
+                            View More
+                          </p>
+                        </Link>
+
+                        {/* <p
                           className="text-red-600 ml-5 cursor-pointer"
                           // onClick={() => handleClickOpen4(row)}
                         >
                           Discrepancy
-                        </p>
+                        </p> */}
                       </>
                     )}
                   </div>
@@ -202,16 +240,20 @@ const headerCell = [
     value: "Refrence No.",
     align: "left",
   },
+  // {
+  //   value: "City",
+  //   align: "left",
+  // },
+  // {
+  //   value: "Date",
+  //   align: "left",
+  // },
+  // {
+  //   value: "Insure",
+  //   align: "left",
+  // },
   {
-    value: "City",
-    align: "left",
-  },
-  {
-    value: "Date",
-    align: "left",
-  },
-  {
-    value: "Insure",
+    value: "Upload Document",
     align: "left",
   },
   {
@@ -229,7 +271,11 @@ const AssignDialogBox = ({ open, handleClose, selectData, dispatch }) => {
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
   const [demo, setDemo] = React.useState("");
   const onSubmit = () => {
-    dispatch(UpdateEntryStatusFunction3(selectData, demo));
+    if (selectData.finalScannedReport === "") {
+      ToastComponent("Please upload Final Document", "error");
+    } else {
+      dispatch(UpdateEntryStatusFunction3(selectData, demo));
+    }
   };
   return (
     <Dialog

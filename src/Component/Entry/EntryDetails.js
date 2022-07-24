@@ -171,6 +171,7 @@ const EntryDetails = (props) => {
         ) : (
           ""
         )}
+
         <div className="w-full flex justify-end">
           <div className="flex">
             <Button

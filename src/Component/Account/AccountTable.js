@@ -120,7 +120,7 @@ const AccountTable = ({
                 </StyledTableCell>
                 <StyledTableCell align="left">
                   <div className="flex justify-start items-left">
-                    {row.currentJobHoldingTeam !== "REPORT TEAM" ? (
+                    {row.currentJobHoldingTeam !== "ACCOUNT TEAM" ? (
                       "DONE BY REPORT TEAM"
                     ) : (
                       <>
@@ -130,22 +130,21 @@ const AccountTable = ({
                         &nbsp; &nbsp; */}
                         <p
                           onClick={() => handleClickOpen2(row)}
-                          className="text-blue-600 cursor-pointer"
+                          className="text-blue-600 cursor-pointer mr-2"
                         >
                           Update Status
                         </p>
-                        <Link
-                          to={"/invoice"}
-                          className="text-blue-600 ml-5 cursor-pointer"
-                        >
-                          Report
+                        <Link to={`/entry-details/${row._id}`}>
+                          <p className="text-blue-600 flex justify-center w-full cursor-pointer">
+                            View More
+                          </p>
                         </Link>
-                        <p
+                        {/* <p
                           className="text-red-600 ml-5 cursor-pointer"
                           // onClick={() => handleClickOpen4(row)}
                         >
                           Discrepancy
-                        </p>
+                        </p> */}
                       </>
                     )}
                   </div>
