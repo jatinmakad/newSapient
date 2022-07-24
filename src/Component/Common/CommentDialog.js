@@ -18,6 +18,7 @@ export default function CommentDialog({
   data,
   dispatch,
 }) {
+  // console.log(data,"data")
   const [input, setInput] = React.useState("");
   const Submit = () => {
     if (input === "") {
@@ -27,6 +28,7 @@ export default function CommentDialog({
         comment: input,
         userId: id,
         uniqueJobId: data.uniqueJobId,
+        currentJobHoldingTeam: data.currentJobHoldingTeam,
       };
       dispatch(UpdateCommentFunction(obj));
       const taskData = {

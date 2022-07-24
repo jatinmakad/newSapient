@@ -4,14 +4,14 @@ import Sidebar from "./Component/Common/Sidebar";
 import "./App.css";
 import { useStateContext } from "./contexts/ContextProvider";
 import RoutesPage from "./Routes/Routes";
-import Login from "./Component/Login/Login";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
-import Dashboard from "./Component/Dashboard/Dashboard";
+import InvoicesComponent from "./Component/Invoices";
 
 const MainPage = () => {
   const { setCurrentColor, setCurrentMode, currentMode, activeMenu } =
     useStateContext();
+  const location = useLocation();
   const { isAuth } = useSelector((state) => state.Login);
   useEffect(() => {
     const currentThemeColor = localStorage.getItem("colorMode");
@@ -24,31 +24,43 @@ const MainPage = () => {
 
   return isAuth ? (
     <div className={currentMode === "Dark" ? "dark" : ""}>
-      <div className="flex relative dark:bg-main-dark-bg">
-        {activeMenu ? (
-          <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white ">
-            <Sidebar />
-          </div>
-        ) : (
-          <div className="w-0 dark:bg-secondary-dark-bg">
-            <Sidebar />
-          </div>
-        )}
-        <div
-          className={
-            activeMenu
-              ? "dark:bg-main-dark-bg  bg-main-bg min-h-screen md:ml-72 w-full  "
-              : "bg-main-bg dark:bg-main-dark-bg  w-full min-h-screen flex-2 "
-          }
-        >
-          <div className="static bg-white dark:bg-main-dark-bg drop-shadow-md navbar w-full ">
-            <Navbar />
-          </div>
-          <div>
-            <RoutesPage />
+      {location.pathname == "/invoice" ? (
+        ""
+      ) : (
+        <div className="flex relative dark:bg-main-dark-bg">
+          {activeMenu ? (
+            <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white ">
+              <Sidebar />
+            </div>
+          ) : (
+            <div className="w-0 dark:bg-secondary-dark-bg">
+              <Sidebar />
+            </div>
+          )}
+          <div
+            className={
+              activeMenu
+                ? "dark:bg-main-dark-bg  bg-main-bg min-h-screen md:ml-72 w-full  "
+                : "bg-main-bg dark:bg-main-dark-bg  w-full min-h-screen flex-2 "
+            }
+          >
+            {location.pathname === "/invoice" ? (
+              ""
+            ) : (
+              <div className="static bg-white dark:bg-main-dark-bg drop-shadow-md navbar w-full ">
+                <Navbar />
+              </div>
+            )}
+            <div>
+              <RoutesPage />
+            </div>
           </div>
         </div>
-      </div>
+      )}
+      <Routes>
+        {" "}
+        <Route path={"/invoice"} element={<InvoicesComponent />} />
+      </Routes>
     </div>
   ) : (
     <RoutesPage />

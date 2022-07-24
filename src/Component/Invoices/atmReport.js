@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import "../../Component/Assets/custom.css";
-import initStates from "./initStates";
+// import initStates from "./initStates";
 import DeleteIcon from "@mui/icons-material/Delete";
-
+import { Button } from "@mui/material";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 const MainDiv = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
+  margin-top: 40px;
+  margin-bottom: 40px;
 `;
 const ButtonComponent = styled.div`
   z-index: 1;
@@ -54,8 +57,107 @@ export default function AtmDocReport() {
     document.getElementById("footer").style.pageBreakAfter = "always";
     window.print();
   };
+  const location = useLocation();
+  console.log(location.state, "state");
   const [show, setShow] = useState(false);
-  const [newData, setNewData] = React.useState(initStates);
+  const [newData, setNewData] = React.useState({
+    refNum1: location.state.reportRefrenceNo
+      ? location.state.reportRefrenceNo
+      : "",
+    dated1: "",
+    toAddress1: "",
+    gstNumberSeprate: "",
+    stateCode: "",
+    toAddress2: "",
+    invoiceDate: "",
+    invoiceName: "",
+    crmWithDescription: "",
+    claimUnderInsurance: "",
+    account1: "",
+    claimNumber1: "",
+    insurer: "",
+    insured: "",
+    policyNumber: "",
+    periodofInsurance: "",
+    subjectMatterInsured: "",
+    sumInsured: "",
+    riskLocations: "",
+    lossLocation: "",
+    coverage: "",
+    excess: "",
+    depreciation: "",
+    lossDate: "",
+    intimationToInsurers: "",
+    surveyAllotmentDate: "",
+    surveyDate: "",
+    reasonForDelay: "",
+    crmName: "",
+    lossSurveyLocation: "",
+    siteID: "",
+    personContacted: "",
+    itemAffected: "",
+    lossCause: "",
+    insuredEstimate: "",
+    reportFIR: "",
+    securityGuard: "",
+    billNum: "",
+    refNum: "",
+    billDate: "",
+    gstID: "",
+    pan: "",
+    serviceCode: "",
+    account: "",
+    policyNum: "",
+    subject: "",
+    crmId: "",
+    amount: "",
+    rate: "",
+    qty: "",
+    itemDescription: "",
+    totalLoss1: "",
+    lessDepreciation: "",
+    afterDeduction: "",
+    lessSalvage: "",
+    subTotal: "",
+    lessExcess: "",
+    totalLoss2: "",
+    netLossAssessed: "",
+    professionalFee: "",
+    conveyanceCharges: "",
+    photographsCharges: "",
+    total3: "",
+    addIGST: "",
+    netAmount: "",
+    roundedOff: "",
+    crmID2: "",
+    invoice2: "",
+    itemDescription2: "",
+    damagedQuantity: "",
+    policyDetails: "",
+    aboutIncident: "",
+    ourSurvey: "",
+    serviceEngReport: "",
+    repairEstimate: "",
+    policeReport: "",
+    claimOfInsured: "",
+    commentOnLiability: "",
+    adequecyOfSumInsured: "",
+    depreciationDetails: "",
+    salvageDetails: "",
+    excessDetails: "",
+    lossComputationDetails: "",
+    lossComputedInWords: "",
+    lastRupees: "",
+    annexure1: "",
+    annexure2: "",
+    annexure3: "",
+    annexure4: "",
+    annexure5: "",
+    annexure6: "",
+    annexure7: "",
+    annexure8: "",
+    files: [{ image: "" }],
+  });
   const handleChange = (e) => {
     setNewData({
       ...newData,
@@ -86,9 +188,14 @@ export default function AtmDocReport() {
     newFormValues.splice(i, 1);
     setNewData({ ...newData, files: newFormValues });
   };
-
+  const navigate = useNavigate();
   return (
     <MainDiv>
+      {/* <div className="inner-div-header pb-5">
+        <Button variant="contained" onClick={() => navigate(-1)} color="error">
+          Close
+        </Button>
+      </div> */}
       <div className="inner-div">
         {!show ? (
           <div className="display-flex flex-row col-gap-10">

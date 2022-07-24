@@ -269,6 +269,46 @@ export const UpdateCommentFunction = (Data) => {
   };
 };
 
+export const UpdateCommentSendForApprovalFunction = (Data) => {
+  return async (dispatch) => {
+    try {
+      const config = { headers: { "Content-Type": "application/json" } };
+      const { data } = await axios.post(
+        `https://sap-data-management-mcs.herokuapp.com/send-for-discrepnacy-approval`,
+        Data,
+        config
+      );
+      if (data.success === true) {
+        dispatch(UpdateCommentBefore());
+        ToastComponent("Approval Send SuccessFully", "success");
+      }
+      dispatch(UpdateCommentCleanup());
+    } catch (error) {
+      ToastComponent(error.response.data.message, "error");
+    }
+  };
+};
+
+export const UpdateCommentDoneFunction = (Data) => {
+  return async (dispatch) => {
+    try {
+      const config = { headers: { "Content-Type": "application/json" } };
+      const { data } = await axios.post(
+        `https://sap-data-management-mcs.herokuapp.com/mark-discrepancy-done`,
+        Data,
+        config
+      );
+      if (data.success === true) {
+        dispatch(UpdateCommentBefore());
+        ToastComponent("Discrepancy Done SuccessFully", "success");
+      }
+      dispatch(UpdateCommentCleanup());
+    } catch (error) {
+      ToastComponent(error.response.data.message, "error");
+    }
+  };
+};
+
 export const UpdloadDocumentFunction = (Data, id) => {
   return async (dispatch) => {
     try {

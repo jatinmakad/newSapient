@@ -53,26 +53,23 @@ const Dashboard = () => {
     if (!isAuth) {
       navigate("/login");
     }
-    if (
-      admin?.user?.role === "ENTRY TEAM EMPLOYEE" ||
-      admin?.user?.role === "ADMIN"
-    ) {
+    if (admin?.user?.role === "ADMIN") {
       dispatch(GetEntryFunction(0, "ENTRY TEAM", "", ""));
     }
     if (
-      admin?.user?.role === "COORDINATION TEAM EMPLOYEE" ||
-      admin?.user?.role === "COORDINATION TEAM MANAGER"
+      admin?.user?.role === "REPORT TEAM MANAGER" ||
+      admin?.user?.role === "COORDINATION TEAM MANAGER" ||
+      admin?.user?.role === "ACCOUNT TEAM MANAGER"
     ) {
-      dispatch(GetEntryFunction(0, "COORDINATION TEAM", "", ""));
+      dispatch(GetEntryFunction(0, admin.user.team, "", ""));
     }
-    // if(){
-    //   dispatch(GetEntryFunction(0, "COORDINATION TEAM", "", ""));
-    // }
-    if (admin?.user?.role === "ACCOUNT TEAM EMPLOYEE") {
-      dispatch(GetEntryFunction(0, "ACCOUNT TEAM", "", ""));
-    }
-    if (admin?.user?.role === "REPORT TEAM EMPLOYEE") {
-      dispatch(GetEntryFunction(0, "REPORT TEAM", "", ""));
+    if (
+      admin?.user?.role === "ACCOUNT TEAM EMPLOYEE" ||
+      admin?.user?.role === "REPORT TEAM EMPLOYEE" ||
+      admin?.user?.role === "COORDINATION TEAM EMPLOYEE" ||
+      admin?.user?.role === "ENTRY TEAM EMPLOYEE"
+    ) {
+      dispatch(GetEntryFunction(0, "", "", admin.user._id));
     }
     if (isAuth) {
       const func = async () => {
@@ -220,8 +217,7 @@ const Dashboard = () => {
             />
           )
         : ""}
-      {admin?.user?.role === "COORDINATION TEAM EMPLOYEE" ||
-      admin?.user?.role === "COORDINATION TEAM MANAGER"
+      {admin?.user?.role === "COORDINATION TEAM EMPLOYEE"
         ? coordination && (
             <DashBoardCommon
               heading={"Coordination Team Employee"}
@@ -243,6 +239,17 @@ const Dashboard = () => {
             />
           )
         : ""}
+      {admin?.user?.role === "REPORT TEAM MANAGER"
+        ? report && (
+            <DashBoardCommon
+              heading={"Report Team Employee"}
+              array={report}
+              url={"/assign-task-report-team"}
+              array2={entry.data}
+              heading2={"Entry's"}
+            />
+          )
+        : ""}
       {admin?.user?.role === "ACCOUNT TEAM EMPLOYEE"
         ? account && (
             <DashBoardCommon
@@ -254,17 +261,29 @@ const Dashboard = () => {
             />
           )
         : ""}
-      {/* {admin?.user?.role === "ACCOUNT TEAM EMPLOYEE"
+      {admin?.user?.role === "ACCOUNT TEAM MANAGER"
         ? account && (
             <DashBoardCommon
               heading={"Account Team Employee"}
               array={account}
-              url={"/account"}
+              url={"/account-manager"}
               array2={entry.data}
               heading2={"Entry's"}
             />
           )
-        : ""} */}
+        : ""}
+
+      {admin?.user?.role === "COORDINATION TEAM MANAGER"
+        ? coordination && (
+            <DashBoardCommon
+              heading={"Coordination Team Employee"}
+              array={coordination}
+              url={"/assign-task"}
+              array2={entry.data}
+              heading2={"Entry's"}
+            />
+          )
+        : ""}
     </div>
   ) : null;
 };

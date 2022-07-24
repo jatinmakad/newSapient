@@ -1,5 +1,5 @@
 import React, { lazy, Suspense, useEffect } from "react";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import "./App.css";
 // import MainPage from "./MainPage";
 
@@ -9,8 +9,9 @@ import { useDispatch } from "react-redux";
 import Cookie from "universal-cookie";
 import { loginSuccess } from "./Slice/AdminSlice";
 import Loader from "./Component/Common/Loader";
+import InvoicesComponent from "./Component/Invoices";
 const MainPage = lazy(() => import("./MainPage"));
-const App = () => {
+const App = (props) => {
   const dispatch = useDispatch();
   useEffect(() => {
     var cookie = new Cookie();
@@ -24,10 +25,9 @@ const App = () => {
   return (
     <BrowserRouter>
       <ToastContainer />
-      <Suspense fallback={<Loader/>}>
-      <MainPage />
+      <Suspense fallback={<Loader />}>
+        <MainPage />
       </Suspense>
-      
     </BrowserRouter>
   );
 };

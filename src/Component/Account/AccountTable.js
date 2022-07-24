@@ -36,7 +36,7 @@ import LastPageOutlined from "@mui/icons-material/LastPageOutlined";
 import Image from "../Assets/noresult.webp";
 import TableLayout from "../Common/TableLayout/TableLayout";
 import CommentDialog from "../Common/CommentDialog";
-const ReportTable = ({
+const AccountTable = ({
   searchInput,
   page,
   setPage,
@@ -54,9 +54,6 @@ const ReportTable = ({
   const [selectData, setSelectData] = React.useState("");
 
   useEffect(() => {
-    // if (isAuth) {
-    //   dispatch(GetEntryFunctionId(admin.user._id));
-    // }
     if (isAuth === false) {
       navigate("/login");
     }
@@ -139,7 +136,6 @@ const ReportTable = ({
                         </p>
                         <Link
                           to={"/invoice"}
-                          state={row}
                           className="text-blue-600 ml-5 cursor-pointer"
                         >
                           Report
@@ -179,7 +175,7 @@ const ReportTable = ({
   );
 };
 
-export default ReportTable;
+export default AccountTable;
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {

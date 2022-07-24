@@ -13,6 +13,8 @@ import {
   reportTeamData,
   reportTeamManagerData,
   SurveryData,
+  accountTeamManagerData,
+  accountTeamEmployee,
 } from "../../data/Data";
 import Loader from "../Common/Loader";
 const Sidebar = () => {
@@ -46,6 +48,10 @@ const Sidebar = () => {
       ? reportTeamData
       : admin?.user?.role === "SURVEYOUR"
       ? SurveryData
+      : admin?.user?.role === "ACCOUNT TEAM MANAGER"
+      ? accountTeamManagerData
+      : admin?.user?.role === "ACCOUNT TEAM EMPLOYEE"
+      ? accountTeamEmployee
       : "";
   const activeLink =
     "flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg  text-white  text-md m-2";

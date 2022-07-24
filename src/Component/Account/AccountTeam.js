@@ -2,11 +2,11 @@ import React, { useEffect } from "react";
 import TableHeaderLayout from "../Common/TableLayout/TableHeaderLayout";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate, useNavigate } from "react-router-dom";
-import ReportTable from "./reportTable";
 import Header from "../Common/Header";
 import Loader from "../Common/Loader";
 import { GetEntryFunction } from "../../Slice/EntrySlice";
-const ReportTeam = () => {
+import AccountTable from "./AccountTable";
+const AccountTeam = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isAuth, admin } = useSelector((state) => state.Login);
@@ -18,7 +18,6 @@ const ReportTeam = () => {
     (state) => state.Entry.updateStatus
   );
 
-  
   useEffect(() => {
     if (isAuth === false) {
       navigate("/login");
@@ -31,12 +30,12 @@ const ReportTeam = () => {
 
   return isAuth ? (
     <div className="m-2 md:m-10 mt-4 p-2 md:p-5 rounded-3xl">
-      <Header title="Report Team" />
+      <Header title="Account Team" />
       <TableHeaderLayout
         setSearchInput={setSearchInput}
         searchInput={searchInput}
       />
-      <ReportTable
+      <AccountTable
         searchInput={searchInput}
         page={page}
         setPage={setPage}
@@ -49,4 +48,4 @@ const ReportTeam = () => {
   );
 };
 
-export default ReportTeam;
+export default AccountTeam;

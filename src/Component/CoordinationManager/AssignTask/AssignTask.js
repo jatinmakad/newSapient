@@ -46,7 +46,7 @@ const AssignTask = () => {
     if (isAuth) {
       let count = Number(`${page}0`);
       dispatch(GetEntryFunction(count, admin.user.team));
-      dispatch(GetUserFunction());
+      dispatch(GetUserFunction("","","COORDINATION TEAM"));
     }
     if (page) {
       let count = Number(`${page}0`);
@@ -74,7 +74,7 @@ const AssignTask = () => {
       return r.role === "COORDINATION TEAM EMPLOYEE";
     });
 
-  console.log(entry, "entry");
+  console.log(data, "entry");
   return isAuth && entry.data ? (
     <div className="m-2 md:m-10  mt-4 p-2 md:p-5 rounded-3xl">
       <Header title="Assign Task" />
@@ -162,7 +162,7 @@ const AssignDialogBox = ({
       userId: admin.user._id,
       uniqueJobId: data.uniqueJobId,
       currentJobHolder: demo._id,
-      isTaskAssigned: true,
+      // isTaskAssigned: true,
     };
     if (demo._id) {
       dispatch(UpdateAssignFunction(taskData));

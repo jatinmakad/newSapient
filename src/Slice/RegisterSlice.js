@@ -89,14 +89,15 @@ export const RegisterFunction = (Data) => {
   };
 };
 
-export const GetUserFunction = (user, count, team) => {
+export const GetUserFunction = (user, count, team, limited) => {
   let search = user ? user : "";
   let countText = count ? count : "";
   let updatedTeam = team ? team : "";
+  let limit = limited ? limited : "";
   return async (dispatch) => {
     try {
       dispatch(GetUserPending());
-      let link = `https://sap-user-microservice.herokuapp.com/getUsers?searchKey=${search}&skip=${countText}&limit=10&team=${updatedTeam}`;
+      let link = `https://sap-user-microservice.herokuapp.com/getUsers?searchKey=${search}&skip=${countText}&limit=${limit}&team=${updatedTeam}`;
       const { data } = await axios.get(link);
       dispatch(GetUserSuccess(data));
     } catch (error) {

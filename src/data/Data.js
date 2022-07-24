@@ -124,6 +124,31 @@ export const reportTeamManagerData = [
     click: "/assign-task-report-team",
   },
 ];
+export const accountTeamManagerData = [
+  {
+    text: "Dashboard",
+    icon: <IoMdContacts />,
+    click: "/dashboard",
+  },
+  {
+    text: "Assign Task",
+    icon: <IoMdContacts />,
+    click: "/account-manager",
+  },
+];
+
+export const accountTeamEmployee = [
+  {
+    text: "Dashboard",
+    icon: <IoMdContacts />,
+    click: "/dashboard",
+  },
+  {
+    text: "Assign Task",
+    icon: <IoMdContacts />,
+    click: "/account-team",
+  },
+];
 export const reportTeamData = [
   {
     text: "Dashboard",
