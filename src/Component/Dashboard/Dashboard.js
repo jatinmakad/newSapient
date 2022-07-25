@@ -150,7 +150,7 @@ const Dashboard = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {entry.data.length > 0 ? (
+                    {entry.data && entry.data.length > 0 ? (
                       entry.data.slice(0, 9).map((row, index) => (
                         <TableRow
                           key={row.name}

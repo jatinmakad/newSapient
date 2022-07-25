@@ -22,7 +22,7 @@ const User = () => {
   useEffect(() => {
     if (page || searchInput || isAuth || success) {
       let count = Number(`${page}0`);
-      dispatch(GetUserFunction(searchInput,count));
+      dispatch(GetUserFunction(searchInput,count,"",10));
     }
     if (isAuth === false) {
       navigate("/login");
