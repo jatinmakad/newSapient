@@ -67,6 +67,11 @@ const CreateUser = () => {
       data = "ACCOUNT TEAM";
     } else if (values.role === "SURVEYOUR") {
       data = "SURVEYOUR TEAM";
+    } else if (
+      values.role === "DISPATCH TEAM EMPLOYEE" ||
+      values.role === "DISPATCH TEAM MANAGER"
+    ) {
+      data = "DISPATCH TEAM";
     }
     dispatch(RegisterFunction({ ...values, team: data }));
   };
@@ -231,5 +236,15 @@ const roleData = [
     value: "ACCOUNT TEAM MANAGER",
     label: "Account Team Manager",
     team: "ACCOUNT TEAM",
+  },
+  {
+    value: "DISPATCH TEAM MANAGER",
+    label: "Dispatch Team Manager",
+    team: "DISPATCH TEAM",
+  },
+  {
+    value: "DISPATCH TEAM EMPLOYEE",
+    label: "Dispatch Team Employee",
+    team: "DISPATCH TEAM",
   },
 ];

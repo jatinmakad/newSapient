@@ -320,6 +320,50 @@ export const UpdateEntryStatusFunction3 = (row, currentStatus) => {
   };
 };
 
+export const UpdateEntryStatusFunction4 = (row, currentStatus) => {
+  let currentJobHolding;
+  if (currentStatus === "OPEN-FOR-NEXT-TEAM") {
+    currentJobHolding = "DISPATCH TEAM";
+  } else {
+    currentJobHolding = "ACCOUNT TEAM";
+  }
+  return async (dispatch) => {
+    const config = { headers: { "Content-Type": "application/json" } };
+    dispatch(UpdateEntryStatusBefore());
+    const { data } = await axios.post(
+      `https://sap-data-management-mcs.herokuapp.com/update-task-status?uniqueJobId=${row.uniqueJobId}&previousJobHoldingTeam=${row.currentJobHoldingTeam}&currentJobHoldingTeam=${currentJobHolding}&currentJobStatus=${currentStatus}&previousJobStatus=${row.previousJobStatus}`,
+      config
+    );
+    if (data.success === true) {
+      dispatch(UpdateEntryStatus());
+      ToastComponent("Entry Status Updated SuccessFully", "success");
+    }
+    dispatch(UpdateEntryStatusCleanup());
+  };
+};
+
+export const UpdateEntryStatusFunction5 = (row, currentStatus) => {
+  let currentJobHolding;
+  if (currentStatus === "OPEN-FOR-NEXT-TEAM") {
+    currentJobHolding = "ACCOUNT TEAM";
+  } else {
+    currentJobHolding = "DISPTACH TEAM";
+  }
+  return async (dispatch) => {
+    const config = { headers: { "Content-Type": "application/json" } };
+    dispatch(UpdateEntryStatusBefore());
+    const { data } = await axios.post(
+      `https://sap-data-management-mcs.herokuapp.com/update-task-status?uniqueJobId=${row.uniqueJobId}&previousJobHoldingTeam=${row.currentJobHoldingTeam}&currentJobHoldingTeam=${currentJobHolding}&currentJobStatus=${currentStatus}&previousJobStatus=${row.previousJobStatus}`,
+      config
+    );
+    if (data.success === true) {
+      dispatch(UpdateEntryStatus());
+      ToastComponent("Entry Status Updated SuccessFully", "success");
+    }
+    dispatch(UpdateEntryStatusCleanup());
+  };
+};
+
 // export const UpdateEntryStatusFunction5 = (row, currentStatus) => {
 //   // let currentJobHolding = "Open";
 //   // if (currentStatus === "OPEN-FOR-NEXT-TEAM") {

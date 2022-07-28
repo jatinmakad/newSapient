@@ -3,8 +3,7 @@ import styled from "styled-components";
 import "../../Component/Assets/custom.css";
 // import initStates from "./initStates";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Button } from "@mui/material";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 const MainDiv = styled.div`
   display: flex;
   justify-content: center;

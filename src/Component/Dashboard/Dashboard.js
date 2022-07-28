@@ -27,6 +27,7 @@ const Dashboard = () => {
   const [report, setReport] = useState("");
   const [account, setAccount] = useState("");
   const { entry } = useSelector((state) => state.Entry.get);
+  const [dispatchData, setDispatchData] = useState("");
   const dataArray = [
     {
       heading: "Entry Team",
@@ -59,7 +60,8 @@ const Dashboard = () => {
     if (
       admin?.user?.role === "REPORT TEAM MANAGER" ||
       admin?.user?.role === "COORDINATION TEAM MANAGER" ||
-      admin?.user?.role === "ACCOUNT TEAM MANAGER"
+      admin?.user?.role === "ACCOUNT TEAM MANAGER" ||
+      admin?.user?.role === "DISPATCH TEAM MANAGER"
     ) {
       dispatch(GetEntryFunction(0, admin.user.team, "", ""));
     }
@@ -67,7 +69,8 @@ const Dashboard = () => {
       admin?.user?.role === "ACCOUNT TEAM EMPLOYEE" ||
       admin?.user?.role === "REPORT TEAM EMPLOYEE" ||
       admin?.user?.role === "COORDINATION TEAM EMPLOYEE" ||
-      admin?.user?.role === "ENTRY TEAM EMPLOYEE"
+      admin?.user?.role === "ENTRY TEAM EMPLOYEE" ||
+      admin?.user?.role === "DISPATCH TEAM EMPLOYEE"
     ) {
       dispatch(GetEntryFunction(0, "", "", admin.user._id));
     }
@@ -100,6 +103,13 @@ const Dashboard = () => {
           )
           .then((res) => {
             setAccount(res.data.data);
+          });
+        await axios
+          .get(
+            `https://sap-user-microservice.herokuapp.com/getUsers?team=DISPATCH TEAM`
+          )
+          .then((res) => {
+            setDispatchData(res.data.data);
           });
       };
       func();
@@ -150,7 +160,7 @@ const Dashboard = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {entry.data.length > 0 ? (
+                    {entry.data && entry.data.length > 0 ? (
                       entry.data.slice(0, 9).map((row, index) => (
                         <TableRow
                           key={row.name}
@@ -278,6 +288,30 @@ const Dashboard = () => {
             <DashBoardCommon
               heading={"Coordination Team Employee"}
               array={coordination}
+              url={"/assign-task"}
+              array2={entry.data}
+              heading2={"Entry's"}
+            />
+          )
+        : ""}
+
+      {admin?.user?.role === "DISPATCH TEAM MANAGER"
+        ? dispatchData && (
+            <DashBoardCommon
+              heading={"Dispatch Team Employee"}
+              array={dispatchData}
+              url={"/assign-task"}
+              array2={entry.data}
+              heading2={"Entry's"}
+            />
+          )
+        : ""}
+
+      {admin?.user?.role === "DISPATCH TEAM EMPLOYEE"
+        ? dispatchData && (
+            <DashBoardCommon
+              heading={"Dispatch Team Employee"}
+              array={dispatchData}
               url={"/assign-task"}
               array2={entry.data}
               heading2={"Entry's"}
