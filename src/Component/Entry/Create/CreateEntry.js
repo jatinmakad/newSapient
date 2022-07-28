@@ -520,5 +520,5 @@ const claimTypeData = [
   },
   { value: "Fire" },
   { value: "Marine" },
-  { value: "Theft" },
+  // { value: "Theft" },
 ];

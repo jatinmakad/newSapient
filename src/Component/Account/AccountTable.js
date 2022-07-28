@@ -101,7 +101,7 @@ const AccountTable = ({
     });
     const config = { headers: { "Content-Type": "application/json" } };
     const { data } = await axios.post(
-      "http://localhost:5000/upload-final-documents",
+      "https://sap-data-management-mcs.herokuapp.com/upload-final-documents",
       body,
       config
     );
@@ -269,7 +269,7 @@ const headerCell = [
   //   align: "left",
   // },
   {
-    value: "Insure",
+    value: "Insurer",
     align: "left",
   },
   {

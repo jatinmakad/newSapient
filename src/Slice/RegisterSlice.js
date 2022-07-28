@@ -107,11 +107,11 @@ export const GetUserFunction = (user, count, team, limited) => {
   };
 };
 
-export const GetUserFunctionCity = (search) => {
+export const GetUserFunctionCityWithTeam = (search, team) => {
   return async (dispatch) => {
     try {
       dispatch(GetUserPending());
-      let link = `https://sap-user-microservice.herokuapp.com/getUsers?city=${search}`;
+      let link = `https://sap-user-microservice.herokuapp.com/getUsers?city=${search}&team=${team}`;
       const { data } = await axios.get(link);
       dispatch(GetUserSuccess(data));
     } catch (error) {

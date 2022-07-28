@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getDocument,
-} from "../../Slice/CoordinationSlice";
+import { getDocument } from "../../Slice/CoordinationSlice";
 import Loader from "../Common/Loader";
 import axios from "axios";
 import UploadDocument from "./UploadDocument";
@@ -37,7 +35,7 @@ export default function UploadDocumentMain() {
           ? Engineering
           : type === "Fire"
           ? Fire
-          : type === "Non-Marine"
+          : type === "Marine"
           ? Marine
           : "";
       let updatedArray = rowUploaded.map((x) => {

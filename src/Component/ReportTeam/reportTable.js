@@ -101,7 +101,7 @@ const ReportTable = ({
     });
     const config = { headers: { "Content-Type": "application/json" } };
     const { data } = await axios.post(
-      "http://localhost:5000/upload-report-documents",
+      "https://sap-data-management-mcs.herokuapp.com/upload-report-documents",
       body,
       config
     );
@@ -129,73 +129,77 @@ const ReportTable = ({
           setRowsPerPage={setRowsPerPage}
         >
           <TableBody>
-            {(entry.data && entry.data).map((row, index) => (
+            {(entry.data && entry.data).map(
+              (row, index) => (
                 console.log(row),
-              <TableRow sx={{ border: "none" }}>
-                <StyledTableCell component="th" scope="row">
-                  {index + 1}
-                </StyledTableCell>
-                <StyledTableCell align="left">
-                  {row.reportRefrenceNo}
-                </StyledTableCell>
-                <StyledTableCell align="left">
-                  {row.reportDocument == "" ? (
-                    <>
-                      <input
-                        name="userfile"
-                        accept=".pdf"
-                        type="file"
-                        // accept="application/pdf"
-                        onChange={(e) => setDocument(e.target.files[0])}
-                      />
-                      <Button onClick={() => handleSubmitFile(row)}>
-                        upload
-                      </Button>
-                    </>
-                  ) : (
-                    "Uploaded"
-                  )}
-                </StyledTableCell>
-                <StyledTableCell align="left">
-                  {row.currentJobStatus}
-                </StyledTableCell>
-                <StyledTableCell align="left">
-                  <div className="flex justify-start items-left">
-                    {row.currentJobHoldingTeam == "REPORT TEAM" ? (
-                      "DONE BY REPORT TEAM"
-                    ) : (
-                      <>
-                        <p
-                          onClick={() => handleClickOpen2(row)}
-                          className="text-blue-600 cursor-pointer"
-                        >
-                          Update Status
-                        </p>
-                        <Link
-                          to={"/invoice"}
-                          state={row}
-                          className="text-blue-600 ml-5 cursor-pointer mr-3"
-                        >
-                          Report
-                        </Link>
-                        <Link to={`/entry-details/${row._id}`}>
-                          <p className="text-blue-600 flex justify-center w-full cursor-pointer">
-                            View More
-                          </p>
-                        </Link>
+                (
+                  <TableRow sx={{ border: "none" }}>
+                    <StyledTableCell component="th" scope="row">
+                      {index + 1}
+                    </StyledTableCell>
+                    <StyledTableCell align="left">
+                      {row.reportRefrenceNo}
+                    </StyledTableCell>
+                    <StyledTableCell align="left">
+                      {row.reportDocument == "" ? (
+                        <>
+                          <input
+                            name="userfile"
+                            accept=".pdf"
+                            type="file"
+                            // accept="application/pdf"
+                            onChange={(e) => setDocument(e.target.files[0])}
+                          />
+                          <Button onClick={() => handleSubmitFile(row)}>
+                            upload
+                          </Button>
+                        </>
+                      ) : (
+                        "Uploaded"
+                      )}
+                    </StyledTableCell>
+                    <StyledTableCell align="left">
+                      {row.currentJobStatus}
+                    </StyledTableCell>
+                    <StyledTableCell align="left">
+                      <div className="flex justify-start items-left">
+                        {row.currentJobHoldingTeam == "REPORT TEAM" ? (
+                          "DONE BY REPORT TEAM"
+                        ) : (
+                          <>
+                            <p
+                              onClick={() => handleClickOpen2(row)}
+                              className="text-blue-600 cursor-pointer"
+                            >
+                              Update Status
+                            </p>
+                            <Link
+                              to={"/invoice"}
+                              state={row}
+                              className="text-blue-600 ml-5 cursor-pointer mr-3"
+                            >
+                              Report
+                            </Link>
+                            <Link to={`/entry-details/${row._id}`}>
+                              <p className="text-blue-600 flex justify-center w-full cursor-pointer">
+                                View More
+                              </p>
+                            </Link>
 
-                        {/* <p
+                            {/* <p
                           className="text-red-600 ml-5 cursor-pointer"
                           // onClick={() => handleClickOpen4(row)}
                         >
                           Discrepancy
                         </p> */}
-                      </>
-                    )}
-                  </div>
-                </StyledTableCell>
-              </TableRow>
-            ))}
+                          </>
+                        )}
+                      </div>
+                    </StyledTableCell>
+                  </TableRow>
+                )
+              )
+            )}
           </TableBody>
         </TableLayout>
         <AssignDialogBox

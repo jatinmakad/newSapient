@@ -202,9 +202,9 @@ export default CreateUser;
 const roleData = [
   { value: "ADMIN", label: "Admin" },
   { value: "SURVEYOUR", label: "Surveyour" },
-  { value: "INSUER", label: "Insuer" },
-  { value: "INSURENCE COMPANY", label: "Insurence Company" },
-  { value: "BROKER", label: "Broker" },
+  // { value: "INSUER", label: "Insuer" },
+  // { value: "INSURENCE COMPANY", label: "Insurence Company" },
+  // { value: "BROKER", label: "Broker" },
   { value: "ENTRY TEAM EMPLOYEE", label: "Entry Team", team: "ENTRY TEAM" },
   { value: "REPORT TEAM EMPLOYEE", label: "Report Team", team: "REPORT TEAM" },
   {

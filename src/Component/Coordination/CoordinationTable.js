@@ -89,10 +89,7 @@ const CoordinationTable = () => {
           setRowsPerPage={setRowsPerPage}
         >
           <TableBody>
-            {(
-              entry.data &&
-              entry.data
-            ).map((row, index) => (
+            {(entry.data && entry.data).map((row, index) => (
               <TableRow sx={{ border: "none" }}>
                 <StyledTableCell component="th" scope="row">
                   {index + 1}
@@ -131,12 +128,12 @@ const CoordinationTable = () => {
                           >
                             Status
                           </p>
-                          <p
+                          {/* <p
                             className="text-red-600 cursor-pointer"
                             onClick={() => handleClickOpen4(row)}
                           >
                             Discrepancy
-                          </p>
+                          </p> */}
                         </div>
                       )}
                     </div>

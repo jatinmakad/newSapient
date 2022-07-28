@@ -28,7 +28,7 @@ import { useTheme } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import Header from "../../Common/Header";
 import TableLayout from "../../Common/TableLayout/TableLayout";
-import { GetUserFunctionCity } from "../../../Slice/RegisterSlice";
+import { GetUserFunctionCityWithTeam } from "../../../Slice/RegisterSlice";
 import { Cities } from "../../Common/Constant/Constant";
 import { UpdateAssignFunction } from "../../../Slice/CoordinationSlice";
 import ToastComponent from "../../Common/TaostComponent";
@@ -73,7 +73,14 @@ const YourWork = () => {
     if (updateAssignTaskSuccess) {
       setOpen3(false);
     }
-  }, [isAuth, deleteSuccess, updateStatusSuccess, updateAssignTaskSuccess,page,searchInput]);
+  }, [
+    isAuth,
+    deleteSuccess,
+    updateStatusSuccess,
+    updateAssignTaskSuccess,
+    page,
+    searchInput,
+  ]);
 
   const [id, setId] = React.useState("");
   const [selectData, setSelectData] = React.useState("");
@@ -120,7 +127,10 @@ const YourWork = () => {
   return isAuth && entry.data ? (
     <div className="m-2 md:m-10 mt-4 p-2 md:p-5 rounded-3xl">
       <Header title="Your Work" />
-      <TableHeaderLayout searchInput={searchInput} setSearchInput={setSearchInput} />
+      <TableHeaderLayout
+        searchInput={searchInput}
+        setSearchInput={setSearchInput}
+      />
       {isLoading ? (
         <Loader />
       ) : entry.data && !entry.data.length ? (
@@ -362,7 +372,7 @@ const AssignToSurveyDialogBox = ({
 
   useEffect(() => {
     if (city) {
-      dispatch(GetUserFunctionCity(city));
+      dispatch(GetUserFunctionCityWithTeam(city, "SURVEYOUR TEAM"));
     }
   }, [city]);
 
@@ -375,7 +385,7 @@ const AssignToSurveyDialogBox = ({
       onClose={handleClose}
       aria-labelledby="responsive-dialog-title"
     >
-      <DialogTitle id="responsive-dialog-title">Select Survyier</DialogTitle>
+      <DialogTitle id="responsive-dialog-title">Select Surveyour</DialogTitle>
       <DialogContent>
         <div className="flex flex-col justify-start mb-3">
           <p className="text-sm mb-2">Select City</p>

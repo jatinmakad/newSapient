@@ -70,7 +70,7 @@ const Survery = () => {
           ? Engineering
           : row.claimType === "Fire"
           ? Fire
-          : row.claimType === "Non-Marine"
+          : row.claimType === "Marine"
           ? Marine
           : "";
       let updatedArray = rowUploaded.map((x) => {

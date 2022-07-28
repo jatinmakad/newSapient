@@ -158,7 +158,7 @@ const EntryDetails = (props) => {
             </div>
           </div>
         </div>
-        {location.state === "yourWork" ? (
+        {/* {location.state === "yourWork" ? (
           <>
             <p className="text-xl font-medium mb-4">Discrepancy</p>
             {data[0].discrepancy.map((r) => (
@@ -170,7 +170,7 @@ const EntryDetails = (props) => {
           </>
         ) : (
           ""
-        )}
+        )} */}
 
         <div className="w-full flex justify-end">
           <div className="flex">
