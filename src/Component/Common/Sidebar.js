@@ -15,6 +15,8 @@ import {
   SurveryData,
   accountTeamManagerData,
   accountTeamEmployee,
+  dispatchTeamEmployee,
+  disptachTeamManagerData,
 } from "../../data/Data";
 import Loader from "../Common/Loader";
 const Sidebar = () => {
@@ -52,6 +54,10 @@ const Sidebar = () => {
       ? accountTeamManagerData
       : admin?.user?.role === "ACCOUNT TEAM EMPLOYEE"
       ? accountTeamEmployee
+      : admin?.user?.role === "DISPATCH TEAM EMPLOYEE"
+      ? dispatchTeamEmployee
+      : admin?.user?.role === "DISPATCH TEAM MANAGER"
+      ? disptachTeamManagerData
       : "";
   const activeLink =
     "flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg  text-white  text-md m-2";

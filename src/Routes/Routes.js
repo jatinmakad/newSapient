@@ -2,12 +2,24 @@ import React, { lazy, Suspense } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Loader from "../Component/Common/Loader";
 import NotFound from "../Component/Common/NotFound";
+const DispatchManager = lazy(() =>
+  import("../Component/DispatchManager/DispatchManager")
+);
+const DispatchTeam = lazy(() => import("../Component/Dispatch/DispatchTeam"));
 const AccountTeam = lazy(() => import("../Component/Account/AccountTeam"));
-const AccountTeamAdmin = lazy(() => import("../Component/Account/AccountTeamAdmin"));
-const AccountManager = lazy(() => import("../Component/AccountManager/AccountManager"));
-const AdminCoordinationTeam = lazy(() => import("../Component/Coordination/AdminCoordinationTeam"));
+const AccountTeamAdmin = lazy(() =>
+  import("../Component/Account/AccountTeamAdmin")
+);
+const AccountManager = lazy(() =>
+  import("../Component/AccountManager/AccountManager")
+);
+const AdminCoordinationTeam = lazy(() =>
+  import("../Component/Coordination/AdminCoordinationTeam")
+);
 const AdminEntryTeam = lazy(() => import("../Component/Entry/AdminEntryTeam"));
-const AdminReportTeam = lazy(() => import("../Component/ReportTeam/AdminReportTeam"));
+const AdminReportTeam = lazy(() =>
+  import("../Component/ReportTeam/AdminReportTeam")
+);
 const Dashboard = lazy(() => import("../Component/Dashboard/Dashboard"));
 const Entry = lazy(() => import("../Component/Entry/Entry"));
 const Login = lazy(() => import("../Component/Login/Login"));
@@ -37,18 +49,18 @@ const UploadDocumentMain = lazy(() =>
   import("../Component/Survery/UploadDocumentMain")
 );
 const SurveryUpdate = lazy(() => import("../Component/Survery/SurveryUpdate"));
-const InvoiceComponent= lazy(() => import("../Component/Invoices/index"));
+const InvoiceComponent = lazy(() => import("../Component/Invoices/index"));
 
 const RoutesPage = () => {
   return (
-    <Suspense fallback={<Loader/>}>
+    <Suspense fallback={<Loader />}>
       <Routes>
         <Route path="/" element={<Navigate replace to="/login" />} />
         <Route path={"/login"} element={<Login />} />
         <Route path={"/dashboard"} element={<Dashboard />} />
         /* Entry */
         <Route path={"/entry"} element={<Entry />} />
-        <Route path={"/entry-admin"} element={<AdminEntryTeam/>} />
+        <Route path={"/entry-admin"} element={<AdminEntryTeam />} />
         <Route path={"/create-entry"} element={<CreateEntry />} />
         <Route path={"/update-entry/:id"} element={<UpdateEntry />} />
         <Route path={"/entry-details/:id"} element={<EntryDetails />} />
@@ -58,16 +70,21 @@ const RoutesPage = () => {
         <Route path={"/create-user"} element={<CreateUser />} />
         /* Coordination */
         <Route path={"/coordination"} element={<Coordination />} />
-        <Route path={"/coordination-admin"} element={<AdminCoordinationTeam/>} />
+        <Route
+          path={"/coordination-admin"}
+          element={<AdminCoordinationTeam />}
+        />
         <Route
           path={"/update-coordination/:id"}
           element={<UpdateCoordination />}
         />
         <Route path={"/assign-task"} element={<AssignTask />} />
-      
         /* REPORT */
         <Route path={"/report-team"} element={<ReportTeam />} />
         <Route path={"/report-team-admin"} element={<AdminReportTeam />} />
+        /* DISPATCH */
+        <Route path={"/dispatch-team"} element={<DispatchTeam />} />
+        <Route path={"/dispatch-manager"} element={<DispatchManager />} />
         {/* <Route
           path={"/update-coordination/:id"}
           element={<UpdateCoordination />}
@@ -79,8 +96,8 @@ const RoutesPage = () => {
         />
         /* Account */
         <Route path={"/account-admin"} element={<AccountTeamAdmin />} />
-        <Route path={"/account-team"} element={<AccountTeam/>}/>
-        <Route path={"/account-manager"} element={<AccountManager />} /> 
+        <Route path={"/account-team"} element={<AccountTeam />} />
+        <Route path={"/account-manager"} element={<AccountManager />} />
         <Route path={"/survery"} element={<Survery />} />
         <Route path={"/survery-update/:id"} element={<SurveryUpdate />} />
         <Route

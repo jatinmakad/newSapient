@@ -1,9 +1,11 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  GetEntryFunction,
   GetEntryFunctionId,
   UpdateEntryStatusFunction2,
   UpdateEntryStatusFunction3,
+  UpdateEntryStatusFunction4,
 } from "../../Slice/EntrySlice";
 import { Link, useNavigate } from "react-router-dom";
 import Table from "@mui/material/Table";
@@ -36,6 +38,8 @@ import LastPageOutlined from "@mui/icons-material/LastPageOutlined";
 import Image from "../Assets/noresult.webp";
 import TableLayout from "../Common/TableLayout/TableLayout";
 import CommentDialog from "../Common/CommentDialog";
+import ToastComponent from "../Common/TaostComponent";
+import axios from "axios";
 const AccountTable = ({
   searchInput,
   page,
@@ -80,6 +84,32 @@ const AccountTable = ({
     setOpen2(false);
   };
 
+  const [document, setDocument] = React.useState("");
+
+  const handleSubmitFile = (row) => {
+    if (!document) return;
+    const reader = new FileReader();
+    reader.readAsDataURL(document);
+    reader.onloadend = () => {
+      uploadImage(reader.result, row.uniqueJobId);
+    };
+  };
+  const uploadImage = async (base64EncodedImage, id) => {
+    let body = JSON.stringify({
+      data: base64EncodedImage,
+      uniqueJobId: id,
+    });
+    const config = { headers: { "Content-Type": "application/json" } };
+    const { data } = await axios.post(
+      "http://localhost:5000/upload-final-documents",
+      body,
+      config
+    );
+    if (data.success === true) {
+      dispatch(GetEntryFunction(page, "", searchInput, admin.user._id));
+      ToastComponent("Document Uploaded SuccessFully", "success");
+    }
+  };
   return isAuth && entry.data ? (
     isLoading ? (
       <Loader />
@@ -98,59 +128,92 @@ const AccountTable = ({
           setRowsPerPage={setRowsPerPage}
         >
           <TableBody>
-            {(entry.data && entry.data).map((row, index) => (
-              <TableRow sx={{ border: "none" }}>
-                <StyledTableCell component="th" scope="row">
-                  {index + 1}
-                </StyledTableCell>
-                <StyledTableCell align="left">
-                  {row.reportRefrenceNo}
-                </StyledTableCell>
-                <StyledTableCell align="left">{row.city}</StyledTableCell>
-                <StyledTableCell align="left">
-                  {moment(row.date).format("L")}
-                </StyledTableCell>
-                <StyledTableCell align="left">
-                  {/* <StatusColor status={row.status} /> */}
-                  {row.insured}
-                </StyledTableCell>
-                <StyledTableCell align="left">
-                  {/* <StatusColor status={row.status} /> */}
-                  {row.currentJobStatus}
-                </StyledTableCell>
-                <StyledTableCell align="left">
-                  <div className="flex justify-start items-left">
-                    {row.currentJobHoldingTeam !== "ACCOUNT TEAM" ? (
-                      "DONE BY REPORT TEAM"
-                    ) : (
-                      <>
-                        {/* <Link to={`/update-coordination/${row.uniqueJobId}`}>
+            {(entry.data && entry.data).map(
+              (row, index) => (
+                console.log(row, "row"),
+                (
+                  <TableRow sx={{ border: "none" }}>
+                    <StyledTableCell component="th" scope="row">
+                      {index + 1}
+                    </StyledTableCell>
+                    <StyledTableCell align="left">
+                      {row.reportRefrenceNo}
+                    </StyledTableCell>
+                    {/* <StyledTableCell align="left">{row.city}</StyledTableCell>
+                    <StyledTableCell align="left">
+                      {moment(row.date).format("L")}
+                    </StyledTableCell> */}
+                    <StyledTableCell align="left">
+                      {/* <StatusColor status={row.status} /> */}
+                      {row.insured}
+                    </StyledTableCell>
+                    <StyledTableCell align="left">
+                      {row.reportDocument ? (
+                        <a
+                          href={row.reportDocument}
+                          target={"_blank"}
+                          className="text-blue-800 cursor-pointer"
+                        >
+                          Download
+                        </a>
+                      ) : (
+                        <p>---</p>
+                      )}
+                    </StyledTableCell>
+                    <StyledTableCell align="left">
+                      {row.finalScannedReport == "" ? (
+                        <>
+                          <input
+                            name="userfile"
+                            accept=".pdf"
+                            type="file"
+                            // accept="application/pdf"
+                            onChange={(e) => setDocument(e.target.files[0])}
+                          />
+                          <Button onClick={() => handleSubmitFile(row)}>
+                            upload
+                          </Button>
+                        </>
+                      ) : (
+                        "Uploaded"
+                      )}
+                    </StyledTableCell>
+                    <StyledTableCell align="left">
+                      <div className="flex justify-start items-left">
+                        {row.currentJobHoldingTeam !== "ACCOUNT TEAM" ? (
+                          "DONE BY REPORT TEAM"
+                        ) : (
+                          <>
+                            {/* <Link to={`/update-coordination/${row.uniqueJobId}`}>
                           <EditIcon className="text-blue-700 cursor-pointer" />
                         </Link>
                         &nbsp; &nbsp; */}
-                        <p
-                          onClick={() => handleClickOpen2(row)}
-                          className="text-blue-600 cursor-pointer mr-2"
-                        >
-                          Update Status
-                        </p>
-                        <Link to={`/entry-details/${row._id}`}>
-                          <p className="text-blue-600 flex justify-center w-full cursor-pointer">
-                            View More
-                          </p>
-                        </Link>
-                        {/* <p
+                            <p
+                              onClick={() => handleClickOpen2(row)}
+                              className="text-blue-600 cursor-pointer mr-2"
+                            >
+                              Update Status
+                            </p>
+
+                            <Link to={`/entry-details/${row._id}`}>
+                              <p className="text-blue-600 flex justify-center w-full cursor-pointer">
+                                View More
+                              </p>
+                            </Link>
+                            {/* <p
                           className="text-red-600 ml-5 cursor-pointer"
                           // onClick={() => handleClickOpen4(row)}
                         >
                           Discrepancy
                         </p> */}
-                      </>
-                    )}
-                  </div>
-                </StyledTableCell>
-              </TableRow>
-            ))}
+                          </>
+                        )}
+                      </div>
+                    </StyledTableCell>
+                  </TableRow>
+                )
+              )
+            )}
           </TableBody>
         </TableLayout>
         <AssignDialogBox
@@ -197,20 +260,24 @@ const headerCell = [
     value: "Refrence No.",
     align: "left",
   },
-  {
-    value: "City",
-    align: "left",
-  },
-  {
-    value: "Date",
-    align: "left",
-  },
+  // {
+  //   value: "City",
+  //   align: "left",
+  // },
+  // {
+  //   value: "Date",
+  //   align: "left",
+  // },
   {
     value: "Insure",
     align: "left",
   },
   {
-    value: "Status",
+    value: "Download Report",
+    align: "left",
+  },
+  {
+    value: "Upload",
     align: "left",
   },
   {
@@ -224,7 +291,7 @@ const AssignDialogBox = ({ open, handleClose, selectData, dispatch }) => {
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
   const [demo, setDemo] = React.useState("");
   const onSubmit = () => {
-    dispatch(UpdateEntryStatusFunction3(selectData, demo));
+    dispatch(UpdateEntryStatusFunction4(selectData, demo));
   };
   return (
     <Dialog

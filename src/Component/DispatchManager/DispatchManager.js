@@ -23,7 +23,7 @@ import ToastComponent from "../Common/TaostComponent";
 import Header from "../Common/Header";
 import Image from "../Assets/noresult.webp";
 import TableLayout from "../Common/TableLayout/TableLayout";
-const AccountManager = () => {
+const DispatchManager = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isAuth, admin } = useSelector((state) => state.Login);
@@ -66,7 +66,7 @@ const AccountManager = () => {
   let updated =
     data &&
     data.filter((r) => {
-      return r.role === "ACCOUNT TEAM EMPLOYEE";
+      return r.role === "DISPATCH TEAM EMPLOYEE";
     });
 
   return isAuth && entry.data ? (
@@ -93,13 +93,7 @@ const AccountManager = () => {
             setRowsPerPage={setRowsPerPage}
           >
             <TableBody>
-              {(
-                entry.data &&
-                entry.data.slice(
-                  page * rowsPerPage,
-                  page * rowsPerPage + rowsPerPage
-                )
-              ).map((row, index) => (
+              {(entry.data && entry.data).map((row, index) => (
                 <TableRow sx={{ border: "none" }}>
                   <StyledTableCell component="th" scope="row">
                     {index + 1}
@@ -149,7 +143,7 @@ const AccountManager = () => {
   );
 };
 
-export default AccountManager;
+export default DispatchManager;
 
 const AssignDialogBox = ({
   open,
@@ -167,7 +161,7 @@ const AssignDialogBox = ({
       userId: admin.user._id,
       uniqueJobId: data.uniqueJobId,
       currentJobHolder: demo._id,
-      // isTaskAssigned: true,
+      isTaskAssigned: true,
     };
     if (demo._id) {
       dispatch(UpdateAssignFunction(taskData));

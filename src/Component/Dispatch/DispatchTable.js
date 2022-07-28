@@ -5,6 +5,8 @@ import {
   GetEntryFunctionId,
   UpdateEntryStatusFunction2,
   UpdateEntryStatusFunction3,
+  UpdateEntryStatusFunction4,
+  UpdateEntryStatusFunction5,
 } from "../../Slice/EntrySlice";
 import { Link, useNavigate } from "react-router-dom";
 import Table from "@mui/material/Table";
@@ -39,7 +41,7 @@ import TableLayout from "../Common/TableLayout/TableLayout";
 import CommentDialog from "../Common/CommentDialog";
 import ToastComponent from "../Common/TaostComponent";
 import axios from "axios";
-const ReportTable = ({
+const DispatchTable = ({
   searchInput,
   page,
   setPage,
@@ -55,11 +57,8 @@ const ReportTable = ({
   );
   const [open2, setOpen2] = React.useState(false);
   const [selectData, setSelectData] = React.useState("");
-  const [document, setDocument] = React.useState("");
+
   useEffect(() => {
-    // if (isAuth) {
-    //   dispatch(GetEntryFunctionId(admin.user._id));
-    // }
     if (isAuth === false) {
       navigate("/login");
     }
@@ -86,31 +85,6 @@ const ReportTable = ({
     setOpen2(false);
   };
 
-  const handleSubmitFile = (row) => {
-    if (!document) return;
-    const reader = new FileReader();
-    reader.readAsDataURL(document);
-    reader.onloadend = () => {
-      uploadImage(reader.result, row.uniqueJobId);
-    };
-  };
-  const uploadImage = async (base64EncodedImage, id) => {
-    let body = JSON.stringify({
-      data: base64EncodedImage,
-      uniqueJobId: id,
-    });
-    const config = { headers: { "Content-Type": "application/json" } };
-    const { data } = await axios.post(
-      "http://localhost:5000/upload-report-documents",
-      body,
-      config
-    );
-    if (data.success === true) {
-      dispatch(GetEntryFunction(page, "", searchInput, admin.user._id));
-      ToastComponent("Document Uploaded SuccessFully", "success");
-    }
-  };
-
   return isAuth && entry.data ? (
     isLoading ? (
       <Loader />
@@ -129,73 +103,62 @@ const ReportTable = ({
           setRowsPerPage={setRowsPerPage}
         >
           <TableBody>
-            {(entry.data && entry.data).map((row, index) => (
-                console.log(row),
-              <TableRow sx={{ border: "none" }}>
-                <StyledTableCell component="th" scope="row">
-                  {index + 1}
-                </StyledTableCell>
-                <StyledTableCell align="left">
-                  {row.reportRefrenceNo}
-                </StyledTableCell>
-                <StyledTableCell align="left">
-                  {row.reportDocument == "" ? (
-                    <>
-                      <input
-                        name="userfile"
-                        accept=".pdf"
-                        type="file"
-                        // accept="application/pdf"
-                        onChange={(e) => setDocument(e.target.files[0])}
-                      />
-                      <Button onClick={() => handleSubmitFile(row)}>
-                        upload
-                      </Button>
-                    </>
-                  ) : (
-                    "Uploaded"
-                  )}
-                </StyledTableCell>
-                <StyledTableCell align="left">
-                  {row.currentJobStatus}
-                </StyledTableCell>
-                <StyledTableCell align="left">
-                  <div className="flex justify-start items-left">
-                    {row.currentJobHoldingTeam == "REPORT TEAM" ? (
-                      "DONE BY REPORT TEAM"
-                    ) : (
-                      <>
-                        <p
-                          onClick={() => handleClickOpen2(row)}
-                          className="text-blue-600 cursor-pointer"
-                        >
-                          Update Status
-                        </p>
-                        <Link
-                          to={"/invoice"}
-                          state={row}
-                          className="text-blue-600 ml-5 cursor-pointer mr-3"
-                        >
-                          Report
-                        </Link>
-                        <Link to={`/entry-details/${row._id}`}>
-                          <p className="text-blue-600 flex justify-center w-full cursor-pointer">
-                            View More
-                          </p>
-                        </Link>
+            {(entry.data && entry.data).map(
+              (row, index) => (
+                console.log(row, "row"),
+                (
+                  <TableRow sx={{ border: "none" }}>
+                    <StyledTableCell component="th" scope="row">
+                      {index + 1}
+                    </StyledTableCell>
+                    <StyledTableCell align="left">
+                      {row.reportRefrenceNo}
+                    </StyledTableCell>
+                    {/* <StyledTableCell align="left">{row.city}</StyledTableCell> */}
+                    <StyledTableCell align="left">
+                      {moment(row.date).format("L")}
+                    </StyledTableCell>
 
-                        {/* <p
-                          className="text-red-600 ml-5 cursor-pointer"
-                          // onClick={() => handleClickOpen4(row)}
+                    <StyledTableCell align="left">
+                      {row.finalScannedReport ? (
+                        <a
+                          href={row.finalScannedReport}
+                          target={"_blank"}
+                          className="text-blue-800 cursor-pointer"
                         >
-                          Discrepancy
-                        </p> */}
-                      </>
-                    )}
-                  </div>
-                </StyledTableCell>
-              </TableRow>
-            ))}
+                          Download
+                        </a>
+                      ) : (
+                        <p>---</p>
+                      )}
+                    </StyledTableCell>
+                    <StyledTableCell align="left">
+                      <div className="flex justify-start items-left">
+                        {row.currentJobHoldingTeam == "ACCOUNT TEAM" ? (
+                          "DONE BY REPORT TEAM"
+                        ) : (
+                          <>
+                           
+                            {/* <p
+                              onClick={() => handleClickOpen2(row)}
+                              className="text-blue-600 cursor-pointer mr-2"
+                            >
+                              Update Status
+                            </p> */}
+
+                            <Link to={`/entry-details/${row._id}`}>
+                              <p className="text-blue-600 flex justify-center w-full cursor-pointer">
+                                View More
+                              </p>
+                            </Link>
+                          </>
+                        )}
+                      </div>
+                    </StyledTableCell>
+                  </TableRow>
+                )
+              )
+            )}
           </TableBody>
         </TableLayout>
         <AssignDialogBox
@@ -219,7 +182,7 @@ const ReportTable = ({
   );
 };
 
-export default ReportTable;
+export default DispatchTable;
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -246,20 +209,12 @@ const headerCell = [
   //   value: "City",
   //   align: "left",
   // },
-  // {
-  //   value: "Date",
-  //   align: "left",
-  // },
-  // {
-  //   value: "Insure",
-  //   align: "left",
-  // },
   {
-    value: "Upload Document",
+    value: "Date",
     align: "left",
   },
   {
-    value: "Status",
+    value: "Insure",
     align: "left",
   },
   {
@@ -273,11 +228,7 @@ const AssignDialogBox = ({ open, handleClose, selectData, dispatch }) => {
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
   const [demo, setDemo] = React.useState("");
   const onSubmit = () => {
-    if (selectData.reportDocument === "") {
-      ToastComponent("Please upload Final Document", "error");
-    } else {
-      dispatch(UpdateEntryStatusFunction3(selectData, demo));
-    }
+    dispatch(UpdateEntryStatusFunction5(selectData, demo));
   };
   return (
     <Dialog

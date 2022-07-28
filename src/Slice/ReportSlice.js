@@ -53,7 +53,7 @@ export const UpdateAssignFunction = (Data) => {
       const config = { headers: { "Content-Type": "application/json" } };
       dispatch(UpdateAssignTaskBefore());
       const { data } = await axios.post(
-        `https://sap-data-management-mcs.herokuapp.com/assign-tasks`,
+        `http://localhost:5000/assign-tasks`,
         Data,
         config
       );

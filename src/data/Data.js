@@ -149,6 +149,30 @@ export const accountTeamEmployee = [
     click: "/account-team",
   },
 ];
+export const dispatchTeamEmployee = [
+  {
+    text: "Dashboard",
+    icon: <IoMdContacts />,
+    click: "/dashboard",
+  },
+  {
+    text: "Dispatch Team",
+    icon: <IoMdContacts />,
+    click: "/dispatch-team",
+  },
+];
+export const disptachTeamManagerData = [
+  {
+    text: "Dashboard",
+    icon: <IoMdContacts />,
+    click: "/dashboard",
+  },
+  {
+    text: "Assign Task",
+    icon: <IoMdContacts />,
+    click: "/dispatch-manager",
+  },
+];
 export const reportTeamData = [
   {
     text: "Dashboard",
