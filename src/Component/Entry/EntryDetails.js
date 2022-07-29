@@ -21,15 +21,15 @@ const EntryDetails = (props) => {
       setData(updated);
     }
   }, [isAuth, id]);
-  const innerP = "w-2/5 text-blue-700 font-medium";
-  const innerText = "w-3/5";
+  const innerP = "w-1/2 text-blue-700 font-medium";
+  const innerText = "w-1/2";
   const outerDiv = "flex justify-between items-center text-lg";
   return isAuth && data ? (
     <div className="m-2 md:m-10 mt-4 p-2 md:p-5 rounded-3xl">
       <Header title="Entry Details" />
       <div className="bg-white lg:p-5 md:p-5 p-3 rounded-md">
         <div className=" flex lg:flex-row md:flex-row flex-col mb-5">
-          <div className="lg:w-1/2 md:w-1/2 flex flex-col w-full">
+          <div className="lg:w-1/2 md:w-1/2 flex flex-col w-full ">
             <div className={outerDiv}>
               <p className={innerP}>Refrence</p>
               <p className={innerText}>{data[0].reportRefrenceNo}</p>
@@ -84,8 +84,8 @@ const EntryDetails = (props) => {
               <p className={innerP}>State</p>
               <p className={innerText}>{data[0].state}</p>
             </div>
-          </div>
-          <div className="lg:w-1/2 md:w-1/2 flex flex-col w-full ">
+      
+         
             <div className={outerDiv}>
               <p className={innerP}>Policy No.</p>
               <p className={innerText}>
@@ -156,22 +156,8 @@ const EntryDetails = (props) => {
                 {data[0].vehicleNumber ? data[0].vehicleNumber : "-"}
               </p>
             </div>
-          </div>
+         </div>
         </div>
-        {/* {location.state === "yourWork" ? (
-          <>
-            <p className="text-xl font-medium mb-4">Discrepancy</p>
-            {data[0].discrepancy.map((r) => (
-              <p>
-                <span className={innerP}>Comment :</span>{" "}
-                <span className={innerText}>{r.comment}</span>
-              </p>
-            ))}
-          </>
-        ) : (
-          ""
-        )} */}
-
         <div className="w-full flex justify-end">
           <div className="flex">
             <Button

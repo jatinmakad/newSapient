@@ -5,6 +5,7 @@ import {
   GetEntryFunctionId,
   UpdateEntryStatusFunction2,
   UpdateEntryStatusFunction3,
+  UpdateEntryStatusFunction4,
 } from "../../Slice/EntrySlice";
 import { Link, useNavigate } from "react-router-dom";
 import Table from "@mui/material/Table";
@@ -39,7 +40,7 @@ import TableLayout from "../Common/TableLayout/TableLayout";
 import CommentDialog from "../Common/CommentDialog";
 import ToastComponent from "../Common/TaostComponent";
 import axios from "axios";
-const ReportTable = ({
+const AccountDispatchedTable = ({
   searchInput,
   page,
   setPage,
@@ -55,11 +56,8 @@ const ReportTable = ({
   );
   const [open2, setOpen2] = React.useState(false);
   const [selectData, setSelectData] = React.useState("");
-  const [document, setDocument] = React.useState("");
+
   useEffect(() => {
-    // if (isAuth) {
-    //   dispatch(GetEntryFunctionId(admin.user._id));
-    // }
     if (isAuth === false) {
       navigate("/login");
     }
@@ -86,6 +84,8 @@ const ReportTable = ({
     setOpen2(false);
   };
 
+  const [document, setDocument] = React.useState("");
+
   const handleSubmitFile = (row) => {
     if (!document) return;
     const reader = new FileReader();
@@ -101,7 +101,7 @@ const ReportTable = ({
     });
     const config = { headers: { "Content-Type": "application/json" } };
     const { data } = await axios.post(
-      "https://sap-data-management-mcs.herokuapp.com/upload-report-documents",
+      "https://sap-data-management-mcs.herokuapp.com/upload-final-documents",
       body,
       config
     );
@@ -110,7 +110,14 @@ const ReportTable = ({
       ToastComponent("Document Uploaded SuccessFully", "success");
     }
   };
-
+  let updated =
+    entry.data &&
+    entry.data.filter(
+      (r) =>
+        r.dispatch.trackId !== "" &&
+        r.dispatch.courierServiceName !== "" &&
+        r.dispatch.courierServiceUrl !== "" 
+    );
   return isAuth && entry.data ? (
     isLoading ? (
       <Loader />
@@ -122,82 +129,69 @@ const ReportTable = ({
       <>
         <TableLayout
           headerCell={headerCell}
-          data={entry.total}
+          data={updated.length}
           page={page}
           setPage={setPage}
           rowsPerPage={rowsPerPage}
           setRowsPerPage={setRowsPerPage}
         >
           <TableBody>
-            {(entry.data && entry.data).map(
-              (row, index) => (
-                console.log(row),
-                (
-                  <TableRow sx={{ border: "none" }}>
-                    <StyledTableCell component="th" scope="row">
-                      {index + 1}
-                    </StyledTableCell>
-                    <StyledTableCell align="left">
-                      {row.reportRefrenceNo}
-                    </StyledTableCell>
-                    <StyledTableCell align="left">
-                      {row.reportDocument == "" ? (
-                        <>
-                          <input
-                            name="userfile"
-                            accept=".pdf"
-                            type="file"
-                            onChange={(e) => setDocument(e.target.files[0])}
-                          />
-                          <Button onClick={() => handleSubmitFile(row)}>
-                            upload
-                          </Button>
-                        </>
-                      ) : (
-                        "Uploaded"
-                      )}
-                    </StyledTableCell>
-                    <StyledTableCell align="left">
-                      {row.currentJobStatus}
-                    </StyledTableCell>
-                    <StyledTableCell align="left">
-                      <div className="flex justify-start items-left">
-                        {row.currentJobHoldingTeam !== "REPORT TEAM" ? (
-                          "DONE BY REPORT TEAM"
-                        ) : (
-                          <>
-                            <p
-                              onClick={() => handleClickOpen2(row)}
-                              className="text-blue-600 cursor-pointer"
-                            >
-                              Update Status
-                            </p>
-                            <Link
-                              to={"/invoice"}
-                              state={row}
-                              className="text-blue-600 ml-5 cursor-pointer mr-3"
-                            >
-                              Report
-                            </Link>
-                            <Link to={`/entry-details/${row._id}`}>
-                              <p className="text-blue-600 flex justify-center w-full cursor-pointer">
-                                View More
-                              </p>
-                            </Link>
-                            {/* <p
-                          className="text-red-600 ml-5 cursor-pointer"
-                          // onClick={() => handleClickOpen4(row)}
-                        >
-                          Discrepancy
-                        </p> */}
-                          </>
-                        )}
-                      </div>
-                    </StyledTableCell>
-                  </TableRow>
-                )
-              )
-            )}
+            {(updated && updated).map((row, index) => (
+              <TableRow sx={{ border: "none" }}>
+                <StyledTableCell component="th" scope="row">
+                  {index + 1}
+                </StyledTableCell>
+                <StyledTableCell align="left">
+                  {row.reportRefrenceNo}
+                </StyledTableCell>
+                <StyledTableCell align="left">{row.insured}</StyledTableCell>
+                <StyledTableCell align="left">
+                  {row.reportDocument !== "" ? (
+                    <a
+                      href={row.reportDocument}
+                      target={"_blank"}
+                      className="text-blue-800 cursor-pointer"
+                    >
+                      Download
+                    </a>
+                  ) : (
+                    <p>---</p>
+                  )}
+                </StyledTableCell>
+                <StyledTableCell align="left">
+                  {row.finalScannedReport == "" ? (
+                    <>
+                      <input
+                        name="userfile"
+                        accept=".pdf"
+                        type="file"
+                        onChange={(e) => setDocument(e.target.files[0])}
+                      />
+                      <Button onClick={() => handleSubmitFile(row)}>
+                        upload
+                      </Button>
+                    </>
+                  ) : (
+                    "Uploaded"
+                  )}
+                </StyledTableCell>
+                <StyledTableCell align="left">
+                  <div className="flex justify-start items-left">
+                    {row.currentJobHoldingTeam !== "ACCOUNT TEAM" ? (
+                      "DONE BY REPORT TEAM"
+                    ) : (
+                      <>
+                        <Link to={`/entry-details/${row._id}`}>
+                          <p className="text-blue-600 flex justify-center w-full cursor-pointer">
+                            View More
+                          </p>
+                        </Link>
+                      </>
+                    )}
+                  </div>
+                </StyledTableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </TableLayout>
         <AssignDialogBox
@@ -221,7 +215,7 @@ const ReportTable = ({
   );
 };
 
-export default ReportTable;
+export default AccountDispatchedTable;
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -245,11 +239,15 @@ const headerCell = [
     align: "left",
   },
   {
-    value: "Upload Document",
+    value: "Insurer",
     align: "left",
   },
   {
-    value: "Status",
+    value: "Download Report",
+    align: "left",
+  },
+  {
+    value: "Upload",
     align: "left",
   },
   {
@@ -263,11 +261,7 @@ const AssignDialogBox = ({ open, handleClose, selectData, dispatch }) => {
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
   const [demo, setDemo] = React.useState("");
   const onSubmit = () => {
-    if (selectData.reportDocument === "") {
-      ToastComponent("Please upload Final Document", "error");
-    } else {
-      dispatch(UpdateEntryStatusFunction3(selectData, demo));
-    }
+    dispatch(UpdateEntryStatusFunction4(selectData, demo));
   };
   return (
     <Dialog

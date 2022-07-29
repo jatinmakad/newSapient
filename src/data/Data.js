@@ -144,9 +144,14 @@ export const accountTeamEmployee = [
     click: "/dashboard",
   },
   {
-    text: "Assign Task",
+    text: "Account Team",
     icon: <IoMdContacts />,
     click: "/account-team",
+  },
+  {
+    text: "Diapteched",
+    icon: <IoMdContacts />,
+    click: "/account-dispatched",
   },
 ];
 export const dispatchTeamEmployee = [

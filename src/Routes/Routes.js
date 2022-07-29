@@ -5,6 +5,7 @@ import NotFound from "../Component/Common/NotFound";
 const DispatchManager = lazy(() =>
   import("../Component/DispatchManager/DispatchManager")
 );
+const AccountDispatchedTeam = lazy(() => import("../Component/Account/AccountDispatchTeam"))
 const DispatchTeam = lazy(() => import("../Component/Dispatch/DispatchTeam"));
 const AccountTeam = lazy(() => import("../Component/Account/AccountTeam"));
 const AccountTeamAdmin = lazy(() =>
@@ -97,6 +98,7 @@ const RoutesPage = () => {
         /* Account */
         <Route path={"/account-admin"} element={<AccountTeamAdmin />} />
         <Route path={"/account-team"} element={<AccountTeam />} />
+        <Route path={"/account-dispatched"} element={<AccountDispatchedTeam />} />
         <Route path={"/account-manager"} element={<AccountManager />} />
         <Route path={"/survery"} element={<Survery />} />
         <Route path={"/survery-update/:id"} element={<SurveryUpdate />} />

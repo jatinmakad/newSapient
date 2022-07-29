@@ -68,6 +68,28 @@ export const UpdateAssignFunction = (Data) => {
   };
 };
 
+export const DispatchDeitlasFunction = (Data) => {
+  return async (dispatch) => {
+    try {
+      const config = { headers: { "Content-Type": "application/json" } };
+      dispatch(UpdateAssignTaskBefore());
+      const { data } = await axios.post(
+        `https://sap-data-management-mcs.herokuapp.com/dispatch-data`,
+        Data,
+        config
+      );
+      if (data.success === true) {
+        dispatch(UpdateAssignTaskStatus());
+        ToastComponent("Courier Detials Added SuccessFully", "success");
+      }
+      dispatch(UpdateAssignTaskCleanup());
+    } catch (error) {
+      ToastComponent(error.response.data.message, "error");
+    }
+  };
+};
+
+
 // export const UpdateAssignFunction = (Data) => {
 //   return async (dispatch) => {
 //     try {

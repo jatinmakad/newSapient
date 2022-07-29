@@ -110,10 +110,19 @@ const AccountTable = ({
       ToastComponent("Document Uploaded SuccessFully", "success");
     }
   };
-  return isAuth && entry.data ? (
+
+  let updated =
+    entry.data &&
+    entry.data.filter(
+      (r) =>
+        r.dispatch.trackId == "" &&
+        r.dispatch.courierServiceName == "" &&
+        r.dispatch.courierServiceUrl == "" 
+    );
+  return isAuth && updated ? (
     isLoading ? (
       <Loader />
-    ) : entry.data && !entry.data.length ? (
+    ) : updated && !updated.length ? (
       <div className="w-full flex justify-center items-center">
         <img src={Image} className="w-1/2" />
       </div>
@@ -121,99 +130,83 @@ const AccountTable = ({
       <>
         <TableLayout
           headerCell={headerCell}
-          data={entry.total}
+          data={updated.length}
           page={page}
           setPage={setPage}
           rowsPerPage={rowsPerPage}
           setRowsPerPage={setRowsPerPage}
         >
           <TableBody>
-            {(entry.data && entry.data).map(
-              (row, index) => (
-                console.log(row, "row"),
-                (
-                  <TableRow sx={{ border: "none" }}>
-                    <StyledTableCell component="th" scope="row">
-                      {index + 1}
-                    </StyledTableCell>
-                    <StyledTableCell align="left">
-                      {row.reportRefrenceNo}
-                    </StyledTableCell>
-                    {/* <StyledTableCell align="left">{row.city}</StyledTableCell>
-                    <StyledTableCell align="left">
-                      {moment(row.date).format("L")}
-                    </StyledTableCell> */}
-                    <StyledTableCell align="left">
-                      {/* <StatusColor status={row.status} /> */}
-                      {row.insured}
-                    </StyledTableCell>
-                    <StyledTableCell align="left">
-                      {row.reportDocument ? (
-                        <a
-                          href={row.reportDocument}
-                          target={"_blank"}
-                          className="text-blue-800 cursor-pointer"
+            {(updated && updated).map((row, index) => (
+              <TableRow sx={{ border: "none" }}>
+                <StyledTableCell component="th" scope="row">
+                  {index + 1}
+                </StyledTableCell>
+                <StyledTableCell align="left">
+                  {row.reportRefrenceNo}
+                </StyledTableCell>
+                <StyledTableCell align="left">{row.insured}</StyledTableCell>
+                <StyledTableCell align="left">
+                  {row.reportDocument !== "" ? (
+                    <a
+                      href={row.reportDocument}
+                      target={"_blank"}
+                      className="text-blue-800 cursor-pointer"
+                    >
+                      Download
+                    </a>
+                  ) : (
+                    <p>---</p>
+                  )}
+                </StyledTableCell>
+                <StyledTableCell align="left">
+                  {row.finalScannedReport == "" ? (
+                    <>
+                      <input
+                        name="userfile"
+                        accept=".pdf"
+                        type="file"
+                        // accept="application/pdf"
+                        onChange={(e) => setDocument(e.target.files[0])}
+                      />
+                      <Button onClick={() => handleSubmitFile(row)}>
+                        upload
+                      </Button>
+                    </>
+                  ) : (
+                    "Uploaded"
+                  )}
+                </StyledTableCell>
+                <StyledTableCell align="left">
+                  <div className="flex justify-start items-left">
+                    {row.currentJobHoldingTeam !== "ACCOUNT TEAM" ? (
+                      "DONE BY REPORT TEAM"
+                    ) : (
+                      <>
+                        <p
+                          onClick={() => handleClickOpen2(row)}
+                          className="text-blue-600 cursor-pointer mr-2"
                         >
-                          Download
-                        </a>
-                      ) : (
-                        <p>---</p>
-                      )}
-                    </StyledTableCell>
-                    <StyledTableCell align="left">
-                      {row.finalScannedReport == "" ? (
-                        <>
-                          <input
-                            name="userfile"
-                            accept=".pdf"
-                            type="file"
-                            // accept="application/pdf"
-                            onChange={(e) => setDocument(e.target.files[0])}
-                          />
-                          <Button onClick={() => handleSubmitFile(row)}>
-                            upload
-                          </Button>
-                        </>
-                      ) : (
-                        "Uploaded"
-                      )}
-                    </StyledTableCell>
-                    <StyledTableCell align="left">
-                      <div className="flex justify-start items-left">
-                        {row.currentJobHoldingTeam !== "ACCOUNT TEAM" ? (
-                          "DONE BY REPORT TEAM"
-                        ) : (
-                          <>
-                            {/* <Link to={`/update-coordination/${row.uniqueJobId}`}>
-                          <EditIcon className="text-blue-700 cursor-pointer" />
-                        </Link>
-                        &nbsp; &nbsp; */}
-                            <p
-                              onClick={() => handleClickOpen2(row)}
-                              className="text-blue-600 cursor-pointer mr-2"
-                            >
-                              Update Status
-                            </p>
+                          Update Status
+                        </p>
 
-                            <Link to={`/entry-details/${row._id}`}>
-                              <p className="text-blue-600 flex justify-center w-full cursor-pointer">
-                                View More
-                              </p>
-                            </Link>
-                            {/* <p
+                        <Link to={`/entry-details/${row._id}`}>
+                          <p className="text-blue-600 flex justify-center w-full cursor-pointer">
+                            View More
+                          </p>
+                        </Link>
+                        {/* <p
                           className="text-red-600 ml-5 cursor-pointer"
                           // onClick={() => handleClickOpen4(row)}
                         >
                           Discrepancy
                         </p> */}
-                          </>
-                        )}
-                      </div>
-                    </StyledTableCell>
-                  </TableRow>
-                )
-              )
-            )}
+                      </>
+                    )}
+                  </div>
+                </StyledTableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </TableLayout>
         <AssignDialogBox

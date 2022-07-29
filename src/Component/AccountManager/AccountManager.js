@@ -166,8 +166,7 @@ const AssignDialogBox = ({
     const taskData = {
       userId: admin.user._id,
       uniqueJobId: data.uniqueJobId,
-      currentJobHolder: demo._id,
-      // isTaskAssigned: true,
+      currentJobHolder: demo._id
     };
     if (demo._id) {
       dispatch(UpdateAssignFunction(taskData));
@@ -175,7 +174,6 @@ const AssignDialogBox = ({
       ToastComponent("Please Select Member", "error");
     }
   };
-
   return (
     <Dialog
       fullScreen={fullScreen}
