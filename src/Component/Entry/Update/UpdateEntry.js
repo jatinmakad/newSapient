@@ -130,7 +130,7 @@ const UpdateEntry = () => {
     executingBranchLocation: "",
     insurer: "",
   };
-  console.log(formikRef.current.values)
+  console.log(formikRef.current.values);
   const onSubmit = (values) => {
     dispatch(UpdateEntryFunction(id, values));
   };
@@ -168,7 +168,7 @@ const UpdateEntry = () => {
                   </Grid>
                   <Grid lg={4} md={6} sm={12} xs={12} item>
                     <FomikTextField
-                      heading="Intimation"
+                      heading="Intimation Date"
                       handleChange={handleChange}
                       type="text"
                       value={values.intimation}
