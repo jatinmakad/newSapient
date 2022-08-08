@@ -164,7 +164,7 @@ export const CreateEntryFunction = (Data) => {
       dispatch(CreateEntryPending());
       const config = { headers: { "Content-Type": "application/json" } };
       const { data } = await axios.post(
-        `http://localhost:5000/entry`,
+        `https://sap-data-management-mcs.herokuapp.com/entry`,
         Data,
         config
       );
