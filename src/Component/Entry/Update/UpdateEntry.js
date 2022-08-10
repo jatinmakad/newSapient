@@ -47,7 +47,7 @@ const UpdateEntry = () => {
           "finanicalYear",
           updated[0].finanicalYear
         );
-        formikRef.current.setFieldValue("insuer", updated[0].insuer);
+        formikRef.current.setFieldValue("insurer", updated[0].insurer);
         formikRef.current.setFieldValue("policyNo", updated[0].policyNo);
         formikRef.current.setFieldValue("broker", updated[0].broker);
         formikRef.current.setFieldValue("consignee", updated[0].consignee);
@@ -81,34 +81,39 @@ const UpdateEntry = () => {
     }
   }, [isAuth, id, updateSuccess]);
   const validationSchema = Yup.object({
-    reportRefrenceNo: Yup.number().required("Required"),
-    finanicalYear: Yup.string().required("Required"),
-    insuer: Yup.string().required("Required"),
-    policyNo: Yup.string().required("Required"),
-    broker: Yup.string().required("Required"),
-    consignee: Yup.string().required("Required"),
-    invoiceNo: Yup.string().required("Required"),
-    month: Yup.string().required("Required"),
-    intimation: Yup.string().required("Required"),
-    city: Yup.string().required("Required"),
-    insured: Yup.string().required("Required"),
-    brokerLocation: Yup.string().required("Required"),
-    lossCity: Yup.string().required("Required"),
-    date: Yup.string().required("Required"),
-    age: Yup.string().required("Required"),
+    // reportRefrenceNo: Yup.number().required("Required"),
+    // finanicalYear: Yup.string().required("Required"),
+    // insuer: Yup.string().required("Required"),
+    // policyNo: Yup.string().required("Required"),
+    // broker: Yup.string().required("Required"),
+    // consignee: Yup.string().required("Required"),
+    // invoiceNo: Yup.string().required("Required"),
+    // month: Yup.string().required("Required"),
+    // intimation: Yup.string().required("Required"),
+    // city: Yup.string().required("Required"),
+    // insured: Yup.string().required("Required"),
+    // brokerLocation: Yup.string().required("Required"),
+    // lossCity: Yup.string().required("Required"),
+    // date: Yup.string().required("Required"),
+    // age: Yup.string().required("Required"),
+    // claimType: Yup.string().required("Required"),
+    // claimNo: Yup.string().required("Required"),
+    // insuredCity: Yup.string().required("Required"),
+    // consignor: Yup.string().required("Required"),
+    // state: Yup.string().required("Required"),
+    // invoiceValue: Yup.string().required("Required"),
+    // executingBranchLocation: Yup.string().required("Required"),
+    // insurer: Yup.string().required("Required"),
     claimType: Yup.string().required("Required"),
-    claimNo: Yup.string().required("Required"),
-    insuredCity: Yup.string().required("Required"),
-    consignor: Yup.string().required("Required"),
-    state: Yup.string().required("Required"),
-    invoiceValue: Yup.string().required("Required"),
-    executingBranchLocation: Yup.string().required("Required"),
+    insured: Yup.string().required("Required"),
+    intimation: Yup.string().required("Required"),
     insurer: Yup.string().required("Required"),
+    reportRefrenceNo: Yup.number().required("Required"),
   });
   const initialValues = {
     reportRefrenceNo: "",
     finanicalYear: new Date(),
-    insuer: "",
+    insurer: "",
     policyNo: "",
     broker: "",
     consignee: "",
@@ -130,7 +135,6 @@ const UpdateEntry = () => {
     executingBranchLocation: "",
     insurer: "",
   };
-  console.log(formikRef.current.values);
   const onSubmit = (values) => {
     dispatch(UpdateEntryFunction(id, values));
   };
@@ -219,7 +223,7 @@ const UpdateEntry = () => {
                   </Grid>
                   <Grid lg={4} item>
                     <FomikTextField
-                      heading="Claim No."
+                      heading="Insured Claim No."
                       handleChange={handleChange}
                       name="claimNo"
                       value={values.claimNo}
@@ -231,7 +235,7 @@ const UpdateEntry = () => {
 
                   <Grid lg={4} md={6} sm={12} xs={12} item>
                     <FomikTextField
-                      heading="Policy No."
+                      heading="Insured Policy No."
                       handleChange={handleChange}
                       type="text"
                       name="policyNo"
@@ -240,47 +244,53 @@ const UpdateEntry = () => {
                       helperText={touched.policyNo ? errors.policyNo : ""}
                     />
                   </Grid>
+                  <Grid lg={4} md={6} sm={12} xs={12} item>
+                    <div className="flex flex-col justify-start">
+                      <p className="text-sm mb-2">Executing Branch Location</p>
+                      <Autocomplete
+                        value={values.executingBranchLocation}
+                        fullWidth
+                        onChange={(event, newValue) => {
+                          setFieldValue("executingBranchLocation", newValue);
+                        }}
+                        size="small"
+                        options={Cities}
+                        renderInput={(params) => (
+                          <TextField
+                            size="small"
+                            sx={{ background: "#fff" }}
+                            fullWidth
+                            {...params}
+                            error={
+                              touched.executingBranchLocation &&
+                              Boolean(errors.executingBranchLocation)
+                            }
+                            placeholder="Executing Branch Location"
+                            helperText={
+                              touched.executingBranchLocation
+                                ? errors.executingBranchLocation
+                                : ""
+                            }
+                          />
+                        )}
+                      />
+                    </div>
+                  </Grid>
 
                   <Grid lg={4} md={6} sm={12} xs={12} item>
                     <FomikTextField
-                      heading="Broker"
-                      handleChange={handleChange}
+                      heading="Insurer Name"
                       type="text"
-                      name="broker"
-                      value={values.broker}
-                      error={touched.broker && Boolean(errors.broker)}
-                      helperText={touched.broker ? errors.broker : ""}
+                      handleChange={handleChange}
+                      name="insurer"
+                      value={values.insurer}
+                      error={touched.insurer && Boolean(errors.insurer)}
+                      helperText={touched.insurer ? errors.insurer : ""}
                     />
                   </Grid>
                   <Grid lg={4} md={6} sm={12} xs={12} item>
                     <FomikTextField
-                      heading="Broker Location"
-                      handleChange={handleChange}
-                      name="brokerLocation"
-                      type="text"
-                      value={values.brokerLocation}
-                      error={
-                        touched.brokerLocation && Boolean(errors.brokerLocation)
-                      }
-                      helperText={
-                        touched.brokerLocation ? errors.brokerLocation : ""
-                      }
-                    />
-                  </Grid>
-                  <Grid lg={4} md={6} sm={12} xs={12} item>
-                    <FomikTextField
-                      heading="Insuer"
-                      type="text"
-                      handleChange={handleChange}
-                      name="insuer"
-                      value={values.insuer}
-                      error={touched.insuer && Boolean(errors.insuer)}
-                      helperText={touched.insuer ? errors.insuer : ""}
-                    />
-                  </Grid>
-                  <Grid lg={4} md={6} sm={12} xs={12} item>
-                    <FomikTextField
-                      heading="Insured"
+                      heading="Insured Name"
                       handleChange={handleChange}
                       name="insured"
                       value={values.insured}
@@ -291,7 +301,7 @@ const UpdateEntry = () => {
                   </Grid>
                   <Grid lg={4} md={6} sm={12} xs={12} item>
                     <div className="flex flex-col justify-start">
-                      <p className="text-sm mb-2">Insured City</p>
+                      <p className="text-sm mb-2">Insured Location</p>
                       <Autocomplete
                         value={values.insuredCity}
                         fullWidth
@@ -318,10 +328,30 @@ const UpdateEntry = () => {
                       />
                     </div>
                   </Grid>
-
                   <Grid lg={4} md={6} sm={12} xs={12} item>
                     <div className="flex flex-col justify-start">
-                      <p className="text-sm mb-2">Loss City</p>
+                      <p className="text-sm mb-2">Date of Loss</p>
+                      <LocalizationProvider dateAdapter={AdapterDateFns}>
+                        <DatePicker
+                          onChange={(e) => setFieldValue("date", e)}
+                          value={values.date}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              sx={{ background: "#fff" }}
+                              fullWidth
+                              size="small"
+                              error={touched.date && Boolean(errors.date)}
+                              helperText={touched.date ? errors.date : ""}
+                            />
+                          )}
+                        />
+                      </LocalizationProvider>
+                    </div>
+                  </Grid>
+                  <Grid lg={4} md={6} sm={12} xs={12} item>
+                    <div className="flex flex-col justify-start">
+                      <p className="text-sm mb-2">Loss Location</p>
                       <Autocomplete
                         value={values.lossCity}
                         fullWidth
@@ -345,30 +375,35 @@ const UpdateEntry = () => {
                     </div>
                   </Grid>
                   <Grid lg={4} md={6} sm={12} xs={12} item>
-                    <div className="flex flex-col justify-start">
-                      <p className="text-sm mb-2">Date</p>
-                      <LocalizationProvider dateAdapter={AdapterDateFns}>
-                        <DatePicker
-                          onChange={(e) => setFieldValue("date", e)}
-                          value={values.date}
-                          renderInput={(params) => (
-                            <TextField
-                              {...params}
-                              sx={{ background: "#fff" }}
-                              fullWidth
-                              size="small"
-                              error={touched.date && Boolean(errors.date)}
-                              helperText={touched.date ? errors.date : ""}
-                            />
-                          )}
-                        />
-                      </LocalizationProvider>
-                    </div>
+                    <FomikTextField
+                      heading="Broker Name"
+                      handleChange={handleChange}
+                      type="text"
+                      name="broker"
+                      value={values.broker}
+                      error={touched.broker && Boolean(errors.broker)}
+                      helperText={touched.broker ? errors.broker : ""}
+                    />
+                  </Grid>
+                  <Grid lg={4} md={6} sm={12} xs={12} item>
+                    <FomikTextField
+                      heading="Broker Location"
+                      handleChange={handleChange}
+                      name="brokerLocation"
+                      type="text"
+                      value={values.brokerLocation}
+                      error={
+                        touched.brokerLocation && Boolean(errors.brokerLocation)
+                      }
+                      helperText={
+                        touched.brokerLocation ? errors.brokerLocation : ""
+                      }
+                    />
                   </Grid>
 
                   <Grid lg={4} md={6} sm={12} xs={12} item>
                     <FomikTextField
-                      heading="Consignor"
+                      heading="Consignor Name"
                       handleChange={handleChange}
                       name="consignor"
                       value={values.consignor}
@@ -378,7 +413,7 @@ const UpdateEntry = () => {
                   </Grid>
                   <Grid lg={4} md={6} sm={12} xs={12} item>
                     <FomikTextField
-                      heading="Consignee"
+                      heading="Consignee Name"
                       handleChange={handleChange}
                       type="text"
                       name="consignee"
@@ -414,7 +449,7 @@ const UpdateEntry = () => {
                     />
                   </Grid>
 
-                  <Grid lg={4} md={6} sm={12} xs={12} item>
+                  {/* <Grid lg={4} md={6} sm={12} xs={12} item>
                     <div className="flex flex-col justify-start">
                       <p className="text-sm mb-2">Month</p>
                       <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -497,38 +532,7 @@ const UpdateEntry = () => {
                       helperText={touched.age ? errors.age : ""}
                     />
                   </Grid>
-                  <Grid lg={4} md={6} sm={12} xs={12} item>
-                    <div className="flex flex-col justify-start">
-                      <p className="text-sm mb-2">Executing Branch Location</p>
-                      <Autocomplete
-                        value={values.executingBranchLocation}
-                        fullWidth
-                        onChange={(event, newValue) => {
-                          setFieldValue("executingBranchLocation", newValue);
-                        }}
-                        size="small"
-                        options={Cities}
-                        renderInput={(params) => (
-                          <TextField
-                            size="small"
-                            sx={{ background: "#fff" }}
-                            fullWidth
-                            {...params}
-                            error={
-                              touched.executingBranchLocation &&
-                              Boolean(errors.executingBranchLocation)
-                            }
-                            placeholder="Executing Branch Location"
-                            helperText={
-                              touched.executingBranchLocation
-                                ? errors.executingBranchLocation
-                                : ""
-                            }
-                          />
-                        )}
-                      />
-                    </div>
-                  </Grid>
+
                   <Grid lg={4} md={6} sm={12} xs={12} item>
                     <FomikTextField
                       heading="Insurer"
@@ -539,7 +543,7 @@ const UpdateEntry = () => {
                       error={touched.insurer && Boolean(errors.insurer)}
                       helperText={touched.insurer ? errors.insurer : ""}
                     />
-                  </Grid>
+                  </Grid> */}
 
                   <Grid
                     lg={12}
@@ -578,4 +582,10 @@ const UpdateEntry = () => {
 
 export default UpdateEntry;
 
-const claimTypeData = [{ value: "Marine" }, { value: "Non-Marine" }];
+const claimTypeData = [
+  {
+    value: "Engineering",
+  },
+  { value: "Fire" },
+  { value: "Marine" },
+];

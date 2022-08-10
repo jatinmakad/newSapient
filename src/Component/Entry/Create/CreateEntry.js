@@ -30,7 +30,7 @@ const CreateEntry = () => {
   const validationSchema = Yup.object({
     reportRefrenceNo: Yup.number().required("Required"),
     // finanicalYear: Yup.string().required("Required"),
-    insuer: Yup.string().required("Required"),
+    insurer: Yup.string().required("Required"),
     // policyNo: Yup.string().required("Required"),
     // broker: Yup.string().required("Required"),
     // consignee: Yup.string().required("Required"),
@@ -55,7 +55,7 @@ const CreateEntry = () => {
   const initialValues = {
     reportRefrenceNo: "",
     finanicalYear: new Date(),
-    insuer: "",
+    insurer: "",
     policyNo: "",
     broker: "",
     consignee: "",
@@ -227,9 +227,9 @@ const CreateEntry = () => {
                     heading="Insurer Name"
                     type="text"
                     handleChange={handleChange}
-                    name="insuer"
-                    error={touched.insuer && Boolean(errors.insuer)}
-                    helperText={touched.insuer ? errors.insuer : ""}
+                    name="insurer"
+                    error={touched.insurer && Boolean(errors.insurer)}
+                    helperText={touched.insurer ? errors.insurer : ""}
                   />
                 </Grid>
                 <Grid lg={4} md={6} sm={12} xs={12} item>

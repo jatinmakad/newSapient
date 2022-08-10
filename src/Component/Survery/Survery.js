@@ -113,7 +113,7 @@ const Survery = () => {
                 <StyledTableCell align="left">
                   {row.reportRefrenceNo}
                 </StyledTableCell>
-                <StyledTableCell align="left">{row.city}</StyledTableCell>
+                <StyledTableCell align="left">{row.lossCity}</StyledTableCell>
                 <StyledTableCell align="left">
                   {moment(row.date).format("L")}
                 </StyledTableCell>
@@ -241,7 +241,7 @@ const headerCell = [
     align: "left",
   },
   {
-    value: "Insure",
+    value: "Insurer",
     align: "left",
   },
   {

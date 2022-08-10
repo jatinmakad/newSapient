@@ -75,7 +75,7 @@ export default function EntryTable({
             <StyledTableCell align="left">
               {row.reportRefrenceNo}
             </StyledTableCell>
-            <StyledTableCell align="left">{row.city}</StyledTableCell>
+            <StyledTableCell align="left">{row.lossCity}</StyledTableCell>
             <StyledTableCell align="left">
               {moment(row.date).format("L")}
             </StyledTableCell>
@@ -111,7 +111,6 @@ export default function EntryTable({
             <TableCell colSpan={6} />
           </TableRow>
         )} */}
-
       </TableBody>
     </TableLayout>
   );
@@ -138,7 +137,7 @@ const headerCell = [
     align: "left",
   },
   {
-    value: "City",
+    value: "Loss city",
     align: "left",
   },
   {
@@ -146,7 +145,7 @@ const headerCell = [
     align: "left",
   },
   {
-    value: "Insure",
+    value: "Insurer",
     align: "left",
   },
   {
