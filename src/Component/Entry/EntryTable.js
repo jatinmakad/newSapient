@@ -25,7 +25,7 @@ export default function EntryTable({
   const dispatch = useDispatch();
   const { isAuth, admin } = useSelector((state) => state.Login);
   const { deleteSuccess } = useSelector((state) => state.Entry.delete);
-
+  console.log(entry, ">??????????");
   useEffect(() => {
     if (isAuth === false) {
       navigate("/login");
@@ -75,7 +75,7 @@ export default function EntryTable({
             <StyledTableCell align="left">
               {row.reportRefrenceNo}
             </StyledTableCell>
-            <StyledTableCell align="left">{row.city}</StyledTableCell>
+            <StyledTableCell align="left">{row.insurerCity}</StyledTableCell>
             <StyledTableCell align="left">
               {moment(row.date).format("L")}
             </StyledTableCell>

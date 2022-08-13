@@ -36,7 +36,7 @@ const CreateEntry = () => {
     // consignee: Yup.string().required("Required"),
     // invoiceNo: Yup.string().required("Required"),
     // month: Yup.string().required("Required"),
-    intimation: Yup.string().required("Required"),
+    intimationDate: Yup.string().required("Required"),
     // city: Yup.string().required("Required"),
     insured: Yup.string().required("Required"),
     // brokerLocation: Yup.string().required("Required"),
@@ -72,18 +72,19 @@ const CreateEntry = () => {
     claimType: "",
     claimNo: "",
     insuredCity: "",
+    insurerCity: "",
     consignor: "",
     state: "",
     invoiceValue: "",
     executingBranchLocation: "",
     insurer: "",
     remark: "",
-    estimatedLoss:"",
-    natureOfLoss:"",
-    itemDamage:"",
-    vehicleNumber:"",
-    lrGrOther:"",
-    // brokerReferenceNumber:""
+    estimatedLoss: "",
+    natureOfLoss: "",
+    itemDamage: "",
+    vehicleNumber: "",
+    lrGrOther: "",
+    brokerReferenceNumber: "",
   };
   const onSubmit = (values) => {
     dispatch(
@@ -134,7 +135,7 @@ const CreateEntry = () => {
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                       <DatePicker
                         onChange={(e) => setFieldValue("intimationDate", e)}
-                        value={values.intimation}
+                        value={values.intimationDate}
                         renderInput={(params) => (
                           <TextField
                             {...params}
@@ -142,10 +143,13 @@ const CreateEntry = () => {
                             size="small"
                             sx={{ background: "#fff" }}
                             error={
-                              touched.intimationDate && Boolean(errors.intimationDate)
+                              touched.intimationDate &&
+                              Boolean(errors.intimationDate)
                             }
                             helperText={
-                              touched.intimationDate ? errors.intimationDate : ""
+                              touched.intimationDate
+                                ? errors.intimationDate
+                                : ""
                             }
                           />
                         )}
@@ -256,15 +260,15 @@ const CreateEntry = () => {
                     helperText={touched.insurer ? errors.insurer : ""}
                   />
                 </Grid>
-                
+
                 <Grid lg={4} md={6} sm={12} xs={12} item>
                   <div className="flex flex-col justify-start">
                     <p className="text-sm mb-2">Insurer Location</p>
                     <Autocomplete
-                      value={values.city}
+                      value={values.insurerCity}
                       fullWidth
                       onChange={(event, newValue) => {
-                        setFieldValue("city", newValue);
+                        setFieldValue("insurerCity", newValue);
                       }}
                       size="small"
                       options={Cities}
@@ -276,10 +280,10 @@ const CreateEntry = () => {
                           placeholder="Insurer City"
                           {...params}
                           error={
-                            touched.city && Boolean(errors.city)
+                            touched.insurerCity && Boolean(errors.insurerCity)
                           }
                           helperText={
-                            touched.city ? errors.city : ""
+                            touched.insurerCity ? errors.insurerCity : ""
                           }
                         />
                       )}
@@ -353,8 +357,12 @@ const CreateEntry = () => {
                     handleChange={handleChange}
                     type="text"
                     name="estimatedLoss"
-                    error={touched.estimatedLoss && Boolean(errors.estimatedLoss)}
-                    helperText={touched.estimatedLoss ? errors.estimatedLoss : ""}
+                    error={
+                      touched.estimatedLoss && Boolean(errors.estimatedLoss)
+                    }
+                    helperText={
+                      touched.estimatedLoss ? errors.estimatedLoss : ""
+                    }
                   />
                 </Grid>
                 <Grid lg={4} md={6} sm={12} xs={12} item>
@@ -377,7 +385,6 @@ const CreateEntry = () => {
                     helperText={touched.itemDamage ? errors.itemDamage : ""}
                   />
                 </Grid>
-
 
                 <Grid lg={4} md={6} sm={12} xs={12} item>
                   <div className="flex flex-col justify-start">
@@ -404,16 +411,23 @@ const CreateEntry = () => {
                     />
                   </div>
                 </Grid>
-                {/* <Grid lg={4} md={6} sm={12} xs={12} item>
+                <Grid lg={4} md={6} sm={12} xs={12} item>
                   <FomikTextField
                     heading="Broker Reference No"
                     handleChange={handleChange}
                     type="number"
                     name="brokerReferenceNumber"
-                    error={touched.brokerReferenceNumber && Boolean(errors.brokerReferenceNumber)}
-                    helperText={touched.brokerReferenceNumber ? errors.brokerReferenceNumber : ""}
+                    error={
+                      touched.brokerReferenceNumber &&
+                      Boolean(errors.brokerReferenceNumber)
+                    }
+                    helperText={
+                      touched.brokerReferenceNumber
+                        ? errors.brokerReferenceNumber
+                        : ""
+                    }
                   />
-                </Grid> */}
+                </Grid>
                 <Grid lg={4} md={6} sm={12} xs={12} item>
                   <FomikTextField
                     heading="Broker Name"
@@ -479,7 +493,6 @@ const CreateEntry = () => {
                   />
                 </Grid>
 
-
                 <Grid lg={4} md={6} sm={12} xs={12} item>
                   <FomikTextField
                     heading="LR/GR/ Other"
@@ -496,12 +509,14 @@ const CreateEntry = () => {
                     handleChange={handleChange}
                     name="vehicleNumber"
                     type="text"
-                    error={touched.vehicleNumber && Boolean(errors.vehicleNumber)}
-                    helperText={touched.vehicleNumber ? errors.vehicleNumber : ""}
+                    error={
+                      touched.vehicleNumber && Boolean(errors.vehicleNumber)
+                    }
+                    helperText={
+                      touched.vehicleNumber ? errors.vehicleNumber : ""
+                    }
                   />
                 </Grid>
-
-
 
                 <Grid lg={12} md={12} sm={12} xs={12} item>
                   <FomikTextField
