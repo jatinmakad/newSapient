@@ -101,7 +101,9 @@ const DispatchManager = () => {
                   <StyledTableCell align="left">
                     {row.reportRefrenceNo}
                   </StyledTableCell>
-                  <StyledTableCell align="left">{row.city}</StyledTableCell>
+                  <StyledTableCell align="left">
+                    {row.insurerCity}
+                  </StyledTableCell>
                   <StyledTableCell align="left">
                     {moment(row.date).format("L")}
                   </StyledTableCell>

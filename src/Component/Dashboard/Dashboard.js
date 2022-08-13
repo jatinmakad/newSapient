@@ -202,7 +202,7 @@ const Dashboard = () => {
                             {row.reportRefrenceNo}
                           </StyledTableCell>
                           <StyledTableCell align="left">
-                            {row.city}
+                            {row.insurerCity}
                           </StyledTableCell>
                           <StyledTableCell align="left">
                             {row.date ? moment(row.date).format("LL") : "--"}

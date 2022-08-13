@@ -46,7 +46,7 @@ const AssignTask = () => {
     if (isAuth) {
       let count = Number(`${page}0`);
       dispatch(GetEntryFunction(count, admin.user.team));
-      dispatch(GetUserFunction("","","COORDINATION TEAM"));
+      dispatch(GetUserFunction("", "", "COORDINATION TEAM"));
     }
     if (page) {
       let count = Number(`${page}0`);
@@ -103,7 +103,9 @@ const AssignTask = () => {
                 <StyledTableCell align="left">
                   {row.reportRefrenceNo}
                 </StyledTableCell>
-                <StyledTableCell align="left">{row.city}</StyledTableCell>
+                <StyledTableCell align="left">
+                  {row.insurerCity}
+                </StyledTableCell>
                 <StyledTableCell align="left">
                   {moment(row.date).format("L")}
                 </StyledTableCell>
