@@ -51,7 +51,7 @@ const CreateEntry = () => {
     // invoiceValue: Yup.string().required("Required"),
     // executingBranchLocation: Yup.string().required("Required"),
     // insurer: Yup.string().required("Required"),
-    // remark: Yup.string(),
+    // remarks: Yup.string(),
   });
   const initialValues = {
     reportRefrenceNo: "",
@@ -78,7 +78,7 @@ const CreateEntry = () => {
     invoiceValue: "",
     executingBranchLocation: "",
     insurer: "",
-    remark: "",
+    remarks: "",
     estimatedLoss: "",
     natureOfLoss: "",
     itemDamage: "",
@@ -522,10 +522,10 @@ const CreateEntry = () => {
                   <FomikTextField
                     heading="Other/Remarks"
                     handleChange={handleChange}
-                    name="remark"
+                    name="remarks"
                     type="text"
-                    error={touched.remark && Boolean(errors.remark)}
-                    helperText={touched.remark ? errors.remark : ""}
+                    error={touched.remarks && Boolean(errors.remarks)}
+                    helperText={touched.remarks ? errors.remarks : ""}
                   />
                 </Grid>
 
