@@ -15,7 +15,7 @@ export const EntryData = [
     click: "/entry",
   },
   {
-    text: "Your Work",
+    text: "Task / Assignment",
     icon: <IoMdContacts />,
     click: "/your-work",
   },
@@ -53,7 +53,7 @@ export const CoordinationManagerData = [
     click: "/dashboard",
   },
   {
-    text: "Assign Task",
+    text: "Task / Assignment",
     icon: <IoMdContacts />,
     click: "/assign-task",
   },
@@ -96,7 +96,7 @@ export const adminData = [
     click: "/user",
   },
   {
-    text: "Jobs",
+    text: "Task / Assignment",
     icon: <IoMdContacts />,
     click: "/entry",
   },
@@ -131,7 +131,7 @@ export const accountTeamManagerData = [
     click: "/dashboard",
   },
   {
-    text: "Assign Task",
+    text: "Task / Assignment",
     icon: <IoMdContacts />,
     click: "/account-manager",
   },

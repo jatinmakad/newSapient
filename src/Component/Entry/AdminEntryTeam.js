@@ -6,6 +6,7 @@ import { GetUserFunction } from "../../Slice/RegisterSlice";
 import UserTable from "../UserManagement/UserTable";
 import TableHeaderLayout from "../Common/TableLayout/TableHeaderLayout";
 import Header from "../Common/Header";
+import Loader from "../Common/Loader";
 const AdminEntryTeam = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -42,7 +43,9 @@ const AdminEntryTeam = () => {
         setRowsPerPage={setRowsPerPage}
       />
     </div>
-  ) : null;
+  ) : (
+    <Loader />
+  );
 };
 
 export default AdminEntryTeam;

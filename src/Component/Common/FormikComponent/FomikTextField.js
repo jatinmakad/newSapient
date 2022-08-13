@@ -12,6 +12,7 @@ const FomikTextField = ({ heading, value, name, handleChange,error,helperText,ty
         type={type}
         value={value}
         size="small"
+        multiline
         // value={formik.values.email}
         onChange={handleChange}
         error={error}

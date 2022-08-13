@@ -16,35 +16,33 @@ const DashBoardCommon = ({ heading, array, heading2, url, array2 }) => {
       <Grid item lg={6} md={6} sm={12} xs={12}>
         <div className="flex flex-col justify-center shadow-md bg-white rounded-lg">
           <p className="border-b-2 p-3 text-lg font-medium">{heading}</p>
-          <TableContainer component={Paper} style={{ padding: "3px" }}>
+          <TableContainer component={Paper}>
             <Table
               size="small"
               aria-label="a dense table"
-              sx={{ border: "none" }}
+              sx={{ border: "none", maxWidth: 700 }}
             >
               <TableHead>
-                <TableRow>
-                  <TableCell
-                    align={"left"}
-                    sx={{
-                      color: "gray",
-                      borderBottom: "0.5px solid lightgray",
-                    }}
-                  >
-                    Name
-                  </TableCell>
-                  <TableCell
-                    align={"left"}
-                    sx={{
-                      color: "gray",
-                      borderBottom: "0.5px solid lightgray",
-                    }}
-                  >
-                    Email
-                  </TableCell>
-                </TableRow>
+                <StyledTableCell
+                  align={"left"}
+                  // sx={{
+                  //   color: "gray",
+                  //   borderBottom: "0.5px solid lightgray",
+                  // }}
+                >
+                  Name
+                </StyledTableCell>
+                <StyledTableCell
+                  align={"left"}
+                  // sx={{
+                  //   color: "gray",
+                  //   borderBottom: "0.5px solid lightgray",
+                  // }}
+                >
+                  Email
+                </StyledTableCell>
               </TableHead>
-              <TableBody>
+              <TableBody sx={{ border: "none" }}>
                 {array.map((row) => (
                   <TableRow
                     key={row.name}
@@ -63,30 +61,28 @@ const DashBoardCommon = ({ heading, array, heading2, url, array2 }) => {
         <Grid item lg={6} md={6} sm={12} xs={12}>
           <div className="flex flex-col justify-center shadow-md bg-white rounded-lg">
             <p className="border-b-2 p-3 text-lg font-medium">{heading2}</p>
-            <TableContainer component={Paper} style={{ padding: "3px" }}>
+            <TableContainer component={Paper}>
               <Table
                 size="small"
                 aria-label="a dense table"
-                sx={{ border: "none" }}
+                sx={{ border: "none", maxWidth: 700 }}
               >
                 <TableHead>
-                  <TableRow>
-                    {headerCell.map((r) => {
-                      return (
-                        <TableCell
-                          align={"left"}
-                          sx={{
-                            color: "gray",
-                            borderBottom: "0.5px solid lightgray",
-                          }}
-                        >
-                          {r.value}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
+                  {headerCell.map((r) => {
+                    return (
+                      <StyledTableCell
+                        align={"left"}
+                        sx={{
+                          color: "gray",
+                          borderBottom: "0.5px solid lightgray",
+                        }}
+                      >
+                        {r.value}
+                      </StyledTableCell>
+                    );
+                  })}
                 </TableHead>
-                <TableBody>
+                <TableBody sx={{ border: "none" }}>
                   {array2.length > 0 ? (
                     array2.slice(0, 6).map((row, index) => (
                       <TableRow
@@ -146,8 +142,8 @@ const DashBoardCommon = ({ heading, array, heading2, url, array2 }) => {
 };
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
+    backgroundColor: "black",
+    color: "white",
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,

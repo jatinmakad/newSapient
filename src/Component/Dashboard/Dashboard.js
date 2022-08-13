@@ -215,109 +215,144 @@ const Dashboard = () => {
       ) : (
         ""
       )}
-      {admin?.user?.role === "ENTRY TEAM EMPLOYEE"
-        ? entry &&
-          entryArray && (
-            <DashBoardCommon
-              heading={"Entry Team Employee"}
-              array={entryArray}
-              url={"/entry"}
-              array2={entry.data}
-              heading2={"Entry's"}
-            />
-          )
-        : ""}
-      {admin?.user?.role === "COORDINATION TEAM EMPLOYEE"
-        ? coordination && (
-            <DashBoardCommon
-              heading={"Coordination Team Employee"}
-              array={coordination}
-              url={"/coordination"}
-              array2={entry.data}
-              heading2={"Entry's"}
-            />
-          )
-        : ""}
-      {admin?.user?.role === "REPORT TEAM EMPLOYEE"
-        ? report && (
-            <DashBoardCommon
-              heading={"Report Team Employee"}
-              array={report}
-              url={"/report-team"}
-              array2={entry.data}
-              heading2={"Entry's"}
-            />
-          )
-        : ""}
-      {admin?.user?.role === "REPORT TEAM MANAGER"
-        ? report && (
-            <DashBoardCommon
-              heading={"Report Team Employee"}
-              array={report}
-              url={"/assign-task-report-team"}
-              array2={entry.data}
-              heading2={"Entry's"}
-            />
-          )
-        : ""}
-      {admin?.user?.role === "ACCOUNT TEAM EMPLOYEE"
-        ? account && (
-            <DashBoardCommon
-              heading={"Account Team Employee"}
-              array={account}
-              url={"/account"}
-              array2={entry.data}
-              heading2={"Entry's"}
-            />
-          )
-        : ""}
-      {admin?.user?.role === "ACCOUNT TEAM MANAGER"
-        ? account && (
-            <DashBoardCommon
-              heading={"Account Team Employee"}
-              array={account}
-              url={"/account-manager"}
-              array2={entry.data}
-              heading2={"Entry's"}
-            />
-          )
-        : ""}
+      {admin?.user?.role === "ENTRY TEAM EMPLOYEE" ? (
+        entry && entryArray ? (
+          <DashBoardCommon
+            heading={"Entry Team Employee"}
+            array={entryArray}
+            url={"/entry"}
+            array2={entry.data}
+            heading2={"Entry's"}
+          />
+        ) : (
+          <Loader />
+        )
+      ) : (
+        ""
+      )}
+      {admin?.user?.role === "COORDINATION TEAM EMPLOYEE" ? (
+        coordination ? (
+          <DashBoardCommon
+            heading={"Coordination Team Employee"}
+            array={coordination}
+            url={"/coordination"}
+            array2={entry.data}
+            heading2={"Entry's"}
+          />
+        ) : (
+          <Loader />
+        )
+      ) : (
+        ""
+      )}
+      {admin?.user?.role === "REPORT TEAM EMPLOYEE" ? (
+        report ? (
+          <DashBoardCommon
+            heading={"Report Team Employee"}
+            array={report}
+            url={"/report-team"}
+            array2={entry.data}
+            heading2={"Entry's"}
+          />
+        ) : (
+          <Loader />
+        )
+      ) : (
+        ""
+      )}
+      {admin?.user?.role === "REPORT TEAM MANAGER" ? (
+        report ? (
+          <DashBoardCommon
+            heading={"Report Team Employee"}
+            array={report}
+            url={"/assign-task-report-team"}
+            array2={entry.data}
+            heading2={"Entry's"}
+          />
+        ) : (
+          <Loader />
+        )
+      ) : (
+        ""
+      )}
+      {admin?.user?.role === "ACCOUNT TEAM EMPLOYEE" ? (
+        account ? (
+          <DashBoardCommon
+            heading={"Account Team Employee"}
+            array={account}
+            url={"/account"}
+            array2={entry.data}
+            heading2={"Entry's"}
+          />
+        ) : (
+          <Loader />
+        )
+      ) : (
+        ""
+      )}
+      {admin?.user?.role === "ACCOUNT TEAM MANAGER" ? (
+        account ? (
+          <DashBoardCommon
+            heading={"Account Team Employee"}
+            array={account}
+            url={"/account-manager"}
+            array2={entry.data}
+            heading2={"Entry's"}
+          />
+        ) : (
+          <Loader />
+        )
+      ) : (
+        ""
+      )}
 
-      {admin?.user?.role === "COORDINATION TEAM MANAGER"
-        ? coordination && (
-            <DashBoardCommon
-              heading={"Coordination Team Employee"}
-              array={coordination}
-              url={"/assign-task"}
-              array2={entry.data}
-              heading2={"Entry's"}
-            />
-          )
-        : ""}
+      {admin?.user?.role === "COORDINATION TEAM MANAGER" ? (
+        coordination ? (
+          <DashBoardCommon
+            heading={"Coordination Team Employee"}
+            array={coordination}
+            url={"/assign-task"}
+            array2={entry.data}
+            heading2={"Entry's"}
+          />
+        ) : (
+          <Loader />
+        )
+      ) : (
+        ""
+      )}
 
-      {admin?.user?.role === "DISPATCH TEAM MANAGER"
-        ? dispatchData && (
-            <DashBoardCommon
-              heading={"Dispatch Team Employee"}
-              array={dispatchData}
-              url={"/assign-task"}
-              array2={entry.data}
-              heading2={"Entry's"}
-            />
-          )
-        : ""}
+      {admin?.user?.role === "DISPATCH TEAM MANAGER" ? (
+        dispatchData ? (
+          <DashBoardCommon
+            heading={"Dispatch Team Employee"}
+            array={dispatchData}
+            url={"/assign-task"}
+            array2={entry.data}
+            heading2={"Entry's"}
+          />
+        ) : (
+          <Loader />
+        )
+      ) : (
+        ""
+      )}
 
-      {admin?.user?.role === "DISPATCH TEAM EMPLOYEE"
-        ? dispatchData && (
-            <DashBoardCommon
-              heading={"Dispatch Team Employee"}
-              array={dispatchData}
-              url={"/assign-task"}
-              array2={entry.data}
-              heading2={"Entry's"}
-            />
-          )
-        : ""}
+      {admin?.user?.role === "DISPATCH TEAM EMPLOYEE" ? (
+        dispatchData ? (
+          <DashBoardCommon
+            heading={"Dispatch Team Employee"}
+            array={dispatchData}
+            url={"/assign-task"}
+            array2={entry.data}
+            heading2={"Entry's"}
+          />
+        ) : (
+          <Loader />
+        )
+      ) : (
+        ""
+      )}
     </div>
   ) : null;
 };

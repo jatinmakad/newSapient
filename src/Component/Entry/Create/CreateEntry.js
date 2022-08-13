@@ -51,6 +51,7 @@ const CreateEntry = () => {
     invoiceValue: Yup.string().required("Required"),
     executingBranchLocation: Yup.string().required("Required"),
     insurer: Yup.string().required("Required"),
+    remark:Yup.string().required("Required"),
   });
   const initialValues = {
     reportRefrenceNo: "",
@@ -76,6 +77,7 @@ const CreateEntry = () => {
     invoiceValue: "",
     executingBranchLocation: "",
     insurer: "",
+    remark:""
   };
   const onSubmit = (values) => {
     dispatch(
@@ -103,7 +105,7 @@ const CreateEntry = () => {
           innerRef={formikRef}
         >
           {({ errors, handleChange, values, touched, setFieldValue }) => (
-            <Form className=" rounded-sm p-4 pt-5 pb-5">
+            <Form className="rounded-sm lg:p-4 pt-5 pb-5 sm:lg-3 lg-3">
               <Grid lg={12} md={12} sm={12} xs={12} container spacing={2}>
                 <Grid lg={4} md={6} sm={12} xs={12} item>
                   <FomikTextField
@@ -168,7 +170,7 @@ const CreateEntry = () => {
                     data={claimTypeData}
                   />
                 </Grid>
-                <Grid lg={4} item>
+                <Grid lg={4} md={6} sm={12} xs={12} item >
                   <FomikTextField
                     heading="Claim No."
                     handleChange={handleChange}
@@ -476,6 +478,16 @@ const CreateEntry = () => {
                     helperText={touched.insurer ? errors.insurer : ""}
                   />
                 </Grid>
+                <Grid lg={12} md={12} sm={12} xs={12} item>
+                  <FomikTextField
+                    heading="Other/Remark"
+                    handleChange={handleChange}
+                    name="remark"
+                    type="text"
+                    error={touched.remark && Boolean(errors.remark)}
+                    helperText={touched.remark ? errors.remark : ""}
+                  />
+                </Grid>
 
                 <Grid
                   lg={12}
@@ -520,5 +532,6 @@ const claimTypeData = [
   },
   { value: "Fire" },
   { value: "Marine" },
-  // { value: "Theft" },
+  { value: "Misc" },
+  { value: "Other (PDI/PDR)" },
 ];
