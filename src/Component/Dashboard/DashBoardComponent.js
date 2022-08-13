@@ -13,36 +13,45 @@ import { styled } from "@mui/material/styles";
 const DashBoardComponent = ({ heading, array, url }) => {
   return (
     <Grid item lg={6} md={6} sm={12} xs={12}>
-      <div className="flex flex-col justify-center shadow-md bg-white rounded-lg">
-        <p className="border-b-2 p-3 text-lg font-medium">{heading}</p>
+      <div className="flex flex-col justify-center shadow-md bg-white">
+        <div className="flex justify-between p-3 items-center">
+          {" "}
+          <p className="text-lg font-medium">{heading}</p>
+          <Link to={url}>
+            <span
+              style={{ color: "#03C9D7" }}
+              className="cursor-pointer font-medium"
+            >
+              View all
+            </span>
+          </Link>
+        </div>
         <TableContainer component={Paper} style={{ padding: "3px" }}>
           <Table
             size="small"
             aria-label="a dense table"
-            sx={{ border: "none" }}
+            sx={{ border: "none", maxWidth: 700 }}
           >
             <TableHead>
-              <TableRow>
-                <TableCell
-                  align={"left"}
-                  sx={{
-                    color: "gray",
-                    borderBottom: "0.5px solid lightgray",
-                  }}
-                >
-                  Name
-                </TableCell>
-                <TableCell
-                  align={"left"}
-                  sx={{
-                    color: "gray",
-                    borderBottom: "0.5px solid lightgray",
-                  }}
-                >
-                  Email
-                </TableCell>
-                {/* <TableCell align="left">Protein&nbsp;(g)</TableCell> */}
-              </TableRow>
+              <StyledTableCell
+                align={"left"}
+                // sx={{
+                //   color: "gray",
+                //   borderBottom: "0.5px solid lightgray",
+                // }}
+              >
+                Name
+              </StyledTableCell>
+              <StyledTableCell
+                align={"left"}
+                // sx={{
+                //   color: "gray",
+                //   borderBottom: "0.5px solid lightgray",
+                // }}
+              >
+                Email
+              </StyledTableCell>
+              {/* <TableCell align="left">Protein&nbsp;(g)</TableCell> */}
             </TableHead>
             <TableBody>
               {array.slice(0, 5).map((row) => (
@@ -55,21 +64,21 @@ const DashBoardComponent = ({ heading, array, url }) => {
             </TableBody>
           </Table>
         </TableContainer>
-        <div className="w-full flex justify-center items-center p-2">
+        {/* <div className="w-full flex justify-center items-center p-2">
           <Link to={url}>
             <span className="text-blue-800 cursor-pointer font-medium">
               View all
             </span>
           </Link>
-        </div>
+        </div> */}
       </div>
     </Grid>
   );
 };
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
+    backgroundColor: "#03C9D7",
+    color: "white",
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,

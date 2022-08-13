@@ -91,11 +91,11 @@ export const adminData = [
   //   icon: <IoMdContacts />,
   //   click: "/dashboard",
   // },
-  // {
-  //   text: "Account Team",
-  //   icon: <IoMdContacts />,
-  //   click: "/dashboard",
-  // },
+  {
+    text: "Dispatch Team",
+    icon: <IoMdContacts />,
+    click: "/dispatch-admin",
+  },
 
   {
     text: "Account Team",
@@ -107,11 +107,11 @@ export const adminData = [
     icon: <IoMdContacts />,
     click: "/user",
   },
-  {
-    text: "User Management",
-    icon: <IoMdContacts />,
-    click: "/user",
-  },
+  // {
+  //   text: "User Management",
+  //   icon: <IoMdContacts />,
+  //   click: "/user",
+  // },
   // {
   //   text: "Log out",
   //   icon: AssignmentIcon,

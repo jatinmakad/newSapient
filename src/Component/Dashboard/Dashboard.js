@@ -28,6 +28,7 @@ const Dashboard = () => {
   const [account, setAccount] = useState("");
   const { entry } = useSelector((state) => state.Entry.get);
   const [dispatchData, setDispatchData] = useState("");
+  const [dispatchTeam,setDispatch] = useState("")
   const dataArray = [
     {
       heading: "Entry Team",
@@ -48,6 +49,11 @@ const Dashboard = () => {
       heading: "Account Team",
       array: account,
       url: "/account-admin",
+    },
+    {
+      heading: "Disptach Team",
+      array: dispatchTeam,
+      url: "/dispatch-admin",
     },
   ];
   useEffect(() => {
@@ -82,6 +88,13 @@ const Dashboard = () => {
           )
           .then((res) => {
             setCoordination(res.data.data);
+          });
+          await axios
+          .get(
+            `https://sap-user-microservice.herokuapp.com/getUsers?team=DISPATCH TEAM`
+          )
+          .then((res) => {
+            setDispatch(res.data.data);
           });
         await axios
           .get(
@@ -135,9 +148,21 @@ const Dashboard = () => {
           )}
           <Grid item lg={12} md={12} sm={12} xs={12}>
             <div className="flex flex-col justify-center shadow-md bg-white rounded-lg">
-              <p className="border-b-2 p-3 text-lg font-medium">
+              {/* <p className="border-b-2 p-3 text-lg font-medium">
                 Tasks/Assignments
-              </p>
+              </p> */}
+              <div className="flex justify-between p-3 items-center">
+              {" "}
+              <p className="text-lg font-medium"> Tasks/Assignments</p>
+              <Link to={"/entry"}>
+                <span
+                  style={{ color: "#03C9D7" }}
+                  className="cursor-pointer font-medium"
+                >
+                  View all
+                </span>
+              </Link>
+            </div>
               <TableContainer component={Paper} style={{ padding: "3px" }}>
                 <Table
                   size="small"
@@ -145,10 +170,10 @@ const Dashboard = () => {
                   sx={{ border: "none" }}
                 >
                   <TableHead>
-                    <TableRow>
+                   
                       {headerCell.map((r) => {
                         return (
-                          <TableCell
+                          <StyledTableCell
                             align={"left"}
                             sx={{
                               color: "gray",
@@ -156,10 +181,10 @@ const Dashboard = () => {
                             }}
                           >
                             {r.value}
-                          </TableCell>
+                          </StyledTableCell>
                         );
                       })}
-                    </TableRow>
+                   
                   </TableHead>
                   <TableBody>
                     {entry.data && entry.data.length > 0 ? (
@@ -204,13 +229,13 @@ const Dashboard = () => {
                   </TableBody>
                 </Table>
               </TableContainer>
-              <div className="w-full flex justify-center items-center p-2">
+              {/* <div className="w-full flex justify-center items-center p-2">
                 <Link to={"/entry"}>
                   <span className="text-blue-800 cursor-pointer font-medium">
                     View all
                   </span>
                 </Link>
-              </div>
+              </div> */}
             </div>
           </Grid>
         </Grid>
@@ -363,8 +388,8 @@ export default Dashboard;
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
+    backgroundColor: "#03C9D7",
+    color: "white",
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
