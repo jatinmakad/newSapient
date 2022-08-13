@@ -203,7 +203,7 @@ export const UpdateEntryFunction = (id, Data) => {
     const config = { headers: { "Content-Type": "application/json" } };
     dispatch(UpdateEntryBefore());
     const { data } = await axios.put(
-      `https://sap-data-management-mcs.herokuapp.com/edit-job/${id}`,
+      `http://localhost:4000/edit-job/${id}`,
       Data,
       config
     );

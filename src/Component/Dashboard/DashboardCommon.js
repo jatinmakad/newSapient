@@ -110,7 +110,7 @@ const DashBoardCommon = ({ heading, array, heading2, url, array2 }) => {
                           {row.reportRefrenceNo}
                         </StyledTableCell>
                         <StyledTableCell align="left">
-                          {row.city}
+                          {row.insurerCity}
                         </StyledTableCell>
                         <StyledTableCell align="left">
                           {row.date ? moment(row.date).format("LL") : "--"}

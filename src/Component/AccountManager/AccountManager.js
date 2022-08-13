@@ -107,7 +107,9 @@ const AccountManager = () => {
                   <StyledTableCell align="left">
                     {row.reportRefrenceNo}
                   </StyledTableCell>
-                  <StyledTableCell align="left">{row.city}</StyledTableCell>
+                  <StyledTableCell align="left">
+                    {row.insurerCity}
+                  </StyledTableCell>
                   <StyledTableCell align="left">
                     {moment(row.date).format("L")}
                   </StyledTableCell>
@@ -166,7 +168,7 @@ const AssignDialogBox = ({
     const taskData = {
       userId: admin.user._id,
       uniqueJobId: data.uniqueJobId,
-      currentJobHolder: demo._id
+      currentJobHolder: demo._id,
     };
     if (demo._id) {
       dispatch(UpdateAssignFunction(taskData));

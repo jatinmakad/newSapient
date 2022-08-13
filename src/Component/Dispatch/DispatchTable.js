@@ -25,7 +25,10 @@ import moment from "moment";
 import Image from "../Assets/noresult.webp";
 import TableLayout from "../Common/TableLayout/TableLayout";
 import CommentDialog from "../Common/CommentDialog";
-import { DispatchDeitlasFunction, UpdateAssignFunction } from "../../Slice/ReportSlice";
+import {
+  DispatchDeitlasFunction,
+  UpdateAssignFunction,
+} from "../../Slice/ReportSlice";
 const DispatchTable = ({
   searchInput,
   page,
@@ -114,7 +117,7 @@ const DispatchTable = ({
                     <StyledTableCell align="left">
                       {row.reportRefrenceNo}
                     </StyledTableCell>
-                    {/* <StyledTableCell align="left">{row.city}</StyledTableCell> */}
+                    {/* <StyledTableCell align="left">{row.insurerCity}</StyledTableCell> */}
                     <StyledTableCell align="left">
                       {moment(row.date).format("L")}
                     </StyledTableCell>
@@ -283,7 +286,13 @@ const data = [
   },
 ];
 
-const DetailDialogBox = ({ open, handleClose, selectData, dispatch,admin }) => {
+const DetailDialogBox = ({
+  open,
+  handleClose,
+  selectData,
+  dispatch,
+  admin,
+}) => {
   // console.log(selectData,"==========")
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -312,9 +321,9 @@ const DetailDialogBox = ({ open, handleClose, selectData, dispatch,admin }) => {
     const taskData = {
       userId: admin.user._id,
       uniqueJobId: selectData.uniqueJobId,
-      currentJobHolder: selectData.accountHandledBy
+      currentJobHolder: selectData.accountHandledBy,
     };
-      dispatch(UpdateAssignFunction(taskData));
+    dispatch(UpdateAssignFunction(taskData));
   };
   return (
     <Dialog
