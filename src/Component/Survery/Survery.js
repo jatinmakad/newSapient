@@ -60,7 +60,6 @@ const Survery = () => {
 
   const [selectData, setSelectData] = React.useState("");
   const handleClickOpen = async (row) => {
-    debugger;
     setSelectData(row);
     const { data } = await axios.get(
       `https://sap-data-management-mcs.herokuapp.com/get-jobs-by-id?uniqueJobId=${selectData.uniqueJobId}`
