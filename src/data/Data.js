@@ -53,7 +53,7 @@ export const CoordinationManagerData = [
     click: "/dashboard",
   },
   {
-    text: "Task / Assignment",
+    text: "Assign Task",
     icon: <IoMdContacts />,
     click: "/assign-task",
   },
@@ -66,19 +66,25 @@ export const adminData = [
     click: "/dashboard",
   },
   {
+    text: "Task/Assignment",
+    icon: <IoMdContacts />,
+    click: "/entry",
+  },
+  {
     text: "Entry Team",
     icon: <HiDocumentDuplicate />,
     click: "/entry-admin",
+  },
+
+  {
+    text: "Cordination Team",
+    icon: <RiTeamFill />,
+    click: "/coordination-admin",
   },
   {
     text: "Report Team",
     icon: <BsFillFileBreakFill />,
     click: "/report-team-admin",
-  },
-  {
-    text: "Cordination Team",
-    icon: <RiTeamFill />,
-    click: "/coordination-admin",
   },
   // {
   //   text: "Checking Team",
@@ -90,20 +96,21 @@ export const adminData = [
   //   icon: <IoMdContacts />,
   //   click: "/dashboard",
   // },
+
+  {
+    text: "Account Team",
+    icon: <IoMdContacts />,
+    click: "/account-admin",
+  },
   {
     text: "User Management",
     icon: <IoMdContacts />,
     click: "/user",
   },
   {
-    text: "Task / Assignment",
+    text: "User Management",
     icon: <IoMdContacts />,
-    click: "/entry",
-  },
-  {
-    text: "Account Team",
-    icon: <IoMdContacts />,
-    click: "/account-admin",
+    click: "/user",
   },
   // {
   //   text: "Log out",
@@ -131,7 +138,7 @@ export const accountTeamManagerData = [
     click: "/dashboard",
   },
   {
-    text: "Task / Assignment",
+    text: "Assign Task",
     icon: <IoMdContacts />,
     click: "/account-manager",
   },

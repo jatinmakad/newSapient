@@ -29,7 +29,7 @@ const AccountDispatchedTeam = () => {
 
   return isAuth ? (
     <div className="m-2 md:m-10 mt-4 p-2 md:p-5 rounded-3xl">
-      <Header title="Dispatched Jobs" />
+      <Header title="Dispatched Task/Assignment" />
       <TableHeaderLayout
         setSearchInput={setSearchInput}
         searchInput={searchInput}

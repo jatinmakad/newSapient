@@ -135,7 +135,9 @@ const Dashboard = () => {
           )}
           <Grid item lg={12} md={12} sm={12} xs={12}>
             <div className="flex flex-col justify-center shadow-md bg-white rounded-lg">
-              <p className="border-b-2 p-3 text-lg font-medium">Entry's</p>
+              <p className="border-b-2 p-3 text-lg font-medium">
+                Tasks/Assignments
+              </p>
               <TableContainer component={Paper} style={{ padding: "3px" }}>
                 <Table
                   size="small"
@@ -222,7 +224,7 @@ const Dashboard = () => {
             array={entryArray}
             url={"/entry"}
             array2={entry.data}
-            heading2={"Entry's"}
+            heading2={"Tasks/Assignments"}
           />
         ) : (
           <Loader />
@@ -237,7 +239,7 @@ const Dashboard = () => {
             array={coordination}
             url={"/coordination"}
             array2={entry.data}
-            heading2={"Entry's"}
+            heading2={"Tasks/Assignments"}
           />
         ) : (
           <Loader />
@@ -252,7 +254,7 @@ const Dashboard = () => {
             array={report}
             url={"/report-team"}
             array2={entry.data}
-            heading2={"Entry's"}
+            heading2={"Tasks/Assignments"}
           />
         ) : (
           <Loader />
@@ -267,7 +269,7 @@ const Dashboard = () => {
             array={report}
             url={"/assign-task-report-team"}
             array2={entry.data}
-            heading2={"Entry's"}
+            heading2={"Tasks/Assignments"}
           />
         ) : (
           <Loader />
@@ -282,7 +284,7 @@ const Dashboard = () => {
             array={account}
             url={"/account"}
             array2={entry.data}
-            heading2={"Entry's"}
+            heading2={"Tasks/Assignments"}
           />
         ) : (
           <Loader />
@@ -297,7 +299,7 @@ const Dashboard = () => {
             array={account}
             url={"/account-manager"}
             array2={entry.data}
-            heading2={"Entry's"}
+            heading2={"Tasks/Assignments"}
           />
         ) : (
           <Loader />
@@ -313,7 +315,7 @@ const Dashboard = () => {
             array={coordination}
             url={"/assign-task"}
             array2={entry.data}
-            heading2={"Entry's"}
+            heading2={"Tasks/Assignments"}
           />
         ) : (
           <Loader />
@@ -329,7 +331,7 @@ const Dashboard = () => {
             array={dispatchData}
             url={"/assign-task"}
             array2={entry.data}
-            heading2={"Entry's"}
+            heading2={"Tasks/Assignments"}
           />
         ) : (
           <Loader />
@@ -345,7 +347,7 @@ const Dashboard = () => {
             array={dispatchData}
             url={"/assign-task"}
             array2={entry.data}
-            heading2={"Entry's"}
+            heading2={"Tasks/Assignments"}
           />
         ) : (
           <Loader />

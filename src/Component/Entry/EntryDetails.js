@@ -31,129 +31,129 @@ const EntryDetails = (props) => {
         <div className=" flex lg:flex-row md:flex-row flex-col mb-5">
           <div className="lg:w-1/2 md:w-1/2 flex flex-col w-full ">
             <div className={outerDiv}>
-              <p className={innerP}>Refrence</p>
-              <p className={innerText}>{data[0].reportRefrenceNo}</p>
+              <p className={innerP}>Refrence Refrence No.</p>
+              <p className={innerText}>{data[0] && data[0].reportRefrenceNo ? data[0].reportRefrenceNo : "N/A"}</p>
             </div>
             <div className={outerDiv}>
-              <p className={innerP}>Claim No.</p>
-              <p className={innerText}>{data[0].claimNo}</p>
-            </div>
-            <div className={outerDiv}>
-              <p className={innerP}>Claim Type</p>
-              <p className={innerText}>{data[0].claimType}</p>
-            </div>
-            <div className={outerDiv}>
-              <p className={innerP}>Consignee</p>
-              <p className={innerText}>{data[0].consignee}</p>
-            </div>
-            <div className={outerDiv}>
-              <p className={innerP}>Consignor</p>
-              <p className={innerText}>{data[0].consignor}</p>
-            </div>
-            <div className={outerDiv}>
-              <p className={innerP}>Date</p>
-              <p className={innerText}>{moment(data[0].date).format("L")}</p>
-            </div>
-            <div className={outerDiv}>
-              <p className={innerP}>Invocie No.</p>
-              <p className={innerText}>{data[0].invoiceNo}</p>
-            </div>
-            <div className={outerDiv}>
-              <p className={innerP}>Invoice Value</p>
-              <p className={innerText}>{data[0].invoiceValue}</p>
+              <p className={innerP}>Intimation Date</p>
+              <p className={innerText}>{data && data[0].intimationDate ? moment(data[0].intimationDate).format("LL") : "N/A"}</p>
             </div>
             <div className={outerDiv}>
               <p className={innerP}>Finanical Year</p>
+              <p className={innerText}>{data[0] && data[0].finanicalYear ? moment(data[0].finanicalYear).format("LL") : "N/A"}</p>
+            </div>
+            <div className={outerDiv}>
+              <p className={innerP}>Claim Type</p>
+              <p className={innerText}>{data && data[0].claimType ? data[0].claimType : "N/A"}</p>
+            </div>
+            <div className={outerDiv}>
+              <p className={innerP}>Insured Claim No.</p>
+              <p className={innerText}>{data && data[0].claimNo ? data[0].claimNo : "N/A"}</p>
+            </div>
+            <div className={outerDiv}>
+              <p className={innerP}>Insured Policy No.</p>
+              <p className={innerText}>{data && data[0].policyNo ? data[0].policyNo : "N/A"}</p>
+            </div>
+            <div className={outerDiv}>
+              <p className={innerP}>Executing Branch Location</p>
+              <p className={innerText}>{data && data[0].executingBranchLocation ? data[0].executingBranchLocation : "N/A"}</p>
+            </div>
+            <div className={outerDiv}>
+              <p className={innerP}>Insurer Name</p>
+              <p className={innerText}>{data && data[0].insurer ? data[0].insurer : "N/A"}</p>
+            </div>
+            <div className={outerDiv}>
+              <p className={innerP}>Insurer Location</p>
               <p className={innerText}>
-                {moment(data[0].financialYear).format("YYYY")}
+                {data && data[0].city ? data[0].city : ""}
               </p>
             </div>
             <div className={outerDiv}>
-              <p className={innerP}>Insurer</p>
-              <p className={innerText}>{data[0].insuer}</p>
+              <p className={innerP}>Insured Name</p>
+              <p className={innerText}>{data && data[0].insured ? data[0].insured : "N/A"}</p>
             </div>
             <div className={outerDiv}>
-              <p className={innerP}>Insured</p>
-              <p className={innerText}>{data[0].insured}</p>
+              <p className={innerP}>Insured Location</p>
+              <p className={innerText}>{data && data[0].insuredCity ? data[0].insuredCity : "N/A"}</p>
             </div>
             <div className={outerDiv}>
-              <p className={innerP}>Insured City</p>
-              <p className={innerText}>{data[0].insuredCity}</p>
+              <p className={innerP}>Date of Loss</p>
+              <p className={innerText}>{data && data[0].date ? data[0].date : "N/A"}</p>
             </div>
             <div className={outerDiv}>
-              <p className={innerP}>State</p>
-              <p className={innerText}>{data[0].state}</p>
+              <p className={innerP}>Estimated Loss</p>
+              <p className={innerText}>{data && data[0].estimatedLoss ? data[0].estimatedLoss :"N/A"}</p>
             </div>
       
          
             <div className={outerDiv}>
-              <p className={innerP}>Policy No.</p>
+              <p className={innerP}>Cause / Nature of loss</p>
               <p className={innerText}>
-                {data[0].policyNo ? data[0].policyNo : "-"}
+                {data && data[0].natureOfLoss ? data[0].natureOfLoss : "N/A"}
               </p>
             </div>
             <div className={outerDiv}>
-              <p className={innerP}>Broker</p>
+              <p className={innerP}>Damaged Item / Other</p>
               <p className={innerText}>
-                {data[0].broker ? data[0].broker : "-"}
+                {data && data[0].itemDamage ? data[0].itemDamage : "N/A"}
               </p>
             </div>
             <div className={outerDiv}>
-              <p className={innerP}>Broker Location</p>
+              <p className={innerP}>Loss Location</p>
               <p className={innerText}>
-                {data[0].brokerLocation ? data[0].brokerLocation : "-"}
+                {data && data[0].lossCity ? data[0].lossCity : "N/A"}
               </p>
             </div>
             <div className={outerDiv}>
-              <p className={innerP}>Age</p>
-              <p className={innerText}>{data[0].age ? data[0].age : "-"}</p>
+              <p className={innerP}>Broker Reference No</p>
+              <p className={innerText}>{data && data[0].brokerReferenceNumber ? data[0].brokerReferenceNumber : "N/A"}</p>
             </div>
 
             <div className={outerDiv}>
-              <p className={innerP}>City</p>
-              <p className={innerText}>{data[0].city ? data[0].city : "-"}</p>
+              <p className={innerP}>Broker Name</p>
+              <p className={innerText}>{data && data[0].broker ? data[0].broker : "N/A"}</p>
             </div>
             <div className={outerDiv}>
-              <p className={innerP}>State</p>
-              <p className={innerText}>{data[0].state ? data[0].state : "-"}</p>
+              <p className={innerP}>Broker Location</p>
+              <p className={innerText}>{data && data[0].brokerLocation ? data[0].brokerLocation : "N/A"}</p>
             </div>
             <div className={outerDiv}>
-              <p className={innerP}>Intimation</p>
+              <p className={innerP}>Consignor Name</p>
               <p className={innerText}>
-                {data[0].intimation ? data[0].intimation : "-"}
+                {data && data[0].consignor ? data[0].consignor : "N/A"}
               </p>
             </div>
             <div className={outerDiv}>
-              <p className={innerP}>Loss City</p>
+              <p className={innerP}>Consignee Name</p>
               <p className={innerText}>
-                {data[0].lossCity ? data[0].lossCity : "-"}
+                {data && data[0].consignee ? data[0].consignee : "N/A"}
               </p>
             </div>
             <div className={outerDiv}>
-              <p className={innerP}>Month</p>
+              <p className={innerP}>Invoice No.</p>
               <p className={innerText}>
                 {" "}
-                {data[0].month ? moment(data[0].month).format("MM") : "-"}
+                {data && data[0].invoiceNo ? data[0].invoiceNo : "N/A"}
               </p>
             </div>
             <div className={outerDiv}>
-              <p className={innerP}>Current Job Status</p>
+              <p className={innerP}>Invoice Value</p>
               <p className={innerText}>
-                {data[0].currentJobStatus ? data[0].currentJobStatus : "-"}
+                {data && data[0].invoiceValue ? data[0].invoiceValue : "N/A"}
               </p>
             </div>
             <div className={outerDiv}>
-              <p className={innerP}>Current Job Holding Team</p>
+              <p className={innerP}>LR/GR/ Other</p>
               <p className={innerText}>
-                {data[0].currentJobHoldingTeam
-                  ? data[0].currentJobHoldingTeam
-                  : "-"}
+                {data && data[0].lrGrOther
+                  ? data[0].lrGrOther
+                  : "N/A"}
               </p>
             </div>
             <div className={outerDiv}>
-              <p className={innerP}>Vehicle Number</p>
+              <p className={innerP}>Vehicle No</p>
               <p className={innerText}>
-                {data[0].vehicleNumber ? data[0].vehicleNumber : "-"}
+                {data && data[0].vehicleNumber ? data[0].vehicleNumber : "N/A"}
               </p>
             </div>
          </div>

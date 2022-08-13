@@ -83,10 +83,10 @@ export default function EntryTable({
               {/* <StatusColor status={row.status} /> */}
               {row.insured}
             </StyledTableCell>
-            {!admin.user.role === "ADMIN" ? (
+            {!admin.user.role == "ADMIN" ? (
               <StyledTableCell align="left">
                 <div className="flex justify-evenly items-center">
-                  <Link to={`/update-entry/${row.reportRefrenceNo}`}>
+                  <Link to={`/update-entry/${row.uniqueJobId}`}>
                     <EditIcon className="text-blue-700 cursor-pointer" />
                   </Link>
                   <DeleteIcon
@@ -111,7 +111,6 @@ export default function EntryTable({
             <TableCell colSpan={6} />
           </TableRow>
         )} */}
-
       </TableBody>
     </TableLayout>
   );
@@ -146,7 +145,7 @@ const headerCell = [
     align: "left",
   },
   {
-    value: "Insure",
+    value: "Insurer",
     align: "left",
   },
   {
