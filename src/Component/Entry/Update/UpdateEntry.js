@@ -65,12 +65,10 @@ const UpdateEntry = () => {
         );
         formikRef.current.setFieldValue("lossCity", updated[0].lossCity);
         formikRef.current.setFieldValue("date", updated[0].date);
-        formikRef.current.setFieldValue("age", updated[0].age);
         formikRef.current.setFieldValue("claimType", updated[0].claimType);
         formikRef.current.setFieldValue("claimNo", updated[0].claimNo);
         formikRef.current.setFieldValue("insuredCity", updated[0].insuredCity);
         formikRef.current.setFieldValue("consignor", updated[0].consignor);
-        formikRef.current.setFieldValue("state", updated[0].state);
         formikRef.current.setFieldValue(
           "invoiceValue",
           updated[0].invoiceValue
@@ -129,7 +127,6 @@ const UpdateEntry = () => {
     // insurer: Yup.string().required("Required"),
     claimType: Yup.string().required("Required"),
     insured: Yup.string().required("Required"),
-    intimation: Yup.string().required("Required"),
     insurer: Yup.string().required("Required"),
     reportRefrenceNo: Yup.number().required("Required"),
   });
@@ -141,20 +138,17 @@ const UpdateEntry = () => {
     broker: "",
     consignee: "",
     invoiceNo: "",
-    month: new Date(),
     intimationDate: new Date(),
     city: "",
     insured: "",
     brokerLocation: "",
     lossCity: "",
     date: new Date(),
-    age: "",
     claimType: "",
     claimNo: "",
     insuredCity: "",
     insurerCity: "",
     consignor: "",
-    state: "",
     invoiceValue: "",
     executingBranchLocation: "",
     insurer: "",
@@ -184,6 +178,7 @@ const UpdateEntry = () => {
             isLoading ? (
               <Loader />
             ) : (
+              console.log(errors,"values"),
               <Form className="rounded-sm lg:p-4 pt-5 pb-5 sm:lg-3 lg-3">
                 <Grid lg={12} md={12} sm={12} xs={12} container spacing={2}>
                   <Grid lg={4} md={6} sm={12} xs={12} item>
