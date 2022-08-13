@@ -25,7 +25,7 @@ export default function EntryTable({
   const dispatch = useDispatch();
   const { isAuth, admin } = useSelector((state) => state.Login);
   const { deleteSuccess } = useSelector((state) => state.Entry.delete);
-  console.log(entry, ">??????????");
+
   useEffect(() => {
     if (isAuth === false) {
       navigate("/login");
