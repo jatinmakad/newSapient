@@ -14,7 +14,7 @@ const DashBoardCommon = ({ heading, array, heading2, url, array2 }) => {
   return (
     <Grid container spacing={2} lg={12} md={12} sm={12} xs={12}>
       <Grid item lg={6} md={6} sm={12} xs={12}>
-        <div className="flex flex-col justify-center shadow-md bg-white rounded-lg">
+        <div className="flex flex-col justify-center shadow-md bg-white">
           <p className="border-b-2 p-3 text-lg font-medium">{heading}</p>
           <TableContainer component={Paper}>
             <Table
@@ -59,8 +59,20 @@ const DashBoardCommon = ({ heading, array, heading2, url, array2 }) => {
       </Grid>
       {array2 ? (
         <Grid item lg={6} md={6} sm={12} xs={12}>
-          <div className="flex flex-col justify-center shadow-md bg-white rounded-lg">
-            <p className="border-b-2 p-3 text-lg font-medium">{heading2}</p>
+          <div className="flex flex-col justify-center shadow-md bg-white">
+            <div className="flex justify-between p-3 items-center">
+              {" "}
+              <p className="text-lg font-medium">{heading2}</p>
+              <Link to={url}>
+                <span
+                  style={{ color: "#03C9D7" }}
+                  className="cursor-pointer font-medium"
+                >
+                  View all
+                </span>
+              </Link>
+            </div>
+
             <TableContainer component={Paper}>
               <Table
                 size="small"
@@ -125,13 +137,13 @@ const DashBoardCommon = ({ heading, array, heading2, url, array2 }) => {
                 </TableBody>
               </Table>
             </TableContainer>
-            <div className="w-full flex justify-center items-center p-2">
+            {/* <div className="w-full flex justify-center items-center p-2">
               <Link to={url}>
                 <span className="text-blue-800 cursor-pointer font-medium">
                   View all
                 </span>
               </Link>
-            </div>
+            </div> */}
           </div>
         </Grid>
       ) : (
@@ -142,7 +154,7 @@ const DashBoardCommon = ({ heading, array, heading2, url, array2 }) => {
 };
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: "black",
+    backgroundColor: "#03C9D7",
     color: "white",
   },
   [`&.${tableCellClasses.body}`]: {

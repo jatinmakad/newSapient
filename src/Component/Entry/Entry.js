@@ -45,7 +45,7 @@ const Entry = () => {
             justifyContent="flex-end"
           >
             <Link to={"/create-entry"}>
-              <Button variant="contained" color="primary">
+              <Button variant="contained" sx={{background:"#03C9D7"}}>
                 {/* <AddIcon /> */}
                 Create Entry
               </Button>

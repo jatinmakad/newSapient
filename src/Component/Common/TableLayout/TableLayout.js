@@ -61,7 +61,7 @@ export default function TableLayout({
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: "black",
+    backgroundColor: "#03C9D7",
     color: "white",
   },
   [`&.${tableCellClasses.body}`]: {

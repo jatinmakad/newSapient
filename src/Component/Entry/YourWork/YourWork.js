@@ -324,7 +324,7 @@ const AssignDialogBox = ({ open, handleClose, selectData, dispatch }) => {
         >
           {data &&
             data.map((r) => {
-              return <MenuItem value={r.value}>{r.value}</MenuItem>;
+              return <MenuItem value={r.value}>{r.label}</MenuItem>;
             })}
         </Select>
       </DialogContent>
@@ -446,11 +446,14 @@ const AssignToSurveyDialogBox = ({
 const data = [
   {
     value: "OPEN",
+    label:"Open"
   },
   {
     value: "OPEN-FOR-NEXT-TEAM",
+    label:"Open For Next Team"
   },
   {
     value: "IN-PROGRESS",
+    label:"In Progress"
   },
 ];
