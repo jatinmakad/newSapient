@@ -107,11 +107,11 @@ export const adminData = [
     icon: <IoMdContacts />,
     click: "/user",
   },
-  // {
-  //   text: "User Management",
-  //   icon: <IoMdContacts />,
-  //   click: "/user",
-  // },
+  {
+    text: "Surveyour",
+    icon: <IoMdContacts />,
+    click: "/surveyour-admin",
+  },
   // {
   //   text: "Log out",
   //   icon: AssignmentIcon,

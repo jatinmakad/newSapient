@@ -2,6 +2,9 @@ import React, { lazy, Suspense } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Loader from "../Component/Common/Loader";
 import NotFound from "../Component/Common/NotFound";
+const SurveyourAdmin = lazy(() =>
+  import("../Component/Survery/SurveyourAdmin")
+);
 const DispatchAdmin = lazy(() =>
   import("../Component/Dispatch/DispatchAdmin")
 );
@@ -90,6 +93,7 @@ const RoutesPage = () => {
         <Route path={"/dispatch-team"} element={<DispatchTeam />} />
         <Route path={"/dispatch-manager"} element={<DispatchManager />} />
         <Route path={"/dispatch-admin"} element={<DispatchAdmin />} />
+        <Route path={"/surveyour-admin"} element={<SurveyourAdmin />} />
         {/* <Route
           path={"/update-coordination/:id"}
           element={<UpdateCoordination />}

@@ -28,7 +28,8 @@ const Dashboard = () => {
   const [account, setAccount] = useState("");
   const { entry } = useSelector((state) => state.Entry.get);
   const [dispatchData, setDispatchData] = useState("");
-  const [dispatchTeam,setDispatch] = useState("")
+  const [dispatchTeam, setDispatch] = useState("");
+  const [surveyour, setSurveyour] = useState("");
   const dataArray = [
     {
       heading: "Entry Team",
@@ -54,6 +55,11 @@ const Dashboard = () => {
       heading: "Disptach Team",
       array: dispatchTeam,
       url: "/dispatch-admin",
+    },
+    {
+      heading: "Surveyour",
+      array: surveyour,
+      url: "/surveyour-admin",
     },
   ];
   useEffect(() => {
@@ -90,6 +96,13 @@ const Dashboard = () => {
             setCoordination(res.data.data);
           });
           await axios
+          .get(
+            `https://sap-user-microservice.herokuapp.com/getUsers?team=SURVEYOUR TEAM`
+          )
+          .then((res) => {
+            setSurveyour(res.data.data);
+          });
+        await axios
           .get(
             `https://sap-user-microservice.herokuapp.com/getUsers?team=DISPATCH TEAM`
           )
@@ -152,17 +165,17 @@ const Dashboard = () => {
                 Tasks/Assignments
               </p> */}
               <div className="flex justify-between p-3 items-center">
-              {" "}
-              <p className="text-lg font-medium"> Tasks/Assignments</p>
-              <Link to={"/entry"}>
-                <span
-                  style={{ color: "#03C9D7" }}
-                  className="cursor-pointer font-medium"
-                >
-                  View all
-                </span>
-              </Link>
-            </div>
+                {" "}
+                <p className="text-lg font-medium"> Tasks/Assignments</p>
+                <Link to={"/entry"}>
+                  <span
+                    style={{ color: "#03C9D7" }}
+                    className="cursor-pointer font-medium"
+                  >
+                    View all
+                  </span>
+                </Link>
+              </div>
               <TableContainer component={Paper} style={{ padding: "3px" }}>
                 <Table
                   size="small"
@@ -170,21 +183,19 @@ const Dashboard = () => {
                   sx={{ border: "none" }}
                 >
                   <TableHead>
-                   
-                      {headerCell.map((r) => {
-                        return (
-                          <StyledTableCell
-                            align={"left"}
-                            sx={{
-                              color: "gray",
-                              borderBottom: "0.5px solid lightgray",
-                            }}
-                          >
-                            {r.value}
-                          </StyledTableCell>
-                        );
-                      })}
-                   
+                    {headerCell.map((r) => {
+                      return (
+                        <StyledTableCell
+                          align={"left"}
+                          sx={{
+                            color: "gray",
+                            borderBottom: "0.5px solid lightgray",
+                          }}
+                        >
+                          {r.value}
+                        </StyledTableCell>
+                      );
+                    })}
                   </TableHead>
                   <TableBody>
                     {entry.data && entry.data.length > 0 ? (
@@ -248,6 +259,21 @@ const Dashboard = () => {
             heading={"Entry Team Employee"}
             array={entryArray}
             url={"/entry"}
+            array2={entry.data}
+            heading2={"Tasks/Assignments"}
+          />
+        ) : (
+          <Loader />
+        )
+      ) : (
+        ""
+      )}
+      {admin?.user?.role === "SURVEYOUR" ? (
+        entry && entryArray ? (
+          <DashBoardCommon
+            heading={"Surveyour Team Employee"}
+            array={entryArray}
+            url={"/survery"}
             array2={entry.data}
             heading2={"Tasks/Assignments"}
           />
