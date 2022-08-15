@@ -95,7 +95,7 @@ const Dashboard = () => {
           .then((res) => {
             setCoordination(res.data.data);
           });
-          await axios
+        await axios
           .get(
             `https://sap-user-microservice.herokuapp.com/getUsers?team=SURVEYOUR TEAM`
           )
@@ -441,7 +441,7 @@ const headerCell = [
     align: "left",
   },
   // {
-  //   value: "Insure",
+  //   value: Insurer,
   //   align: "left",
   // },
 ];

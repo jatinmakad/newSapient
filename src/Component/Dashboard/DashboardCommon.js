@@ -182,7 +182,7 @@ const headerCell = [
     align: "left",
   },
   // {
-  //   value: "Insure",
+  //   value: Insurer,
   //   align: "left",
   // },
 ];
