@@ -15,7 +15,7 @@ export const EntryData = [
     click: "/entry",
   },
   {
-    text: "Task / Assignment",
+    text: "Tasks / Assignments",
     icon: <IoMdContacts />,
     click: "/your-work",
   },
@@ -66,7 +66,7 @@ export const adminData = [
     click: "/dashboard",
   },
   {
-    text: "Task/Assignment",
+    text: "Tasks/Assignments",
     icon: <IoMdContacts />,
     click: "/entry",
   },
@@ -75,7 +75,11 @@ export const adminData = [
     icon: <HiDocumentDuplicate />,
     click: "/entry-admin",
   },
-
+  {
+    text: "Surveyour Team",
+    icon: <IoMdContacts />,
+    click: "/surveyour-admin",
+  },
   {
     text: "Cordination Team",
     icon: <RiTeamFill />,
@@ -107,11 +111,7 @@ export const adminData = [
     icon: <IoMdContacts />,
     click: "/user",
   },
-  {
-    text: "Surveyour",
-    icon: <IoMdContacts />,
-    click: "/surveyour-admin",
-  },
+
   // {
   //   text: "Log out",
   //   icon: AssignmentIcon,

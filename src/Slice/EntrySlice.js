@@ -164,7 +164,7 @@ export const CreateEntryFunction = (Data) => {
       dispatch(CreateEntryPending());
       const config = { headers: { "Content-Type": "application/json" } };
       const { data } = await axios.post(
-        `http://localhost:4000/entry`,
+        `https://sap-data-management-mcs.herokuapp.com/entry`,
         Data,
         config
       );
@@ -203,7 +203,7 @@ export const UpdateEntryFunction = (id, Data) => {
     const config = { headers: { "Content-Type": "application/json" } };
     dispatch(UpdateEntryBefore());
     const { data } = await axios.put(
-      `http://localhost:4000/edit-job/${id}`,
+      `https://sap-data-management-mcs.herokuapp.com/edit-job/${id}`,
       Data,
       config
     );

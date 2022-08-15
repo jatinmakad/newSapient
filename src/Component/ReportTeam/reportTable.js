@@ -280,17 +280,19 @@ const AssignDialogBox = ({ open, handleClose, selectData, dispatch }) => {
     >
       <DialogTitle id="responsive-dialog-title">Select Job Status</DialogTitle>
       <DialogContent>
-        <Select
-          fullWidth
-          size="small"
-          onChange={(e) => setDemo(e.target.value)}
-          // value={}
-        >
-          {data &&
-            data.map((r) => {
-              return <MenuItem value={r.value}>{r.value}</MenuItem>;
-            })}
-        </Select>
+        <div className="flex flex-col justify-start mb-3">
+          <Select
+            fullWidth
+            size="small"
+            onChange={(e) => setDemo(e.target.value)}
+            // value={}
+          >
+            {data &&
+              data.map((r) => {
+                return <MenuItem value={r.value}>{r.value}</MenuItem>;
+              })}
+          </Select>
+        </div>
       </DialogContent>
       <DialogActions>
         <Button variant="contained" onClick={onSubmit} color="info">

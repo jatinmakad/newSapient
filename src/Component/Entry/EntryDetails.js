@@ -21,17 +21,17 @@ const EntryDetails = (props) => {
       setData(updated);
     }
   }, [isAuth, id]);
-  const innerP = "w-1/2 text-blue-700 font-medium";
-  const innerText = "w-1/2";
+  const innerP = "w-1/2 text-blue-700 font-medium ";
+  const innerText = "w-3/4 break-all";
   const outerDiv = "flex justify-between items-center text-lg";
   return isAuth && data ? (
     <div className="m-2 md:m-10 mt-4 p-2 md:p-5 rounded-3xl">
       <Header title="Entry Details" />
-      <div className="bg-white lg:p-5 md:p-5 p-3 rounded-md">
+      <div className="bg-white  lg:p-5 md:p-5 p-3 rounded-md">
         <div className=" flex lg:flex-row md:flex-row flex-col mb-5">
           <div className="lg:w-1/2 md:w-1/2 flex flex-col w-full ">
             <div className={outerDiv}>
-              <p className={innerP}>Refrence Refrence No.</p>
+              <p className={innerP}>Report Refrence No.</p>
               <p className={innerText}>
                 {data[0] && data[0].reportRefrenceNo
                   ? data[0].reportRefrenceNo
@@ -107,7 +107,9 @@ const EntryDetails = (props) => {
             <div className={outerDiv}>
               <p className={innerP}>Date of Loss</p>
               <p className={innerText}>
-                {data && data[0].date ? data[0].date : "N/A"}
+                {data && data[0].date
+                  ? moment(data[0].date).format("LL")
+                  : "N/A"}
               </p>
             </div>
             <div className={outerDiv}>

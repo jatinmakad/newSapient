@@ -126,7 +126,7 @@ const YourWork = () => {
 
   return isAuth && entry.data ? (
     <div className="m-2 md:m-10 mt-4 p-2 md:p-5 rounded-3xl">
-      <Header title="Task / Assignment" />
+      <Header title="Tasks / Assignments" />
       <TableHeaderLayout
         searchInput={searchInput}
         setSearchInput={setSearchInput}
@@ -319,16 +319,18 @@ const AssignDialogBox = ({ open, handleClose, selectData, dispatch }) => {
     >
       <DialogTitle id="responsive-dialog-title">Select Job Status</DialogTitle>
       <DialogContent>
-        <Select
-          fullWidth
-          size="small"
-          onChange={(e) => setDemo(e.target.value)}
-        >
-          {data &&
-            data.map((r) => {
-              return <MenuItem value={r.value}>{r.label}</MenuItem>;
-            })}
-        </Select>
+        <div className="flex flex-col justify-start mb-3">
+          <Select
+            fullWidth
+            size="small"
+            onChange={(e) => setDemo(e.target.value)}
+          >
+            {data &&
+              data.map((r) => {
+                return <MenuItem value={r.value}>{r.label}</MenuItem>;
+              })}
+          </Select>
+        </div>
       </DialogContent>
       <DialogActions>
         <Button variant="contained" onClick={onSubmit} color="info">
@@ -387,10 +389,10 @@ const AssignToSurveyDialogBox = ({
       onClose={handleClose}
       aria-labelledby="responsive-dialog-title"
     >
-      <DialogTitle id="responsive-dialog-title">Select Surveyour</DialogTitle>
+      <DialogTitle id="responsive-dialog-title">Assign Surveyour</DialogTitle>
       <DialogContent>
         <div className="flex flex-col justify-start mb-3">
-          <p className="text-sm mb-2">Select City</p>
+          <p className="text-sm mb-2">City</p>
           <Autocomplete
             value={city}
             fullWidth
@@ -411,7 +413,7 @@ const AssignToSurveyDialogBox = ({
         </div>
         {city ? (
           <div className="flex flex-col justify-start">
-            <p className="text-sm mb-2">Select Survery</p>
+            <p className="text-sm mb-2">Surveyour</p>
             <Select
               fullWidth
               size="small"
@@ -448,14 +450,14 @@ const AssignToSurveyDialogBox = ({
 const data = [
   {
     value: "OPEN",
-    label:"Open"
+    label: "Open",
   },
   {
     value: "OPEN-FOR-NEXT-TEAM",
-    label:"Open For Next Team"
+    label: "Open For Next Team",
   },
   {
     value: "IN-PROGRESS",
-    label:"In Progress"
+    label: "In Progress",
   },
 ];
