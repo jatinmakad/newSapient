@@ -229,7 +229,7 @@ const AssignDialogBox = ({ open, handleClose, selectData, dispatch }) => {
       onClose={handleClose}
       aria-labelledby="responsive-dialog-title"
     >
-      <DialogTitle id="responsive-dialog-title">Select J Status</DialogTitle>
+      <DialogTitle id="responsive-dialog-title">Select Job Status</DialogTitle>
       <DialogContent>
         <Select
           fullWidth
