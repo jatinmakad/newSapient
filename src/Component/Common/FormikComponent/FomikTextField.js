@@ -1,6 +1,14 @@
 import { TextField } from "@mui/material";
 import React from "react";
-const FomikTextField = ({ heading, value, name, handleChange,error,helperText,type}) => {
+const FomikTextField = ({
+  heading,
+  value,
+  name,
+  handleChange,
+  error,
+  helperText,
+  type,
+}) => {
   return (
     <div className="flex flex-col justify-start">
       <p className="text-sm mb-2">{heading}</p>
@@ -12,10 +20,9 @@ const FomikTextField = ({ heading, value, name, handleChange,error,helperText,ty
         value={value}
         size="small"
         multiline
-        // value={formik.values.email}
         onChange={handleChange}
         error={error}
-        style={{background:"white"}}
+        style={{ background: "white" }}
         helperText={helperText}
       />
     </div>
