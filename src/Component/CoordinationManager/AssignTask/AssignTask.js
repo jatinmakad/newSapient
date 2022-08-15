@@ -224,7 +224,7 @@ const headerCell = [
     align: "left",
   },
   {
-    value: "Refrence No.",
+    value: "Reference No.",
     align: "left",
   },
   {
@@ -236,7 +236,7 @@ const headerCell = [
     align: "left",
   },
   {
-    value: Insurer,
+    value: "Insurer",
     align: "left",
   },
   {

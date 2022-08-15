@@ -170,7 +170,7 @@ const headerCell = [
     align: "left",
   },
   {
-    value: "Refrence No.",
+    value: "Reference No.",
     align: "left",
   },
   {
