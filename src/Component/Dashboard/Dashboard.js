@@ -273,7 +273,7 @@ const Dashboard = () => {
         entry && entryArray ? (
           <DashBoardCommon
             heading={"Surveyour Team Employee"}
-            array={entryArray}
+            array={surveyour}
             url={"/survery"}
             array2={entry.data}
             heading2={"Tasks/Assignments"}
