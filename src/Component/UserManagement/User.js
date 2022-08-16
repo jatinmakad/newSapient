@@ -18,16 +18,27 @@ const User = () => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [searchInput, setSearchInput] = React.useState("");
-
+  const Func = (slug) => {
+    if (slug == "reset" && searchInput !== "") {
+      setSearchInput("");
+      let count = Number(`${page}0`);
+      dispatch(GetUserFunction("",count,"",10));
+    } else if (slug == "search") {
+      if (searchInput !== "") {
+        let count = Number(`${page}0`);
+        dispatch(GetUserFunction(searchInput,count,"",10));
+      }
+    }
+  };
   useEffect(() => {
-    if (page || searchInput || isAuth || success) {
+    if (page  || isAuth || success) {
       let count = Number(`${page}0`);
       dispatch(GetUserFunction(searchInput,count,"",10));
     }
     if (isAuth === false) {
       navigate("/login");
     }
-  }, [isAuth, searchInput, page,success]);
+  }, [isAuth, page,success]);
 
   return isAuth && data ? (
     <div className="m-2 md:m-10 mt-4 p-2 md:p-5 rounded-3xl">
@@ -35,6 +46,7 @@ const User = () => {
       <TableHeaderLayout
         searchInput={searchInput}
         setSearchInput={setSearchInput}
+        Func={Func}
       >
         {admin.user.role === "ADMIN" ? (
           <Grid

@@ -130,34 +130,6 @@ export const GetEntryFunction = (skip, current, refrenceNo, currentjobId) => {
     }
   };
 };
-// export const GetEntryDoneFunction = (current) => {
-//   return async (dispatch) => {
-//     try {
-//       dispatch(GetEntryPending());
-//       let link = `https://sap-data-management-mcs.herokuapp.com/get-job-lists?currentJobHoldingTeam=${current}`;
-//       const { data } = await axios.get(link);
-//       dispatch(GetEntrySuccess(data));
-//     } catch (error) {
-//       ToastComponent("Somthing went wrong", "error");
-//       dispatch(GetEntryFail(error));
-//     }
-//   };
-// };
-
-// export const GetEntryFunctionId = (id) => {
-//   return async (dispatch) => {
-//     try {
-//       dispatch(GetEntryPending());
-//       let link = `https://sap-data-management-mcs.herokuapp.com/view-my-jobs?currentJobHolder=${id}`;
-//       const { data } = await axios.get(link);
-//       dispatch(GetEntrySuccess(data));
-//     } catch (error) {
-//       ToastComponent("Somthing went wrong", "error");
-//       dispatch(GetEntryFail(error));
-//     }
-//   };
-// };
-
 export const CreateEntryFunction = (Data) => {
   return async (dispatch) => {
     try {
@@ -181,7 +153,6 @@ export const CreateEntryFunction = (Data) => {
 };
 
 export const DeletEntryFunction = (id) => {
-  console.log(id, "=========id     ");
   return async (dispatch) => {
     try {
       const { data } = await axios.delete(

@@ -20,11 +20,12 @@ const TableHeaderLayout = ({
   setSearchInput,
   searchInput,
   children,
+  Func,
 }) => {
   const { isAuth, admin } = useSelector((state) => state.Login);
   return (
     <Grid lg={12} container justifyContent={"space-between"} spacing={2} mb={2}>
-      <Grid item lg={4} md={4} xs={6} sm={6}>
+      <Grid item lg={6} md={6} xs={12} sm={12}>
         <TextField
           variant="standard"
           fullWidth
@@ -42,6 +43,25 @@ const TableHeaderLayout = ({
             disableUnderline: true,
           }}
         />
+      </Grid>
+      <Grid item lg={3} md={3} xs={6} sm={6}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => Func("search")}
+          size="large"
+          sx={{ marginRight: "5px" }}
+        >
+          Search
+        </Button>
+        <Button
+          variant="contained"
+          color="success"
+          onClick={() => Func("reset")}
+          size="large"
+        >
+          Reset
+        </Button>
       </Grid>
       {children}
     </Grid>

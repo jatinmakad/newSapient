@@ -52,22 +52,30 @@ const YourWork = () => {
   // Table Functions
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  useEffect(() => {
-    if (isAuth || page || searchInput) {
+  const Func = (slug) => {
+    if (slug == "reset" && searchInput !== "") {
+      setSearchInput("");
       let count = Number(`${page}0`);
-      dispatch(GetEntryFunction(count, "", searchInput, admin.user._id));
+      dispatch(GetEntryFunction(count, "", "", admin.user._id));
+    } else if (slug == "search") {
+      if (searchInput !== "") {
+        let count = Number(`${page}0`);
+        dispatch(GetEntryFunction(count, "", searchInput, admin.user._id));
+      }
+    }
+  };
+  useEffect(() => {
+    if (isAuth || page || deleteSuccess || updateStatusSuccess) {
+      let count = Number(`${page}0`);
+      dispatch(GetEntryFunction(count, "", "", admin.user._id));
     }
     if (!isAuth) {
       navigate("/login");
     }
     if (deleteSuccess) {
-      let count = Number(`${page}0`);
-      dispatch(GetEntryFunction(count, "", searchInput, admin.user._id));
       setOpen(false);
     }
     if (updateStatusSuccess) {
-      let count = Number(`${page}0`);
-      dispatch(GetEntryFunction(count, "", searchInput, admin.user._id));
       setOpen2(false);
     }
     if (updateAssignTaskSuccess) {
@@ -78,8 +86,7 @@ const YourWork = () => {
     deleteSuccess,
     updateStatusSuccess,
     updateAssignTaskSuccess,
-    page,
-    searchInput,
+    page
   ]);
 
   const [id, setId] = React.useState("");
@@ -130,6 +137,7 @@ const YourWork = () => {
       <TableHeaderLayout
         searchInput={searchInput}
         setSearchInput={setSearchInput}
+        Func={Func}
       />
       {isLoading ? (
         <Loader />
@@ -174,7 +182,7 @@ const YourWork = () => {
                       <>
                         {/* <p>DONE BY ENTRY TEAM</p> */}
                         <Link
-                          to={`/entry-details/${row._id}`}
+                          to={`/entry-details/${row.uniqueJobId}`}
                           state={"yourWork"}
                         >
                           <p className="text-blue-600 flex justify-center w-full cursor-pointer">

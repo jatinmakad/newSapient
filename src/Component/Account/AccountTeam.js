@@ -17,16 +17,27 @@ const AccountTeam = () => {
   const { updateStatusSuccess } = useSelector(
     (state) => state.Entry.updateStatus
   );
-
+  const Func = (slug) => {
+    if (slug == "reset" && searchInput !== "") {
+      setSearchInput("");
+      let count = Number(`${page}0`);
+      dispatch(GetEntryFunction(count, "", "", admin.user._id));
+    } else if (slug == "search") {
+      if (searchInput !== "") {
+        let count = Number(`${page}0`);
+        dispatch(GetEntryFunction(count, "", searchInput, admin.user._id));
+      }
+    }
+  };
   useEffect(() => {
     if (isAuth === false) {
       navigate("/login");
     }
-    if (isAuth || page || searchInput || updateStatusSuccess) {
+    if (isAuth || page || updateStatusSuccess) {
       let count = Number(`${page}0`);
       dispatch(GetEntryFunction(count, "", searchInput, admin.user._id));
     }
-  }, [isAuth, page, searchInput, updateStatusSuccess]);
+  }, [isAuth, page, updateStatusSuccess]);
 
   return isAuth ? (
     <div className="m-2 md:m-10 mt-4 p-2 md:p-5 rounded-3xl">
@@ -34,6 +45,7 @@ const AccountTeam = () => {
       <TableHeaderLayout
         setSearchInput={setSearchInput}
         searchInput={searchInput}
+        Func={Func}
       />
       <AccountTable
         searchInput={searchInput}

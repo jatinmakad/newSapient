@@ -42,9 +42,20 @@ const Survery = () => {
   // Table Functions
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
+  const Func = (slug) => {
+    if (slug == "reset" && searchInput !== "") {
+      setSearchInput("");
+      let count = Number(`${page}0`);
+      dispatch(GetEntryFunction(count, "", "", admin.user._id));
+    } else if (slug == "search") {
+      if (searchInput !== "") {
+        let count = Number(`${page}0`);
+        dispatch(GetEntryFunction(count, "", searchInput, admin.user._id));
+      }
+    }
+  };
   useEffect(() => {
-    if (isAuth || page || searchInput || updateAssignTaskSuccess) {
+    if (isAuth || page  || updateAssignTaskSuccess) {
       let count = Number(`${page}0`);
       dispatch(GetEntryFunction(count, "", searchInput, admin.user._id));
     }
@@ -55,7 +66,7 @@ const Survery = () => {
       setOpen(false);
       // dispatch(GetEntryFunctionId(admin.user._id));
     }
-  }, [isAuth, updateAssignTaskSuccess, page, searchInput]);
+  }, [isAuth, updateAssignTaskSuccess, page]);
   const [updatedData, setData] = useState("");
 
   const [selectData, setSelectData] = React.useState("");
@@ -88,6 +99,7 @@ const Survery = () => {
       <TableHeaderLayout
         searchInput={searchInput}
         setSearchInput={setSearchInput}
+        Func={Func}
       />
       {isLoading ? (
         <Loader />

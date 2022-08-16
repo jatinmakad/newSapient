@@ -43,7 +43,7 @@ const DashBoardCommon = ({ heading, array, heading2, url, array2 }) => {
                 </StyledTableCell>
               </TableHead>
               <TableBody sx={{ border: "none" }}>
-                {array.map((row) => (
+                {array.slice(0, 6).map((row) => (
                   <TableRow
                     key={row.name}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}

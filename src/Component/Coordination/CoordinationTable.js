@@ -25,35 +25,13 @@ import Image from "../Assets/noresult.webp";
 import TableLayout from "../Common/TableLayout/TableLayout";
 import CommentDialog from "../Common/CommentDialog";
 
-const CoordinationTable = () => {
+const CoordinationTable = ({ open2, setOpen2, page, setPage }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isAuth, admin } = useSelector((state) => state.Login);
   const { entry, isLoading } = useSelector((state) => state.Entry.get);
-  const { updateStatusSuccess } = useSelector(
-    (state) => state.Entry.updateStatus
-  );
-  const [open2, setOpen2] = React.useState(false);
   const [selectData, setSelectData] = React.useState("");
-  const [searchInput, setSearchInput] = React.useState("");
-  // Table Function
-  const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
-  useEffect(() => {
-    if (isAuth || page || searchInput || updateStatusSuccess) {
-      let count = Number(`${page}0`);
-      dispatch(GetEntryFunction(count, "", searchInput, admin.user._id));
-    }
-
-    if (isAuth === false) {
-      navigate("/login");
-    }
-    if (updateStatusSuccess) {
-      setOpen2(false);
-    }
-  }, [isAuth, updateStatusSuccess, page, searchInput]);
-
   const [open4, setOpen4] = React.useState(false);
   const [selectData4, setSelectData4] = React.useState("");
   const handleClickOpen2 = (row) => {
@@ -117,13 +95,15 @@ const CoordinationTable = () => {
                   <StyledTableCell align="left">
                     <div className="flex justify-start items-left">
                       {row.currentJobHoldingTeam !== "COORDINATION TEAM" ? (
-                        "DONE BY COORDINATION TEAM"
+                        "DONE BY ENTRY TEAM"
                       ) : (
                         <div className="flex justify-around items-center w-full">
-                          <Link to={`/update-coordination/${row.uniqueJobId}`}>
-                            <EditIcon className="text-blue-700 cursor-pointer" />
+                          <Link to={`/entry-details/${row.uniqueJobId}`}>
+                            <p className="text-blue-600 cursor-pointer">
+                              View Details
+                            </p>
                           </Link>
-                          &nbsp; &nbsp;
+
                           <p
                             onClick={() => handleClickOpen2(row)}
                             className="text-blue-600 cursor-pointer"

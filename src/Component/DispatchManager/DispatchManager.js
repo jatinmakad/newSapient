@@ -38,9 +38,20 @@ const DispatchManager = () => {
   // Table Function
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
+  const Func = (slug) => {
+    if (slug == "reset" && searchInput !== "") {
+      setSearchInput("");
+      let count = Number(`${page}0`);
+      dispatch(GetEntryFunction(count, admin.user.team, "", ""));
+    } else if (slug == "search") {
+      if (searchInput !== "") {
+        let count = Number(`${page}0`);
+        dispatch(GetEntryFunction(count, admin.user.team, searchInput, ""));
+      }
+    }
+  };
   useEffect(() => {
-    if (isAuth || page || searchInput) {
+    if (isAuth || page ) {
       let count = Number(`${page}0`);
       dispatch(GetEntryFunction(count, admin.user.team, searchInput, ""));
     }
@@ -53,7 +64,7 @@ const DispatchManager = () => {
     if (updateAssignTaskSuccess) {
       setOpen(false);
     }
-  }, [isAuth, updateAssignTaskSuccess, page, searchInput]);
+  }, [isAuth, updateAssignTaskSuccess, page]);
   const handleClickOpen = (row) => {
     setOpen(true);
     setSelectData(row);
@@ -75,6 +86,7 @@ const DispatchManager = () => {
       <TableHeaderLayout
         setSearchInput={setSearchInput}
         searchInput={searchInput}
+        Func={Func}
       />
       {isLoading ? (
         <Loader />

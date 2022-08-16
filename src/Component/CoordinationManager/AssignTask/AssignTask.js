@@ -37,20 +37,26 @@ const AssignTask = () => {
   );
   const [open, setOpen] = React.useState(false);
   const [selectData, setSelectData] = useState("");
-
   // Table Function
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
-  useEffect(() => {
-    if (isAuth) {
+  const Func = (slug) => {
+    if (slug == "reset" && searchInput !== "") {
+      setSearchInput("");
       let count = Number(`${page}0`);
-      dispatch(GetEntryFunction(count, admin.user.team));
-      dispatch(GetUserFunction("", "", "COORDINATION TEAM"));
+      dispatch(GetEntryFunction(count, admin.user.team, "", ""));
+    } else if (slug == "search") {
+      if (searchInput !== "") {
+        let count = Number(`${page}0`);
+        dispatch(GetEntryFunction(count, admin.user.team, searchInput, ""));
+      }
     }
-    if (page) {
+  };
+  useEffect(() => {
+    if (isAuth || page) {
       let count = Number(`${page}0`);
-      dispatch(GetEntryFunction(count, admin.user.team));
+      dispatch(GetEntryFunction(count, admin.user.team, "", ""));
+      dispatch(GetUserFunction("", "", "COORDINATION TEAM"));
     }
     if (isAuth === false) {
       navigate("/login");
@@ -73,12 +79,14 @@ const AssignTask = () => {
     data.filter((r) => {
       return r.role === "COORDINATION TEAM EMPLOYEE";
     });
-
-  console.log(data, "entry");
   return isAuth && entry.data ? (
     <div className="m-2 md:m-10  mt-4 p-2 md:p-5 rounded-3xl">
       <Header title="Assign Task" />
-      <TableHeaderLayout setSearchInput={setSearchInput} />
+      <TableHeaderLayout
+        setSearchInput={setSearchInput}
+        Func={Func}
+        searchInput={searchInput}
+      />
       {isLoading ? (
         <Loader />
       ) : entry.data && !entry.data.length ? (

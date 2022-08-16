@@ -17,7 +17,7 @@ const EntryDetails = (props) => {
       navigate("/login");
     }
     if (id) {
-      let updated = entry?.data?.filter((r) => r._id === id);
+      let updated = entry?.data?.filter((r) => r.uniqueJobId === id);
       setData(updated);
     }
   }, [isAuth, id]);

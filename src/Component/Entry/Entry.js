@@ -16,16 +16,27 @@ const Entry = () => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [searchInput, setSearchInput] = React.useState("");
-
-  useEffect(() => {
-    if (page || searchInput || isAuth) {
+  const Func = (slug) => {
+    if (slug == "reset" && searchInput !== "") {
+      setSearchInput("");
       let count = Number(`${page}0`);
-      dispatch(GetEntryFunction(count, "", searchInput,""));
+      dispatch(GetEntryFunction(count, "", "", ""));
+    } else if (slug == "search") {
+      if (searchInput !== "") {
+        let count = Number(`${page}0`);
+        dispatch(GetEntryFunction(count, "", searchInput, ""));
+      }
+    }
+  };
+  useEffect(() => {
+    if (page || isAuth) {
+      let count = Number(`${page}0`);
+      dispatch(GetEntryFunction(count, "", searchInput, ""));
     }
     if (isAuth === false) {
       navigate("/login");
     }
-  }, [isAuth, page, searchInput]);
+  }, [isAuth, page]);
 
   return isAuth && entry.data ? (
     <div className="m-2 md:m-10 mt-4 p-2 md:p-5 rounded-3xl">
@@ -33,6 +44,7 @@ const Entry = () => {
       <TableHeaderLayout
         setSearchInput={setSearchInput}
         searchInput={searchInput}
+        Func={Func}
       >
         {admin.user.role === "ENTRY TEAM EMPLOYEE" ? (
           <Grid
@@ -45,7 +57,7 @@ const Entry = () => {
             justifyContent="flex-end"
           >
             <Link to={"/create-entry"}>
-              <Button variant="contained" sx={{background:"#03C9D7"}}>
+              <Button variant="contained" sx={{ background: "#03C9D7" }}>
                 {/* <AddIcon /> */}
                 Create Entry
               </Button>

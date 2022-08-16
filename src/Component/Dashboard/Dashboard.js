@@ -82,7 +82,8 @@ const Dashboard = () => {
       admin?.user?.role === "REPORT TEAM EMPLOYEE" ||
       admin?.user?.role === "COORDINATION TEAM EMPLOYEE" ||
       admin?.user?.role === "ENTRY TEAM EMPLOYEE" ||
-      admin?.user?.role === "DISPATCH TEAM EMPLOYEE"
+      admin?.user?.role === "DISPATCH TEAM EMPLOYEE" ||
+      admin?.user?.role === "SURVEYOUR TEAM"
     ) {
       dispatch(GetEntryFunction(0, "", "", admin.user._id));
     }
