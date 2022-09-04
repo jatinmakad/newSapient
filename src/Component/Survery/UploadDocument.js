@@ -138,6 +138,7 @@ const CommonTable = ({
   setEditOpen,
   setEditData,
 }) => {
+  console.log(row, "row");
   return (
     <TableRow key={row.id}>
       <TableCell align="left">{row.name}</TableCell>
@@ -171,8 +172,10 @@ const CommonTable = ({
       ) : (
         <>
           <TableCell>
-            {" "}
-            <span>Uploaded</span>
+            <span className="mr-3">Uploaded</span>
+            <a href={row.url} target="_blank" download>
+              <span className="text-blue-700 font-medium">Preview</span>
+            </a>
           </TableCell>
           <TableCell>
             <button

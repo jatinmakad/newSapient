@@ -14,7 +14,7 @@ const Coordination = () => {
     (state) => state.Entry.updateStatus
   );
   const { updateAssignTaskSuccess } = useSelector(
-    (state) => state.Coordination.assignTask
+    (state) => state.Report.assignTask
   );
   const [open3, setOpen3] = React.useState(false);
   const [page, setPage] = React.useState(0);
