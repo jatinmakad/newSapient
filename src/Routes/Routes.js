@@ -5,6 +5,9 @@ import NotFound from "../Component/Common/NotFound";
 const SurveyourAdmin = lazy(() =>
   import("../Component/Survery/SurveyourAdmin")
 );
+const UpdateUser = lazy(() =>
+  import("../Component/UserManagement/Update/UpdateUser")
+);
 const DispatchAdmin = lazy(() =>
   import("../Component/Dispatch/DispatchAdmin")
 );
@@ -75,6 +78,7 @@ const RoutesPage = () => {
         /* User */
         <Route path={"/user"} element={<User />} />
         <Route path={"/create-user"} element={<CreateUser />} />
+        <Route path={"/update-user"} element={<UpdateUser />} />
         /* Coordination */
         <Route path={"/coordination"} element={<Coordination />} />
         <Route

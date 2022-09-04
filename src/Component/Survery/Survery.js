@@ -55,7 +55,7 @@ const Survery = () => {
     }
   };
   useEffect(() => {
-    if (isAuth || page  || updateAssignTaskSuccess) {
+    if (isAuth || page || updateAssignTaskSuccess) {
       let count = Number(`${page}0`);
       dispatch(GetEntryFunction(count, "", searchInput, admin.user._id));
     }
@@ -84,11 +84,11 @@ const Survery = () => {
           : row.claimType === "Marine"
           ? Marine
           : "";
+      setOpen(true);
       let updatedArray = rowUploaded.map((x) => {
         const item = data.data[0].documents.find((r) => r.name === x.name);
         return item ? { ...x, ...item, uploaded: true } : x;
       });
-      setOpen(true);
       setData(updatedArray);
     }
   };
@@ -190,14 +190,14 @@ const AssignToSurveyDialogBox = ({
     const taskData = {
       userId: admin.user._id,
       uniqueJobId: selectData.uniqueJobId,
-      currentJobHolder: selectData.entryHandledBy,
+      currentJobHolder: selectData.coordinationHandledBy,
     };
-    let condition = updatedData.every((r) => r.uploaded === true);
-    if (condition) {
-      dispatch(UpdateAssignFunction(taskData));
-    } else {
-      ToastComponent("Please Upload All Documents", "error");
-    }
+    // let condition = updatedData.every((r) => r.uploaded === true);
+    // if (condition) {
+    dispatch(UpdateAssignFunction(taskData));
+    // } else {
+    //   ToastComponent("Please Upload All Documents", "error");
+    // }
   };
   const handleClose = () => {
     setOpen(false);

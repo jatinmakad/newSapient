@@ -68,11 +68,16 @@ export const LoginFunction = (Data) => {
             },
           }
         );
-        if (verify.data.responseCode === 200) {
-          dispatch(loginSuccess(data));
-          ToastComponent("Login Successfully", "success");
+        if (!data.user.isDeleted && data.user.isActive) {
+          if (verify.data.responseCode === 200) {
+            dispatch(loginSuccess(data));
+            ToastComponent("Login Successfully", "success");
+          } else {
+            ToastComponent("Something went wrong", "error");
+          }
         } else {
-          ToastComponent("Something went wrong", "error");
+          ToastComponent("Your Account is inActive or Deleted", "error");
+          dispatch(loginFail());
         }
       }
     } catch (error) {

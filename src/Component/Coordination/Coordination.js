@@ -13,6 +13,10 @@ const Coordination = () => {
   const { updateStatusSuccess } = useSelector(
     (state) => state.Entry.updateStatus
   );
+  const { updateAssignTaskSuccess } = useSelector(
+    (state) => state.Coordination.assignTask
+  );
+  const [open3, setOpen3] = React.useState(false);
   const [page, setPage] = React.useState(0);
   const [searchInput, setSearchInput] = React.useState("");
   const Func = (slug) => {
@@ -38,7 +42,10 @@ const Coordination = () => {
     if (updateStatusSuccess) {
       setOpen2(false);
     }
-  }, [isAuth, updateStatusSuccess, page]);
+    if (updateAssignTaskSuccess) {
+      setOpen3(false);
+    }
+  }, [isAuth, updateStatusSuccess, page,updateAssignTaskSuccess]);
 
   return isAuth ? (
     <div className="m-2 md:m-10 mt-4 p-2 md:p-5 rounded-3xl">
@@ -54,6 +61,8 @@ const Coordination = () => {
         open2={open2}
         setOpen2={setOpen2}
         setPage={setPage}
+        open3={open3}
+        setOpen3={setOpen3}
       />
     </div>
   ) : (

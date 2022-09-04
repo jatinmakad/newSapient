@@ -6,7 +6,7 @@ import { Provider } from "react-redux";
 import store from "./Redux/store";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ContextProvider } from "./contexts/ContextProvider";
-
+// console.log(<App/>,"=========")
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>

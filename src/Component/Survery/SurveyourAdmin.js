@@ -20,7 +20,7 @@ const SurveyourAdmin = () => {
   useEffect(() => {
     if (page || searchInput || isAuth || success) {
       let count = Number(`${page}0`);
-      dispatch(GetUserFunction(searchInput, count, "SURVEYOUR TEAM"));
+      dispatch(GetUserFunction(searchInput, count, "SURVEYOUR TEAM",10));
     }
     if (isAuth === false) {
       navigate("/login");

@@ -5,12 +5,18 @@ import TableRow from "@mui/material/TableRow";
 import { styled } from "@mui/material/styles";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../Common/Loader";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Image from "../Assets/noresult.webp";
 import TableLayout from "../Common/TableLayout/TableLayout";
 import DeleteDialog from "../Common/DeleteDialog";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { DeleteUserFunction } from "../../Slice/RegisterSlice";
+import {
+  ChangeStatusFunction,
+  DeleteUserFunction,
+} from "../../Slice/RegisterSlice";
+import EditIcon from "@mui/icons-material/Edit";
+import Switch from "@mui/material/Switch";
+
 export default function UserTable({
   page,
   setPage,
@@ -44,6 +50,9 @@ export default function UserTable({
   const deleteAction = (p) => {
     dispatch(DeleteUserFunction(p));
   };
+  const changeStatus = (item) => {
+    dispatch(ChangeStatusFunction({ _id: item._id, active: item.isActive }));
+  };
   return isAuth ? (
     isLoading ? (
       <Loader />
@@ -74,7 +83,20 @@ export default function UserTable({
                   {/* <StatusColor status={row.status} /> */}
                   {row.contactNumber}
                 </StyledTableCell>
+                {/* <StyledTableCell>
+                  {" "}
+                  <Switch
+                    checked={row.isActive}
+                    onChange={() => changeStatus(row)}
+                    inputProps={{ "aria-label": "controlled" }}
+                  />
+                </StyledTableCell> */}
+
                 <StyledTableCell align="center">
+                  <Link to={"/update-user"} state={row}>
+                    <EditIcon className="text-blue-700 cursor-pointer" />
+                  </Link>
+
                   <DeleteIcon
                     className="text-red-700 cursor-pointer"
                     onClick={() => handleClickDeleteOpen(row._id)}
@@ -126,6 +148,10 @@ const headerCell = [
     value: "Contact Number",
     align: "left",
   },
+  // {
+  //   value: "Status",
+  //   align: "left",
+  // },
   {
     value: "Action",
     align: "center",

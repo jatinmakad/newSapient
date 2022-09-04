@@ -89,6 +89,50 @@ export const RegisterFunction = (Data) => {
   };
 };
 
+export const UpdateUserFunction = (id, Data) => {
+  return async (dispatch) => {
+    try {
+      dispatch(RegisterPending());
+      const config = { headers: { "Content-Type": "application/json" } };
+      const { data } = await axios.put(
+        `https://sap-user-microservice.herokuapp.com/update-user/${id}`,
+        Data,
+        config
+      );
+      if (data.success === true) {
+        dispatch(RegisterSuccess());
+        ToastComponent("User Updated Successfully", "success");
+      }
+      dispatch(RegisterSuccessAfter());
+    } catch (error) {
+      ToastComponent(error.response.data.message, "error");
+      dispatch(RegisterFail(error));
+    }
+  };
+};
+
+export const ChangeStatusFunction = (Data) => {
+  return async (dispatch) => {
+    try {
+      dispatch(RegisterPending());
+      const config = { headers: { "Content-Type": "application/json" } };
+      const { data } = await axios.put(
+        `http://localhost:3000/change-status`,
+        Data,
+        config
+      );
+      if (data.success === true) {
+        dispatch(RegisterSuccess());
+        ToastComponent("Status Updated Successfully", "success");
+      }
+      dispatch(RegisterSuccessAfter());
+    } catch (error) {
+      ToastComponent(error.response.data.message, "error");
+      dispatch(RegisterFail(error));
+    }
+  };
+};
+
 export const GetUserFunction = (user, count, team, limited) => {
   let search = user ? user : "";
   let countText = count ? count : "";

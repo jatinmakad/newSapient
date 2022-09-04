@@ -1,28 +1,15 @@
 import {
   Grid,
-  IconButton,
-  InputAdornment,
   TextField,
   Button,
 } from "@mui/material";
 import React from "react";
-import SearchIcon from "@mui/icons-material/Search";
-import AddIcon from "@mui/icons-material/Add";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import AccountCircleOutlined from "@mui/icons-material/AccountCircleOutlined";
-
 const TableHeaderLayout = ({
-  heading,
-  link,
   setSearchInput,
   searchInput,
   children,
-  Func,
+  Func
 }) => {
-  const { isAuth, admin } = useSelector((state) => state.Login);
   return (
     <Grid lg={12} container justifyContent={"space-between"} spacing={2} mb={2}>
       <Grid item lg={6} md={6} xs={12} sm={12}>

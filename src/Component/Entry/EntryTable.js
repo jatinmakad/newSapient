@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
@@ -12,7 +12,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { DeletEntryFunction, GetEntryFunction } from "../../Slice/EntrySlice";
 import Image from "../Assets/noresult.webp";
 import TableLayout from "../Common/TableLayout/TableLayout";
-
 export default function EntryTable({
   searchInput,
   page,
@@ -50,7 +49,7 @@ export default function EntryTable({
   const deleteAction = (id) => {
     dispatch(DeletEntryFunction(id));
   };
-  //  console.log(entry,"entry")
+
   return isLoading ? (
     <Loader />
   ) : entry.data && entry.data.length === 0 ? (
@@ -58,61 +57,67 @@ export default function EntryTable({
       <img src={Image} className="w-1/2" />
     </div>
   ) : (
-    <TableLayout
-      headerCell={headerCell}
-      data={entry.total}
-      page={page}
-      setPage={setPage}
-      rowsPerPage={rowsPerPage}
-      setRowsPerPage={setRowsPerPage}
-    >
-      <TableBody>
-        {(entry.data && entry.data).map((row, index) => (
-          <TableRow sx={{ border: "none" }}>
-            <StyledTableCell component="th" scope="row">
-              {index + 1}
-            </StyledTableCell>
-            <StyledTableCell align="left">
-              {row.reportRefrenceNo}
-            </StyledTableCell>
-            <StyledTableCell align="left">{row.insurerCity}</StyledTableCell>
-            <StyledTableCell align="left">
-              {moment(row.date).format("L")}
-            </StyledTableCell>
-            <StyledTableCell align="left">
-              {/* <StatusColor status={row.status} /> */}
-              {row.insured}
-            </StyledTableCell>
-            {!admin.user.role == "ADMIN" ? (
+    <>
+      <TableLayout
+        headerCell={headerCell}
+        data={entry.total}
+        page={page}
+        setPage={setPage}
+        rowsPerPage={rowsPerPage}
+        setRowsPerPage={setRowsPerPage}
+      >
+        <TableBody>
+          {(entry.data && entry.data).map((row, index) => (
+            <TableRow sx={{ border: "none" }}>
+              <StyledTableCell component="th" scope="row">
+                {index + 1}
+              </StyledTableCell>
+              <StyledTableCell align="left">
+                {row.reportRefrenceNo}
+              </StyledTableCell>
+              <StyledTableCell align="left">{row.insurerCity}</StyledTableCell>
+              <StyledTableCell align="left">
+                {moment(row.date).format("L")}
+              </StyledTableCell>
+              <StyledTableCell align="left">
+                {/* <StatusColor status={row.status} /> */}
+                {row.insured}
+              </StyledTableCell>
+
               <StyledTableCell align="left">
                 <div className="flex justify-evenly items-center">
-                  <Link to={`/update-entry/${row.uniqueJobId}`}>
-                    <EditIcon className="text-blue-700 cursor-pointer" />
+                  {admin.user.role === "ADMIN" ? (
+                    <>
+                      <Link to={`/update-entry/${row.uniqueJobId}`}>
+                        <EditIcon className="text-blue-700 cursor-pointer" />
+                      </Link>
+                      <DeleteIcon
+                        className="text-red-700 cursor-pointer"
+                        onClick={() =>
+                          handleClickDeleteOpen(row.reportRefrenceNo)
+                        }
+                      />
+                    </>
+                  ) : (
+                    ""
+                  )}
+                  <Link to={`/entry-details/${row._id}`}>
+                    <p className="text-blue-600 flex justify-center w-full cursor-pointer">
+                      View More
+                    </p>
                   </Link>
-                  <DeleteIcon
-                    className="text-red-700 cursor-pointer"
-                    onClick={() => handleClickDeleteOpen(row.reportRefrenceNo)}
-                  />
                 </div>
               </StyledTableCell>
-            ) : (
-              <StyledTableCell align="left">
-                <Link to={`/entry-details/${row._id}`}>
-                  <p className="text-blue-600 flex justify-center w-full cursor-pointer">
-                    View More
-                  </p>
-                </Link>
-              </StyledTableCell>
-            )}
-          </TableRow>
-        ))}
-        {/* {emptyRows > 0 && (
+            </TableRow>
+          ))}
+          {/* {emptyRows > 0 && (
           <TableRow style={{ height: 53 * emptyRows }}>
             <TableCell colSpan={6} />
           </TableRow>
         )} */}
-      </TableBody>
-    </TableLayout>
+        </TableBody>
+      </TableLayout>
+    </>
   );
 }
 

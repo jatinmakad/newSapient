@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   GetEntryFunction,
@@ -12,7 +12,7 @@ import TableRow from "@mui/material/TableRow";
 import EditIcon from "@mui/icons-material/Edit";
 import { styled } from "@mui/material/styles";
 import Loader from "../Common/Loader";
-import { MenuItem, Select } from "@mui/material";
+import { Autocomplete, MenuItem, Select, TextField } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -24,8 +24,12 @@ import moment from "moment";
 import Image from "../Assets/noresult.webp";
 import TableLayout from "../Common/TableLayout/TableLayout";
 import CommentDialog from "../Common/CommentDialog";
+import { Cities } from "../Common/Constant/Constant";
+import { GetUserFunctionCityWithTeam } from "../../Slice/RegisterSlice";
+import ToastComponent from "../Common/TaostComponent";
+import { UpdateAssignFunction } from "../../Slice/ReportSlice";
 
-const CoordinationTable = ({ open2, setOpen2, page, setPage }) => {
+const CoordinationTable = ({ open2, setOpen2, page, setPage,open3,setOpen3 }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isAuth, admin } = useSelector((state) => state.Login);
@@ -33,7 +37,9 @@ const CoordinationTable = ({ open2, setOpen2, page, setPage }) => {
   const [selectData, setSelectData] = React.useState("");
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [open4, setOpen4] = React.useState(false);
+
   const [selectData4, setSelectData4] = React.useState("");
+  const [selectData2, setSelectData2] = React.useState("");
   const handleClickOpen2 = (row) => {
     setOpen2(true);
     setSelectData(row);
@@ -47,6 +53,13 @@ const CoordinationTable = ({ open2, setOpen2, page, setPage }) => {
   };
   const handleClose4 = () => {
     setOpen4(false);
+  };
+  const handleClickOpen3 = (row) => {
+    setOpen3(true);
+    setSelectData2(row);
+  };
+  const handleClose3 = () => {
+    setOpen3(false);
   };
 
   return entry && isAuth ? (
@@ -98,7 +111,7 @@ const CoordinationTable = ({ open2, setOpen2, page, setPage }) => {
                         "DONE BY ENTRY TEAM"
                       ) : (
                         <div className="flex justify-around items-center w-full">
-                          <Link to={`/entry-details/${row.uniqueJobId}`}>
+                          <Link to={`/entry-details/${row._id}`}>
                             <p className="text-blue-600 cursor-pointer">
                               View Details
                             </p>
@@ -110,6 +123,12 @@ const CoordinationTable = ({ open2, setOpen2, page, setPage }) => {
                           >
                             Status
                           </p>
+                          <p
+                          className="text-blue-600 cursor-pointer"
+                          onClick={() => handleClickOpen3(row)}
+                        >
+                          Assign
+                        </p>
                           {/* <p
                             className="text-red-600 cursor-pointer"
                             onClick={() => handleClickOpen4(row)}
@@ -140,6 +159,14 @@ const CoordinationTable = ({ open2, setOpen2, page, setPage }) => {
           dispatch={dispatch}
           handleClickOpen={handleClickOpen4}
         />
+         <AssignToSurveyDialogBox
+        open={open3}
+        selectData={selectData2}
+        admin={admin}
+        setOpen={setOpen3}
+        handleClose={handleClose3}
+        dispatch={dispatch}
+      />
       </>
     )
   ) : (
@@ -246,3 +273,106 @@ const data = [
     value: "IN-PROGRESS",
   },
 ];
+
+const AssignToSurveyDialogBox = ({
+  open,
+  dispatch,
+  setOpen,
+  selectData,
+  admin,
+}) => {
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const [city, setCity] = useState("");
+  const [survier, setSurvier] = useState("");
+  const onSubmit = () => {
+    const taskData = {
+      userId: admin.user._id,
+      uniqueJobId: selectData.uniqueJobId,
+      currentJobHolder: survier,
+      // isTaskAssigned: true,
+    };
+    if (survier) {
+      dispatch(UpdateAssignFunction(taskData));
+    } else {
+      ToastComponent("Please Select Member", "error");
+    }
+  };
+  const handleClose = () => {
+    setOpen(false);
+    setCity("");
+  };
+  const { data } = useSelector((state) => state.Register.get.users);
+
+  useEffect(() => {
+    if (city) {
+      dispatch(GetUserFunctionCityWithTeam(city, "SURVEYOUR TEAM"));
+    }
+  }, [city]);
+
+  return (
+    <Dialog
+      fullScreen={fullScreen}
+      open={open}
+      fullWidth
+      size={"lg"}
+      onClose={handleClose}
+      aria-labelledby="responsive-dialog-title"
+    >
+      <DialogTitle id="responsive-dialog-title">Assign Surveyour</DialogTitle>
+      <DialogContent>
+        <div className="flex flex-col justify-start mb-3">
+          <p className="text-sm mb-2">City</p>
+          <Autocomplete
+            value={city}
+            fullWidth
+            onChange={(event, newValue) => {
+              setCity(newValue);
+            }}
+            size="small"
+            options={Cities}
+            renderInput={(params) => (
+              <TextField
+                size="small"
+                fullWidth
+                placeholder="City"
+                {...params}
+              />
+            )}
+          />
+        </div>
+        {city ? (
+          <div className="flex flex-col justify-start">
+            <p className="text-sm mb-2">Surveyour</p>
+            <Select
+              fullWidth
+              size="small"
+              onChange={(e) => setSurvier(e.target.value)}
+              value={survier}
+              style={{ background: "white" }}
+            >
+              {data &&
+                data.map((r) => {
+                  return (
+                    <MenuItem key={r.name} value={r._id}>
+                      {r.name}
+                    </MenuItem>
+                  );
+                })}
+            </Select>
+          </div>
+        ) : (
+          ""
+        )}
+      </DialogContent>
+      <DialogActions>
+        <Button variant="contained" onClick={onSubmit} color="info">
+          Submit
+        </Button>
+        <Button variant="contained" onClick={handleClose} color="error">
+          Cancel
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+};

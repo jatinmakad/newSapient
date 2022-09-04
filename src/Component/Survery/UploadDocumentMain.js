@@ -12,6 +12,7 @@ export default function UploadDocumentMain() {
   const { isAuth } = useSelector((state) => state.Login);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [loading,setLoading] = useState(false)
   // const { document } = useSelector((state) => state.Coordination.getDocument);
   // const { uploadDocumentSuccess } = useSelector(
   //   (state) => state.Coordination.uploadDocument
@@ -26,6 +27,7 @@ export default function UploadDocumentMain() {
   }, [isAuth, id]);
 
   const func = async () => {
+    setLoading(true)
     const { data } = await axios.get(
       `https://sap-data-management-mcs.herokuapp.com/get-jobs-by-id?uniqueJobId=${id}`
     );
@@ -43,10 +45,11 @@ export default function UploadDocumentMain() {
         return item ? { ...x, ...item, uploaded: true } : x;
       });
       setDataRow(updatedArray);
+      setLoading(false)
       // getDocument(updatedArray);
     }
   };
-  return dataRow ? (
+  return !loading ? (
     <UploadDocument setDataRow={setDataRow} dataRow={dataRow} func={func} />
   ) : (
     <Loader />

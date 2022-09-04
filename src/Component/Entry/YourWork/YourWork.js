@@ -205,12 +205,12 @@ const YourWork = () => {
                         >
                           Status
                         </p>
-                        <p
+                        {/* <p
                           className="text-blue-600 cursor-pointer"
                           onClick={() => handleClickOpen3(row)}
                         >
                           Assign
-                        </p>
+                        </p> */}
                         {/* <p
                           className="text-blue-600 cursor-pointer"
                           onClick={() => handleClickOpen4(row)}

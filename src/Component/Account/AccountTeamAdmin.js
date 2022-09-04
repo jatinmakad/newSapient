@@ -12,20 +12,21 @@ const AccountTeamAdmin = () => {
   const { isAuth, admin } = useSelector((state) => state.Login);
   const { data } = useSelector((state) => state.Register.get.users);
   const { success } = useSelector((state) => state.Register.deleteuser);
+  const { isSuccess } = useSelector((state) => state.Register.register);
   // Table Layout Function
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [searchInput, setSearchInput] = React.useState("");
 
   useEffect(() => {
-    if (page || searchInput || isAuth || success) {
+    if (page || searchInput || isAuth || success || isSuccess) {
       let count = Number(`${page}0`);
-      dispatch(GetUserFunction(searchInput, count, "ACCOUNT TEAM"));
+      dispatch(GetUserFunction(searchInput, count, "ACCOUNT TEAM",10));
     }
     if (isAuth === false) {
       navigate("/login");
     }
-  }, [isAuth, searchInput, page, success]);
+  }, [isAuth, searchInput, page, success,isSuccess]);
 
   return isAuth && data ? (
     <div className="m-2 md:m-10 mt-4 p-2 md:p-5 rounded-3xl">

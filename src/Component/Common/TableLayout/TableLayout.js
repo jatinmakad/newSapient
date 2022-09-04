@@ -16,14 +16,14 @@ export default function TableLayout({
   rowsPerPage,
   setRowsPerPage,
   data,
-  children,
+  children
 }) {
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="custom pagination table">
+    <TableContainer  component={Paper}>
+      <Table  sx={{ minWidth: 650 }} aria-label="custom pagination table">
         <TableHead>
           <TableRow>
             {headerCell.map((r) => {

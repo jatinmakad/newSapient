@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import TableHeaderLayout from "../Common/TableLayout/TableHeaderLayout";
 import EntryTable from "./EntryTable";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,6 +6,8 @@ import { GetEntryFunction } from "../../Slice/EntrySlice";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Grid } from "@mui/material";
 import Header from "../Common/Header";
+import ExportData from "../Common/ExportData";
+
 const Entry = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -37,7 +39,6 @@ const Entry = () => {
       navigate("/login");
     }
   }, [isAuth, page]);
-
   return isAuth && entry.data ? (
     <div className="m-2 md:m-10 mt-4 p-2 md:p-5 rounded-3xl">
       <Header title="Entry" />
@@ -64,7 +65,7 @@ const Entry = () => {
             </Link>
           </Grid>
         ) : (
-          ""
+          <ExportData/>
         )}
       </TableHeaderLayout>
       <EntryTable

@@ -17,7 +17,7 @@ const EntryDetails = (props) => {
       navigate("/login");
     }
     if (id) {
-      let updated = entry?.data?.filter((r) => r.uniqueJobId === id);
+      let updated = entry?.data?.filter((r) => r._id === id);
       setData(updated);
     }
   }, [isAuth, id]);
@@ -89,7 +89,7 @@ const EntryDetails = (props) => {
             <div className={outerDiv}>
               <p className={innerP}>Insurer Location</p>
               <p className={innerText}>
-                {data && data[0].insurerCity ? data[0].insurerCity : ""}
+                {data && data[0].insurerCity ? data[0].insurerCity : "N/A"}
               </p>
             </div>
             <div className={outerDiv}>
@@ -204,6 +204,27 @@ const EntryDetails = (props) => {
               </p>
             </div>
           </div>
+          {admin.user.team === "COORDINATION TEAM" ? (
+            <div className="mt-5 mb-3 p-1">
+              <p className="text-xl font-medium text-blue-700 mb-3">
+                Documents Uploaded by Surveyor -
+              </p>
+              {data[0] && data[0]?.documents.length > 0
+                ? data[0]?.documents?.map((r) => {
+                    return (
+                      <div className="flex justify-between items-center w-full p-2 mb-2 border-1 border-black">
+                        <p className={innerP}>{r?.name}</p>
+                        <a href={r.url} target="_blank" download>
+                          <Button>Preview</Button>
+                        </a>
+                      </div>
+                    );
+                  })
+                : <p className="text-lg font-medium">No Documents Found</p>}
+            </div>
+          ) : (
+            ""
+          )}
         </div>
         <div className="w-full flex justify-end">
           <div className="flex">

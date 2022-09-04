@@ -25,6 +25,9 @@ export default function UploadDocument({ setDataRow, dataRow, func }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
+  const [editData, setEditData] = useState("");
+
   useEffect(() => {
     if (!isAuth) {
       navigate("/login");
@@ -99,6 +102,8 @@ export default function UploadDocument({ setDataRow, dataRow, func }) {
                         row={row}
                         handleFileInputChange={handleFileInputChange}
                         handleSubmitFile={handleSubmitFile}
+                        setEditOpen={setEditOpen}
+                        setEditData={setEditData}
                       />
                     </React.Fragment>
                   );
@@ -107,10 +112,32 @@ export default function UploadDocument({ setDataRow, dataRow, func }) {
           </TableBody>
         </Table>
       </TableContainer>
+      <div className="flex justify-end items-center w-full mt-2">
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => navigate(-1)}
+        >
+          Close
+        </Button>
+      </div>
+      <EditBox
+        open={editOpen}
+        setOpen={setEditOpen}
+        editData={editData}
+        func={func}
+        id={id}
+      />
     </div>
   );
 }
-const CommonTable = ({ row, handleSubmitFile, handleFileInputChange }) => {
+const CommonTable = ({
+  row,
+  handleSubmitFile,
+  handleFileInputChange,
+  setEditOpen,
+  setEditData,
+}) => {
   return (
     <TableRow key={row.id}>
       <TableCell align="left">{row.name}</TableCell>
@@ -143,9 +170,27 @@ const CommonTable = ({ row, handleSubmitFile, handleFileInputChange }) => {
         </>
       ) : (
         <>
-          <TableCell></TableCell>
           <TableCell>
+            {" "}
             <span>Uploaded</span>
+          </TableCell>
+          <TableCell>
+            <button
+              className="bg-gray-300 hover:bg-red-400 hover:text-white text-gray-800 font-normal tracking-wide py-2 px-4 rounded inline-flex items-center"
+              onClick={() => {
+                setEditOpen(true);
+                setEditData(row);
+              }}
+            >
+              <svg
+                class="fill-current w-4 h-4 mr-2 -rotate-180"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+              >
+                <path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z" />
+              </svg>
+              <span>Edit</span>
+            </button>
           </TableCell>
         </>
       )}
@@ -200,6 +245,97 @@ const PreviewBox = ({ open, handleClose, previewSource }) => {
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} variant="contained" color="error">
+          Close
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+};
+
+const EditBox = ({ open, setOpen, editData, func, id }) => {
+  const [img, setImg] = useState("");
+  const [previewImage, setPriviewImage] = useState("");
+  const handleSubmitFile = (file) => {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setImg(reader.result);
+      setPriviewImage(file);
+    };
+  };
+  const updateFunc = async () => {
+    let body = JSON.stringify({
+      data: img,
+      uniqueJobId: id,
+      public_id: editData.public_id,
+    });
+    const config = { headers: { "Content-Type": "application/json" } };
+    const { data } = await axios.put(
+      "https://sap-data-management-mcs.herokuapp.com/edit-documents",
+      body,
+      config
+    );
+    if (data.success === true) {
+      func();
+      setOpen(false);
+      setImg("");
+      setPriviewImage("");
+      ToastComponent("Document Updated SuccessFully", "success");
+    }
+  };
+  return (
+    <Dialog
+      open={open}
+      onClose={() => {
+        setOpen(false);
+        setImg("");
+        setPriviewImage("");
+      }}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+      fullWidth
+      maxWidth={"md"}
+    >
+      <DialogContent sx={{ height: "700px" }}>
+        <input
+          type="file"
+          onChange={(e) => handleSubmitFile(e.target.files[0])}
+          className="mb-3"
+        />
+        {previewImage && previewImage.type == "image/jpeg" ? (
+          <img
+            src={URL.createObjectURL(previewImage)}
+            width="500px"
+            height="100%"
+          />
+        ) : previewImage.type == "application/pdf" ? (
+          <iframe
+            src={URL.createObjectURL(previewImage)}
+            width="500px"
+            height="100%"
+          />
+        ) : (
+          ""
+        )}
+      </DialogContent>
+      <DialogActions>
+        {img ? (
+          <Button onClick={updateFunc} variant="contained" color="primary">
+            Update
+          </Button>
+        ) : (
+          ""
+        )}
+        <Button
+          onClick={() => {
+            setOpen(false);
+            setImg("");
+            setPriviewImage("");
+          }}
+          variant="contained"
+          color="error"
+        >
           Close
         </Button>
       </DialogActions>

@@ -4,9 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import UserTable from "./UserTable";
 import { Button, Grid } from "@mui/material";
-import {
-  GetUserFunction,
-} from "../../Slice/RegisterSlice";
+import { GetUserFunction } from "../../Slice/RegisterSlice";
 import Header from "../Common/Header";
 const User = () => {
   const dispatch = useDispatch();
@@ -14,6 +12,7 @@ const User = () => {
   const { isAuth, admin } = useSelector((state) => state.Login);
   const { data } = useSelector((state) => state.Register.get.users);
   const { success } = useSelector((state) => state.Register.deleteuser);
+  const { isSuccess } = useSelector((state) => state.Register.register);
   // Table Layout Function
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -22,24 +21,23 @@ const User = () => {
     if (slug == "reset" && searchInput !== "") {
       setSearchInput("");
       let count = Number(`${page}0`);
-      dispatch(GetUserFunction("",count,"",10));
+      dispatch(GetUserFunction("", count, "", 10));
     } else if (slug == "search") {
       if (searchInput !== "") {
         let count = Number(`${page}0`);
-        dispatch(GetUserFunction(searchInput,count,"",10));
+        dispatch(GetUserFunction(searchInput, count, "", 10));
       }
     }
   };
   useEffect(() => {
-    if (page  || isAuth || success) {
+    if (page || isAuth || success || isSuccess) {
       let count = Number(`${page}0`);
-      dispatch(GetUserFunction(searchInput,count,"",10));
+      dispatch(GetUserFunction(searchInput, count, "", 10));
     }
     if (isAuth === false) {
       navigate("/login");
     }
-  }, [isAuth, page,success]);
-
+  }, [isAuth, page, success, isSuccess]);
   return isAuth && data ? (
     <div className="m-2 md:m-10 mt-4 p-2 md:p-5 rounded-3xl">
       <Header title="Users" />
