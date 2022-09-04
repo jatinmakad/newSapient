@@ -205,7 +205,7 @@ const AssignDialogBox = ({
       </DialogContent>
       <DialogActions>
         <Button variant="contained" onClick={onSubmit} color="info">
-          Assgin
+          Assign
         </Button>
         <Button variant="contained" onClick={handleClose} color="error">
           Cancel

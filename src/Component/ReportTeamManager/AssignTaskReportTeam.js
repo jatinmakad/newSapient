@@ -51,7 +51,7 @@ const AssignTaskReportTeam = () => {
     }
   };
   useEffect(() => {
-    if (isAuth || page ) {
+    if (isAuth || page) {
       let count = Number(`${page}0`);
       dispatch(GetEntryFunction(count, admin.user.team, searchInput, ""));
     }
@@ -208,7 +208,7 @@ const AssignDialogBox = ({
       </DialogContent>
       <DialogActions>
         <Button variant="contained" onClick={onSubmit} color="info">
-          Assgin
+          Assign
         </Button>
         <Button variant="contained" onClick={handleClose} color="error">
           Cancel
