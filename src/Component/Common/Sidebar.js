@@ -85,24 +85,26 @@ const Sidebar = () => {
             </button>
           </div>
           <div className="mt-8">
-            {condition.map((item) => (
-              <Suspense fallback={<Loader />}>
-                <NavLink
-                  to={`${item.click}`}
-                  key={item.text}
-                  onClick={handleCloseSideBar}
-                  style={({ isActive }) => ({
-                    backgroundColor: isActive ? currentColor : "",
-                  })}
-                  className={({ isActive }) =>
-                    isActive ? activeLink : normalLink
-                  }
-                >
-                  {item.icon}
-                  <span className="capitalize ">{item.text}</span>
-                </NavLink>
-              </Suspense>
-            ))}
+            {condition &&
+              condition.length &&
+              condition?.map((item) => (
+                <Suspense fallback={<Loader />}>
+                  <NavLink
+                    to={`${item.click}`}
+                    key={item.text}
+                    onClick={handleCloseSideBar}
+                    style={({ isActive }) => ({
+                      backgroundColor: isActive ? currentColor : "",
+                    })}
+                    className={({ isActive }) =>
+                      isActive ? activeLink : normalLink
+                    }
+                  >
+                    {item.icon}
+                    <span className="capitalize ">{item.text}</span>
+                  </NavLink>
+                </Suspense>
+              ))}
           </div>
         </>
       )}

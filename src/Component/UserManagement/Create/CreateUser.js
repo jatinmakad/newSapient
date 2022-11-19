@@ -67,6 +67,8 @@ const CreateUser = () => {
       data = "ACCOUNT TEAM";
     } else if (values.role === "SURVEYOUR") {
       data = "SURVEYOUR TEAM";
+    } else if (values.role === "ADMIN") {
+      data = "ADMIN";
     } else if (
       values.role === "DISPATCH TEAM EMPLOYEE" ||
       values.role === "DISPATCH TEAM MANAGER"
@@ -200,7 +202,7 @@ const CreateUser = () => {
 export default CreateUser;
 
 const roleData = [
-  { value: "ADMIN", label: "Admin" },
+  { value: "ADMIN", label: "Admin", team: "ADMIN" },
   { value: "SURVEYOUR", label: "Surveyour" },
   // { value: "INSUER", label: "Insuer" },
   // { value: "INSURENCE COMPANY", label: "Insurence Company" },
@@ -216,11 +218,6 @@ const roleData = [
     value: "ACCOUNT TEAM EMPLOYEE",
     label: "Account Team",
     team: "ACCOUNT TEAM",
-  },
-  {
-    value: "ENTRY TEAM MANAGER",
-    label: "Entry Team Manager",
-    team: "ENTRY TEAM",
   },
   {
     value: "REPORT TEAM MANAGER",

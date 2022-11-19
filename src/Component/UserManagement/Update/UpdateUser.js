@@ -78,6 +78,8 @@ const UpdateUser = () => {
       data = "ACCOUNT TEAM";
     } else if (values.role === "SURVEYOUR") {
       data = "SURVEYOUR TEAM";
+    } else if (values.role === "ADMIN") {
+      data = "ADMIN";
     } else if (
       values.role === "DISPATCH TEAM EMPLOYEE" ||
       values.role === "DISPATCH TEAM MANAGER"
@@ -186,11 +188,14 @@ const UpdateUser = () => {
                   >
                     Update
                   </Button>
-                  
-                    <Button onClick={() => navigate(-1)} variant="contained" color="error">
-                      Close
-                    </Button>
-                  
+
+                  <Button
+                    onClick={() => navigate(-1)}
+                    variant="contained"
+                    color="error"
+                  >
+                    Close
+                  </Button>
                 </div>
               </Grid>
             </Grid>
