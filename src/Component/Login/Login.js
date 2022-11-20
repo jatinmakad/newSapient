@@ -36,7 +36,8 @@ const Login = () => {
     dispatch(LoginFunction(data));
   };
   const handleChange = (prop) => (event) => {
-    setData({ ...data, [prop]: event.target.value });
+    let value = event?.target?.value;
+    setData({ ...data, [prop]: value?.split(" ")?.join("") });
   };
   const handleClickShowPassword = () => {
     setData({

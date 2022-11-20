@@ -93,14 +93,20 @@ export default function UserTable({
                 </StyledTableCell> */}
 
                 <StyledTableCell align="center">
-                  <Link to={"/update-user"} state={row}>
-                    <EditIcon className="text-blue-700 cursor-pointer" />
-                  </Link>
+                  {row.role !== "ADMIN" ? (
+                    <>
+                      <Link to={"/update-user"} state={row}>
+                        <EditIcon className="text-blue-700 cursor-pointer" />
+                      </Link>
 
-                  <DeleteIcon
-                    className="text-red-700 cursor-pointer"
-                    onClick={() => handleClickDeleteOpen(row._id)}
-                  />
+                      <DeleteIcon
+                        className="text-red-700 cursor-pointer"
+                        onClick={() => handleClickDeleteOpen(row._id)}
+                      />
+                    </>
+                  ) : (
+                    ""
+                  )}
                 </StyledTableCell>
               </TableRow>
             ))}

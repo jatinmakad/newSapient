@@ -1,11 +1,4 @@
-import {
-  Grid,
-  Button,
-  Select,
-  MenuItem,
-  Autocomplete,
-  TextField,
-} from "@mui/material";
+import { Grid, Button, Autocomplete, TextField } from "@mui/material";
 import React, { useRef, useEffect } from "react";
 import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
@@ -204,9 +197,6 @@ export default CreateUser;
 const roleData = [
   { value: "ADMIN", label: "Admin", team: "ADMIN" },
   { value: "SURVEYOUR", label: "Surveyour" },
-  // { value: "INSUER", label: "Insuer" },
-  // { value: "INSURENCE COMPANY", label: "Insurence Company" },
-  // { value: "BROKER", label: "Broker" },
   { value: "ENTRY TEAM EMPLOYEE", label: "Entry Team", team: "ENTRY TEAM" },
   { value: "REPORT TEAM EMPLOYEE", label: "Report Team", team: "REPORT TEAM" },
   {

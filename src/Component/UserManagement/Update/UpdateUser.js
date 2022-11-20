@@ -27,6 +27,7 @@ const UpdateUser = () => {
   const { isAuth } = useSelector((state) => state.Login);
   const { isSuccess } = useSelector((state) => state.Register.register);
   const [data, setData] = useState(location.state ? location.state : "");
+  const [isChangePassword, setIsChangePassword] = useState(false);
   useEffect(() => {
     if (formikRef.current) {
       formikRef.current.setFieldValue("name", data.name);
@@ -50,6 +51,7 @@ const UpdateUser = () => {
     contactNumber: Yup.number().min(10).required("Required"),
     role: Yup.string().required("Required"),
     city: Yup.string().required("Required"),
+    password: Yup.string(),
   });
   const initialValues = {
     name: "",
@@ -57,6 +59,7 @@ const UpdateUser = () => {
     contactNumber: "",
     role: "",
     city: "",
+    password: "",
   };
   const onSubmit = (values) => {
     let data;
@@ -90,7 +93,7 @@ const UpdateUser = () => {
   };
   return (
     <div className="m-2 md:m-10 mt-4 p-2 md:p-5 rounded-3xl">
-      <Header title="Create User" />
+      <Header title="Update User" />
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -169,6 +172,32 @@ const UpdateUser = () => {
                   />
                 </div>
               </Grid>
+              {/* <Grid lg={4} md={6} sm={12} xs={12} item>
+                <div className="flex flex-col justify-start">
+                  <p className={`text-sm ${isChangePassword ? "" : "mb-2"}`}>
+                    Password
+                  </p>
+                  {isChangePassword ? (
+                    <FomikTextField
+                      handleChange={handleChange}
+                      type="password"
+                      name="password"
+                      error={touched.password && Boolean(errors.password)}
+                      helperText={touched.password ? errors.password : ""}
+                    />
+                  ) : (
+                    <Button
+                      onClick={() => setIsChangePassword(true)}
+                      variant="contained"
+                      type="submit"
+                      sx={{ marginRight: "10px" }}
+                      color="primary"
+                    >
+                      Change password ?
+                    </Button>
+                  )}
+                </div>
+              </Grid> */}
               <Grid
                 lg={12}
                 xs={12}
